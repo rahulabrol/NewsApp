@@ -41,6 +41,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     packaging {
@@ -55,15 +56,16 @@ composeCompiler {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    //Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,9 +73,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+//    Coil
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+//    Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+//    Navigation
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-//    implementation(libs.material.navigation)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.lifecycle.runtime.compose)
+
+//  Retrofit for networking
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+//  Room Database dependencies
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+//  optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
 }
