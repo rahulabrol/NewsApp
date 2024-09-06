@@ -61,8 +61,7 @@ object AppModule {
     @Provides
     @Singleton
     @NetworkAPIKey
-    fun provideNetWorkAPIKey(): String = "82d40fffbbdf4ee2bfa542808ccec60c"
-//    fun provideNetWorkAPIKey(): String = "7522d3bfb4d847fd94a529f3a08731f3"
+    fun provideNetWorkAPIKey(): String = BuildConfig.API_KEY
 
     @Provides
     @Singleton
