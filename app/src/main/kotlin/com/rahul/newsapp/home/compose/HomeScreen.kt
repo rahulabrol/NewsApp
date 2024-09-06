@@ -160,7 +160,7 @@ private fun HomePager(
             Type.NEWS_SOURCE.ordinal -> NewsSourceScreen(onNewsSourceItemClick = onNewsSourceItemClick)
             Type.COUNTRY.ordinal -> CountriesScreen(onCountriesItemClick = onNewsSourceItemClick)
             Type.LANGUAGE.ordinal -> LanguagesScreen(onLanguagesItemClick = onNewsSourceItemClick)
-            Type.SEARCH.ordinal -> SearchScreen()
+            Type.SEARCH.ordinal -> SearchScreen(onArticleItemClick = onArticleItemClick)
         }
     }
 }

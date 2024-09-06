@@ -4,6 +4,7 @@ import com.rahul.newsapp.news_source.data.source.NewsSourceDataSource
 import com.rahul.newsapp.news_source.data.source.NewsSourceDataSourceImpl
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -17,8 +18,8 @@ import dagger.hilt.components.SingletonComponent
 abstract class NewsSourceModule {
 
     /**
-     * @param impl The Top Headlines data source implementation
-     * @return A concrete impl of the Top Headlines data source
+     * @param impl The News Source data source implementation
+     * @return A concrete impl of the News Source data source
      */
     @Binds
     abstract fun provideNewsSourceDataSource(impl: NewsSourceDataSourceImpl): NewsSourceDataSource

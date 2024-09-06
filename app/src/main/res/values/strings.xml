@@ -5,4 +5,5 @@
     <string name="country_title">Country</string>
     <string name="language_title">Language</string>
     <string name="search_title">Search</string>
+    <string name="no_data_found">No data found</string>
 </resources>

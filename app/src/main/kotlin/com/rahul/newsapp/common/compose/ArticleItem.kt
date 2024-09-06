@@ -30,7 +30,12 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
             .padding(all = 12.dp)
             .background(color = Color.White, shape = RoundedCornerShape(12.dp))
             .padding(all = 12.dp)
-            .clickable { onArticleItemClick(article().url.toUri()) }
+            .clickable {
+                onArticleItemClick(
+                    article().url
+                        .toUri()
+                )
+            }
     ) {
         val (articleImage, titleText, descriptionText, sourceText) = createRefs()
 
