@@ -20,6 +20,12 @@ data object TopHeadlines : ScreenGraph
 data object NewsSource : ScreenGraph
 
 @Serializable
+data class NewsListingById(
+    val id: String,
+    val type: String
+) : ScreenGraph
+
+@Serializable
 data object Countries : ScreenGraph
 
 @Serializable

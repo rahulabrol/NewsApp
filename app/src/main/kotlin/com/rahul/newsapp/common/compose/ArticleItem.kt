@@ -1,8 +1,12 @@
 package com.rahul.newsapp.common.compose
 
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,11 +23,14 @@ import com.rahul.newsapp.local.entity.Article
  * Created by abrol at 25/08/24.
  */
 @Composable
-internal fun ArticleItem(article: () -> Article) {
+internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 12.dp)
+            .padding(all = 12.dp)
+            .background(color = Color.White, shape = RoundedCornerShape(12.dp))
+            .padding(all = 12.dp)
+            .clickable { onArticleItemClick(article().url.toUri()) }
     ) {
         val (articleImage, titleText, descriptionText, sourceText) = createRefs()
 
@@ -38,7 +45,7 @@ internal fun ArticleItem(article: () -> Article) {
                     height = Dimension.value(300.dp)
                 }
                 .background(Color.White),
-            model = article().url.toUri(),
+            model = article().imageUrl.toUri(),
             contentDescription = article().title)
         Text(
             modifier = Modifier
@@ -51,7 +58,8 @@ internal fun ArticleItem(article: () -> Article) {
                 },
             text = article().title,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.primary,
         )
         Text(
             modifier = Modifier
@@ -64,7 +72,8 @@ internal fun ArticleItem(article: () -> Article) {
                 },
             text = article().description,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.primary,
         )
         Text(
             modifier = Modifier
@@ -77,7 +86,8 @@ internal fun ArticleItem(article: () -> Article) {
                 },
             text = article().source.name,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

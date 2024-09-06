@@ -6,9 +6,6 @@ import com.rahul.newsapp.local.entity.Language
 object Constants {
 
     const val COUNTRY = "us"
-    const val NEWS_BY_SOURCES = "sources"
-    const val NEWS_BY_COUNTRY = "country"
-    const val NEWS_BY_LANGUAGE = "language"
 
     val LANGUAGES = listOf(
         Language("ar", "Arabic"),

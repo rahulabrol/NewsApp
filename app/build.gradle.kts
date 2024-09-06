@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.constraintlayout)
+//    implementation(libs.foundation)
+//    implementation(libs.foundation.layout)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -95,4 +98,6 @@ dependencies {
     ksp(libs.room.compiler)
 //  optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
+//    Custom Tabs
+    implementation(libs.browser)
 }

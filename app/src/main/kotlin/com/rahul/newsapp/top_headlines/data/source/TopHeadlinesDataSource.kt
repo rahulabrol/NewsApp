@@ -13,5 +13,5 @@ interface TopHeadlinesDataSource {
      * Top headlines API for news listing.
      *
      */
-    suspend fun topHeadlines(country:String):Result<TopHeadlinesEntity>
+    suspend fun topHeadlines(country: String): Result<TopHeadlinesEntity>
 }

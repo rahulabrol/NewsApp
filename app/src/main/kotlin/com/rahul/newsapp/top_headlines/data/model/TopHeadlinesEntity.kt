@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class TopHeadlinesEntity(
     @SerializedName("status") val status: String = "",
     @SerializedName("totalResults") val count: Int = 0,
-    @SerializedName("articles") val articles: List<ArticleEntity> = ArrayList(),
+    @SerializedName("articles") val articles: List<ArticlesEntity> = emptyList(),
 )

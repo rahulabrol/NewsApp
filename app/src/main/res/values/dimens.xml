@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
+    <!--region Shape-->
+    <dimen name="shape_appearance_component_small">4dp</dimen>
+    <dimen name="shape_appearance_component_medium">16dp</dimen>
+    <dimen name="shape_appearance_component_large">24dp</dimen>
+    <dimen name="shape_appearance_component_zero">0dp</dimen>
+    <!--endregion-->
+
+    <!--region Icon-->
+    <dimen name="icon_size">24dp</dimen>
+    <!--endregion-->
+
+</resources>

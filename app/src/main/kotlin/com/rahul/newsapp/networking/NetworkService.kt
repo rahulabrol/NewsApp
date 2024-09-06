@@ -1,7 +1,7 @@
 package com.rahul.newsapp.networking
 
 
-import com.rahul.newsapp.top_headlines.data.model.NewsSourcesEntity
+import com.rahul.newsapp.news_source.data.model.NewsSourceEntity
 import com.rahul.newsapp.top_headlines.data.model.TopHeadlinesEntity
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -18,7 +18,7 @@ interface NetworkService {
     ): TopHeadlinesEntity
 
     @GET("top-headlines/sources")
-    suspend fun getNewsSources(): NewsSourcesEntity
+    suspend fun getNewsSources(): NewsSourceEntity
 
     @GET("top-headlines")
     suspend fun getNewsBySources(@Query("sources") sources: String): TopHeadlinesEntity
