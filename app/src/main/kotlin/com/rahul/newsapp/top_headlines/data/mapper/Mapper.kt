@@ -14,7 +14,7 @@ internal fun List<ArticlesEntity>.toArticles() = map {
 }
 
 private fun ArticlesEntity.toArticle() = Article(
-    title = this.title,
+    title = this.title.orEmpty(),
     description = this.description.orEmpty(),
     url = this.url,
     imageUrl = this.imageUrl.orEmpty(),

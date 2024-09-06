@@ -6,6 +6,7 @@ import com.rahul.newsapp.base.StateHolder
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.search.domain.SearchUseCase
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -50,6 +51,8 @@ class SearchStateHolder @Inject constructor(
         onSearchFieldUpdated(criteria = query)
 
         if (query.length > SEARCH_THRESHOLD) {
+            delay(300)
+            _state.update { it.copy(isLoading = true) }
             search(query)
         }
     }
@@ -59,7 +62,8 @@ class SearchStateHolder @Inject constructor(
             _state.update {
                 it.copy(
                     isEmpty = result.isEmpty(),
-                    articleList = result
+                    articleList = result,
+                    isLoading = false,
                 )
             }
         }
@@ -67,6 +71,7 @@ class SearchStateHolder @Inject constructor(
 
     data class UiState(
         val isEmpty: Boolean,
+        val isLoading: Boolean = false,
         val articleList: List<Article>,
         @DrawableRes val iconResId: Int,
         val text: String

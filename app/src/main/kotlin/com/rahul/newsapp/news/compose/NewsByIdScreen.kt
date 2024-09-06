@@ -2,19 +2,24 @@ package com.rahul.newsapp.news.compose
 
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rahul.newsapp.common.EmptyView
+import com.rahul.newsapp.common.IndeterminateCircularIndicator
 import com.rahul.newsapp.common.compose.ArticleItem
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.local.entity.Source
@@ -58,18 +63,28 @@ private fun NewsByIdContent(
     listState: LazyListState = rememberLazyListState(),
     onArticleItemClick: (Uri) -> Unit
 ) {
-    Scaffold(
-        modifier = modifier.testTag(TopHeadlinesTestTags.SCREEN_ROOT),
-    ) { paddingValues ->
-        println(paddingValues)
-        LazyColumn(
-            modifier = Modifier
-                .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
-                .background(Color.LightGray),
-            state = listState
-        ) {
-            items(items = state.uiState.articleList) {
-                ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (state.uiState.isLoading) {
+            IndeterminateCircularIndicator()
+        } else if (state.uiState.articleList.isEmpty()) {
+            EmptyView()
+        } else {
+
+            LazyColumn(
+                modifier = Modifier
+                    .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
+                    .background(Color.LightGray),
+                state = listState
+            ) {
+                items(items = state.uiState.articleList) {
+                    ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+                }
             }
         }
     }
