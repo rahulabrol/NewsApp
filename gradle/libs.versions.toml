@@ -6,14 +6,14 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.5"
+lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
-composeBom = "2024.09.00"
+composeBom = "2024.09.02"
 hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
-navigation = "2.8.0"
+navigation = "2.8.1"
 serialization = "1.6.3"
-lifecycleRuntimeCompose = "2.8.5"
+lifecycleRuntimeCompose = "2.8.6"
 coroutines = "1.8.0"
 retrofit = "2.9.0"
 loggingInterceptor = "4.12.0"
@@ -24,6 +24,9 @@ browser = "1.8.0"
 mockk = "1.13.5"
 coreTest = "2.2.0"
 turbine = "1.1.0"
+uiautomator = "2.3.0-alpha02"
+runner = "1.6.2"
+rules = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,9 +36,13 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTest" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
+uiautomator = { group = "ndroidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -47,8 +54,10 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }

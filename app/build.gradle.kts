@@ -7,6 +7,10 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 android {
     namespace = "com.rahul.newsapp"
     compileSdk = 34
@@ -19,6 +23,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testApplicationId = "com.rahul.newsapp.testing"
+        testInstrumentationRunner = "com.rahul.newsapp.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -103,4 +109,16 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.core.testing)
     testImplementation(libs.turbine)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.rules)
+    androidTestImplementation(libs.uiautomator)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.androidx.activity.compose)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
 }
