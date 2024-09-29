@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import com.rahul.newsapp.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -57,6 +58,13 @@ class TopHeadlinesViewModelTest {
         MockKAnnotations.init(this, relaxed = true)
         coEvery { topHeadlinesStateHolder.state } returns flowOf(expectedList)
 
+        coEvery { networkConnectivityStateHolder.state } returns flowOf(
+            NetworkConnectivityStateHolder.UiState(
+                errorSnackBar = null,
+                connectedState = false
+            )
+        )
+
         viewModel = TopHeadlinesViewModel(
             networkConnectivityStateHolder = networkConnectivityStateHolder,
             topHeadlinesState = topHeadlinesStateHolder
@@ -71,6 +79,22 @@ class TopHeadlinesViewModelTest {
             // verify List
             val actualList = uiState.topHeadlinesState
             assertEquals(actualList, expectedList)
+        }
+    }
+
+    @Test
+    fun testOnNetworkRetryEvent() = runTest {
+        viewModel.onRetryClick()
+        coVerify(exactly = 1) {
+            networkConnectivityStateHolder.onRetryClick()
+        }
+    }
+
+    @Test
+    fun testOnTopHeadlinesRetryEvent() = runTest {
+        viewModel.onRetryClick()
+        coVerify(exactly = 1) {
+            topHeadlinesStateHolder.fetchTopHeadlinesOnRetry()
         }
     }
 }

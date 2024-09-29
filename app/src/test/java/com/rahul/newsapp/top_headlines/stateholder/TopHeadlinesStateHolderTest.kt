@@ -6,6 +6,7 @@ import com.rahul.newsapp.local.entity.Source
 import com.rahul.newsapp.top_headlines.domain.TopHeadlinesUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -40,6 +41,13 @@ class TopHeadlinesStateHolderTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { networkConnectivityStateHolder.state } returns flowOf(
+            NetworkConnectivityStateHolder.UiState(
+                errorSnackBar = null,
+                connectedState = true
+            )
+        )
 
         stateHolder = TopHeadlinesStateHolder(networkConnectivityStateHolder, topHeadlinesUseCase)
     }
