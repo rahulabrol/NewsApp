@@ -4,10 +4,12 @@ import app.cash.turbine.test
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.local.entity.Source
 import com.rahul.newsapp.top_headlines.domain.TopHeadlinesUseCase
+import com.rahul.newsapp.utils.Constants
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
@@ -41,7 +43,7 @@ class TopHeadlinesStateHolderTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-
+        coEvery { topHeadlinesUseCase(Constants.COUNTRY) } returns flowOf(fakeTopHeadlinesList())
         every { networkConnectivityStateHolder.state } returns flowOf(
             NetworkConnectivityStateHolder.UiState(
                 errorSnackBar = null,
@@ -62,11 +64,28 @@ class TopHeadlinesStateHolderTest {
 
     @Test
     fun verifySuccessState() = runTest {
-        coEvery { topHeadlinesUseCase("us") } returns flowOf(fakeTopHeadlinesList())
         stateHolder.state.test {
             val state = awaitItem()
             assertNotNull(state.articleList)
             assertFalse(state.isLoading)
+        }
+    }
+
+    @Test
+    fun verifyIfArticleListEmptyNotFetchResult() = runTest {
+        stateHolder.state.test {
+            val uiState = awaitItem()
+            assertTrue(uiState.articleList.isEmpty())
+        }
+    }
+
+    @Test
+    fun verifyIfArticleListNotEmptyFetchResultCalled() = runTest {
+        stateHolder.state.test {
+            val value = topHeadlinesUseCase(Constants.COUNTRY).first()
+            assert(value.size == 1)
+            val uiState = awaitItem()
+            assertTrue(uiState.articleList.isNotEmpty())
         }
     }
 
