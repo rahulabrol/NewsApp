@@ -30,6 +30,9 @@ class TopHeadlinesStateHolderTest {
     @MockK(relaxed = true)
     lateinit var topHeadlinesUseCase: TopHeadlinesUseCase
 
+    @MockK(relaxed = true)
+    lateinit var networkConnectivityStateHolder: NetworkConnectivityStateHolder
+
     /**
      * 1. Initialize MockK
      * 4. Instantiate a new instance of the [TopHeadlinesStateHolder] before each test
@@ -38,7 +41,7 @@ class TopHeadlinesStateHolderTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        stateHolder = TopHeadlinesStateHolder(topHeadlinesUseCase)
+        stateHolder = TopHeadlinesStateHolder(networkConnectivityStateHolder, topHeadlinesUseCase)
     }
 
     @Test

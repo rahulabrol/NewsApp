@@ -78,30 +78,35 @@ dependencies {
     implementation(libs.constraintlayout)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//    Coil
+    //Coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
-//    Hilt
+    //Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-//    Navigation
+    //Navigation
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.lifecycle.runtime.compose)
 
-//  Retrofit for networking
+    //Retrofit for networking
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-//  Room Database dependencies
+    //Room Database dependencies
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
-//  optional - Kotlin Extensions and Coroutines support for Room
+    //optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
-//    Custom Tabs
+    //Custom Tabs
     implementation(libs.browser)
+
+    //Lottie
+    implementation(libs.lottie.compose)
+
+
 
     // Testing
     testImplementation(libs.junit)

@@ -3,6 +3,7 @@ package com.rahul.newsapp.top_headlines.data
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.top_headlines.data.mapper.toArticles
 import com.rahul.newsapp.top_headlines.data.source.TopHeadlinesDataSource
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 /**
@@ -25,5 +26,4 @@ class TopHeadlinesRepository @Inject constructor(
 //            Result.success(offlineHeadlines)
 //        }
     }
-
 }

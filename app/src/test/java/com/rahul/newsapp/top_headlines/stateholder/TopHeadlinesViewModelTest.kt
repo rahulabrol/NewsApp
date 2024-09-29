@@ -38,6 +38,9 @@ class TopHeadlinesViewModelTest {
     @MockK
     lateinit var topHeadlinesStateHolder: TopHeadlinesStateHolder
 
+    @MockK
+    lateinit var networkConnectivityStateHolder: NetworkConnectivityStateHolder
+
     private lateinit var viewModel: TopHeadlinesViewModel
 
     private val expectedList = TopHeadlinesStateHolder.UiState(
@@ -54,7 +57,10 @@ class TopHeadlinesViewModelTest {
         MockKAnnotations.init(this, relaxed = true)
         coEvery { topHeadlinesStateHolder.state } returns flowOf(expectedList)
 
-        viewModel = TopHeadlinesViewModel(topHeadlinesState = topHeadlinesStateHolder)
+        viewModel = TopHeadlinesViewModel(
+            networkConnectivityStateHolder = networkConnectivityStateHolder,
+            topHeadlinesState = topHeadlinesStateHolder
+        )
     }
 
     @Test

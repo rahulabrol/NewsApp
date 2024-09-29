@@ -1,20 +1,29 @@
 package com.rahul.newsapp.top_headlines.compose
 
+import android.content.res.Resources
 import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,9 +32,30 @@ import com.rahul.newsapp.common.compose.ArticleItem
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.local.entity.Source
 import com.rahul.newsapp.theme.NewsAppTheme
+import com.rahul.newsapp.top_headlines.stateholder.NetworkConnectivityStateHolder
 import com.rahul.newsapp.top_headlines.stateholder.TopHeadlinesStateHolder
 import com.rahul.newsapp.top_headlines.stateholder.TopHeadlinesViewModel
 import com.rahul.newsapp.top_headlines.utils.TopHeadlinesTestTags
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+/**
+ * Clear semantics
+ *
+ * @param loading
+ * @return Modifier
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+fun Modifier.clearSemantics(
+    loading: Boolean
+): Modifier =
+    if (loading) {
+        clearAndSetSemantics {
+            invisibleToUser()
+        }
+    } else {
+        this
+    }
 
 /**
  * The composable entry point to display the paginated top headlines tab/screen
@@ -44,10 +74,13 @@ fun PaginationTopHeadlinesScreen(
     onArticleItemClick: (Uri) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
     TopHeadlinesContent(
         modifier = modifier,
         state = state,
+        scope = coroutineScope,
         onArticleItemClick = onArticleItemClick,
+        onRetryClick = { coroutineScope.launch { viewModel.onRetryClick() } }
     )
 }
 
@@ -55,30 +88,54 @@ fun PaginationTopHeadlinesScreen(
 private fun TopHeadlinesContent(
     modifier: Modifier = Modifier,
     state: TopHeadlinesViewModel.UiState,
+    resource: Resources = LocalContext.current.resources,
+    scope: CoroutineScope,
     listState: LazyListState = rememberLazyListState(),
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
+    onRetryClick: () -> Unit,
 ) {
-    Column(
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
         modifier = modifier
             .fillMaxSize()
             .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (state.topHeadlinesState.isLoading) {
-            IndeterminateCircularIndicator()
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
-                    .background(Color.LightGray),
-                state = listState
-            ) {
-                items(items = state.topHeadlinesState.articleList) {
-                    ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        content = {
+            if (state.topHeadlinesState.isLoading) {
+                IndeterminateCircularIndicator()
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(it)
+                        .clearSemantics(state.topHeadlinesState.isLoading)
+                        .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
+                        .background(Color.LightGray),
+                    state = listState
+                ) {
+                    items(items = state.topHeadlinesState.articleList) {
+                        ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+                    }
                 }
             }
         }
+    )
+
+    if (state.networkState.connectedState.not()) {
+        state.networkState.errorSnackBar?.let { snackBarState ->
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = resource.getString(snackBarState.message),
+                    actionLabel = resource.getString(snackBarState.actionLabel),
+                    duration = snackBarState.duration
+                ).also { result ->
+                    if (result == SnackbarResult.ActionPerformed) {
+                        onRetryClick()
+                    }
+                }
+            }
+        }
+    } else {
+        snackbarHostState.currentSnackbarData?.dismiss()
     }
 }
 
@@ -100,9 +157,12 @@ private fun PaginationTopHeadlinesPreview() {
                         )
                     ),
                     placeholderList = emptyList(),
-                )
+                ),
+                networkState = NetworkConnectivityStateHolder.UiState()
             ),
             onArticleItemClick = {},
+            onRetryClick = {},
+            scope = rememberCoroutineScope(),
         )
     }
 }

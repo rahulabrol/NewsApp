@@ -6,32 +6,60 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 /**
+ * Top Headlines Listing viewmodel
+ * @property topHeadlinesState
+ * @property networkConnectivityStateHolder
+ *
+ * @constructor Create empty top headlines listing view model
  * Created by abrol at 25/08/24.
  */
 @HiltViewModel
 class TopHeadlinesViewModel @Inject constructor(
-    topHeadlinesState: TopHeadlinesStateHolder,
+    private val topHeadlinesState: TopHeadlinesStateHolder,
+    private val networkConnectivityStateHolder: NetworkConnectivityStateHolder,
 ) : ViewModel() {
-    internal val state: StateFlow<UiState> = topHeadlinesState.state.map { state ->
-        UiState(topHeadlinesState = state)
+
+    /**
+     * A state flow representing the screen ui state.
+     */
+    internal val state: StateFlow<UiState> = combine(
+        topHeadlinesState.state,
+        networkConnectivityStateHolder.state
+    ) { headlineState, networkState ->
+        UiState(topHeadlinesState = headlineState, networkState = networkState)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(topHeadlinesState = topHeadlinesState.initialState)
+        initialValue = UiState(
+            topHeadlinesState = topHeadlinesState.initialState,
+            networkState = networkConnectivityStateHolder.initialState
+        )
     )
+
+    /**
+     * This function while click handle 2 things fetch the listings and check the
+     * current network state
+     *
+     */
+    internal suspend fun onRetryClick() {
+        topHeadlinesState.fetchTopHeadlinesOnRetry()
+        networkConnectivityStateHolder.onRetryClick()
+    }
 
     /**
      * A class the models the Top Headlines screen UI data
      *
      * @property topHeadlinesState The top headline state value
+     * @property networkState Network state value
      */
     @Immutable
     internal data class UiState(
-        val topHeadlinesState: TopHeadlinesStateHolder.UiState
+        val topHeadlinesState: TopHeadlinesStateHolder.UiState,
+        val networkState: NetworkConnectivityStateHolder.UiState
     )
 }
