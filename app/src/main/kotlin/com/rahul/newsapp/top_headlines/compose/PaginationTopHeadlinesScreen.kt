@@ -68,7 +68,7 @@ fun Modifier.clearSemantics(
  * Created by abrol at 25/08/24.
  */
 @Composable
-fun PaginationTopHeadlinesScreen(
+internal fun PaginationTopHeadlinesScreen(
     modifier: Modifier = Modifier,
     viewModel: TopHeadlinesViewModel = hiltViewModel(),
     onArticleItemClick: (Uri) -> Unit,

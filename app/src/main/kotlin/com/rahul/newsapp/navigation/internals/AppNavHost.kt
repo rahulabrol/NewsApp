@@ -42,7 +42,7 @@ internal fun AnimatedContentTransitionScope<*>.defaultPopExitTransition() =
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppNavigationHost(
+internal fun AppNavigationHost(
     modifier: Modifier = Modifier,
     navController: AppNavigationController,
     startDestination: Any,
