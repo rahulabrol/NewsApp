@@ -23,7 +23,7 @@ class NewsByIdStateHolder @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val newsByIdUseCase: NewsByIdUseCase,
     private val newsByCountryUseCase: NewsByIdUseCase,
-    private val newsByLanguageUseCase: NewsByIdUseCase,
+    private val newsByLanguageUseCase: NewsByIdUseCase
 ) : StateHolder<Params, NewsByIdStateHolder.UiState>() {
 
     override val params = Params(
@@ -37,7 +37,7 @@ class NewsByIdStateHolder @Inject constructor(
         placeholderList = listOf(
             Article.placeholder,
             Article.placeholder,
-            Article.placeholder,
+            Article.placeholder
         )
     )
 
@@ -86,7 +86,7 @@ class NewsByIdStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         val placeholderList: List<Article>,
-        val articleList: List<Article>,
+        val articleList: List<Article>
     )
 }
 

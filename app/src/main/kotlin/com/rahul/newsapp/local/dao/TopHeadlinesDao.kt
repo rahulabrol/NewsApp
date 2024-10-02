@@ -27,14 +27,14 @@ interface TopHeadlinesDao {
     @Query("DELETE FROM TopHeadlinesArticle WHERE sourceId = :sourceId ")
     fun clearSourceArticles(sourceId: String)
 
-
     @Transaction
     @Query("SELECT * FROM TopHeadlinesArticle WHERE sourceId =:sourceId")
     fun getNewsSourceArticle(sourceId: String): Flow<List<Article>>
 
     @Transaction
     suspend fun insertAndDeleteTopHeadlineArticles(
-        country: String, articles: List<Article>
+        country: String,
+        articles: List<Article>
     ): List<Long> {
         clearTopHeadlinesArticles(country)
         return insertArticles(articles)
@@ -42,7 +42,8 @@ interface TopHeadlinesDao {
 
     @Transaction
     suspend fun insertAndDeleteSourceArticles(
-        sourceId: String, articles: List<Article>
+        sourceId: String,
+        articles: List<Article>
     ): List<Long> {
         clearSourceArticles(sourceId)
         return insertArticles(articles)
@@ -50,7 +51,8 @@ interface TopHeadlinesDao {
 
     @Transaction
     suspend fun insertAndDeleteLanguageArticles(
-        language: String, articles: List<Article>
+        language: String,
+        articles: List<Article>
     ): List<Long> {
         clearLanguageArticles(language)
         return insertArticles(articles)

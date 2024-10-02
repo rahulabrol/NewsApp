@@ -21,13 +21,13 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
     private val _state = MutableStateFlow(
         UiState(
             tabs = tabs(Type.TOP_HEADLINES),
-            selectedTab = Type.TOP_HEADLINES,
+            selectedTab = Type.TOP_HEADLINES
         )
     )
 
     override val initialState: UiState = UiState(
         tabs = tabs(Type.TOP_HEADLINES),
-        selectedTab = Type.TOP_HEADLINES,
+        selectedTab = Type.TOP_HEADLINES
     )
 
     /**
@@ -137,6 +137,6 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
      */
     data class UiState(
         val selectedTab: Type,
-        val tabs: List<HomeTab>,
+        val tabs: List<HomeTab>
     )
 }

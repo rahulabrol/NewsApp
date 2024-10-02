@@ -15,5 +15,5 @@ data class SnackBarUiState(
     @StringRes val message: Int,
     @StringRes val actionLabel: Int,
     val actionId: String? = null,
-    val duration: SnackbarDuration = SnackbarDuration.Short
+    val duration: SnackbarDuration = SnackbarDuration.Indefinite
 )

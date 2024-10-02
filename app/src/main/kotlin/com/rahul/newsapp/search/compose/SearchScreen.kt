@@ -24,16 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.rahul.newsapp.R
 import com.rahul.newsapp.common.EmptyView
 import com.rahul.newsapp.common.IndeterminateCircularIndicator
 import com.rahul.newsapp.common.compose.ArticleItem
-import com.rahul.newsapp.news_source.utils.NewsSourceTestTags
 import com.rahul.newsapp.search.stateholder.SearchStateHolder
 import com.rahul.newsapp.search.stateholder.SearchViewModel
+import com.rahul.newsapp.source.utils.NewsSourceTestTags
 import com.rahul.newsapp.theme.NewsAppTheme
 
 /**
@@ -43,14 +40,14 @@ import com.rahul.newsapp.theme.NewsAppTheme
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
-    onArticleItemClick: (Uri) -> Unit,
+    onArticleItemClick: (Uri) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     SearchContent(
         modifier = modifier,
         state = state,
         onValueChange = { viewModel.onTextChangeEvent(it) },
-        onArticleItemClick = onArticleItemClick,
+        onArticleItemClick = onArticleItemClick
     )
 }
 
@@ -60,7 +57,7 @@ private fun SearchContent(
     state: SearchViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
     onValueChange: (String) -> Unit,
-    onArticleItemClick: (Uri) -> Unit,
+    onArticleItemClick: (Uri) -> Unit
 ) {
     val kbdFocusRequester = remember { FocusRequester() }
     Column(
@@ -73,7 +70,7 @@ private fun SearchContent(
                 .focusRequester(kbdFocusRequester)
                 .padding(all = 12.dp),
             value = state.uiState.text,
-            onValueChange = onValueChange,
+            onValueChange = onValueChange
         )
         if (state.uiState.isLoading) {
             IndeterminateCircularIndicator()
@@ -111,7 +108,7 @@ private fun SearchContentPreview() {
                 )
             ),
             onValueChange = {},
-            onArticleItemClick = {},
+            onArticleItemClick = {}
         )
     }
 }

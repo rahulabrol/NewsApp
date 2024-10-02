@@ -23,6 +23,6 @@ class CountriesStateHolder @Inject constructor() :
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<Country>,
+        val sourceList: List<Country>
     )
 }

@@ -44,5 +44,4 @@ internal class NetworkConnectivityImpl(@ApplicationContext context: Context) : N
             connectivityManager.unregisterNetworkCallback(networkCallback)
         }
     }
-
 }

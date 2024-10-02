@@ -9,6 +9,8 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "Country")
 data class Country(
-    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    val id: String,
     @ColumnInfo(name = "name") val name: String
 )

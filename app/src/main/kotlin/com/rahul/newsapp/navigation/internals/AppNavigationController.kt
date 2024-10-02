@@ -98,7 +98,8 @@ fun rememberAppAnimatedNavController(
     val animatedNavigator = remember { ComposeNavigator() }
     return AppNavigationController(
         _controller = rememberNavController(
-            animatedNavigator, *navigators
+            animatedNavigator,
+            *navigators
         )
     )
 }

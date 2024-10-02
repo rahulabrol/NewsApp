@@ -1,6 +1,5 @@
 package com.rahul.newsapp.search.di
 
-
 import com.rahul.newsapp.search.data.source.SearchDataSource
 import com.rahul.newsapp.search.data.source.SearchDataSourceImpl
 import dagger.Binds

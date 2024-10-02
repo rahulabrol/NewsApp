@@ -3,6 +3,7 @@ package com.rahul.newsapp.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.composable
+import com.rahul.newsapp.headlines.compose.PaginationTopHeadlinesScreen
 import com.rahul.newsapp.home.compose.HomeScreen
 import com.rahul.newsapp.navigation.internals.AppNavigationController
 import com.rahul.newsapp.navigation.internals.AppNavigationHost
@@ -12,8 +13,7 @@ import com.rahul.newsapp.navigation.routes.NewsListingById
 import com.rahul.newsapp.navigation.routes.NewsSource
 import com.rahul.newsapp.navigation.routes.PaginationTopHeadlines
 import com.rahul.newsapp.news.compose.NewsByIdScreen
-import com.rahul.newsapp.news_source.compose.NewsSourceScreen
-import com.rahul.newsapp.top_headlines.compose.PaginationTopHeadlinesScreen
+import com.rahul.newsapp.source.compose.NewsSourceScreen
 import com.rahul.newsapp.utils.NEWS_SOURCE
 import com.rahul.newsapp.web.CustomTabLauncher
 
@@ -29,7 +29,7 @@ import com.rahul.newsapp.web.CustomTabLauncher
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: AppNavigationController,
-    customTabLauncher: CustomTabLauncher,
+    customTabLauncher: CustomTabLauncher
 ) {
     AppNavigationHost(
         modifier = modifier,
@@ -46,7 +46,7 @@ internal fun AppNavigation(
                             type = NEWS_SOURCE
                         )
                     )
-                },
+                }
             )
         }
         composable<PaginationTopHeadlines> {

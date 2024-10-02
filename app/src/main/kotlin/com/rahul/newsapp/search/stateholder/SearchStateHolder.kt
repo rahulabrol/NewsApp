@@ -41,7 +41,7 @@ class SearchStateHolder @Inject constructor(
         with(_state) {
             update {
                 it.copy(
-                    text = criteria,
+                    text = criteria
                 )
             }
         }
@@ -63,7 +63,7 @@ class SearchStateHolder @Inject constructor(
                 it.copy(
                     isEmpty = result.isEmpty(),
                     articleList = result,
-                    isLoading = false,
+                    isLoading = false
                 )
             }
         }

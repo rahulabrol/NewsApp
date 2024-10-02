@@ -25,6 +25,6 @@ class LanguagesStateHolder @Inject constructor() :
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<Language>,
+        val sourceList: List<Language>
     )
 }

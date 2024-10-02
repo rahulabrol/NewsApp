@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
+apply(from = "$rootDir/githooks.gradle")
 
 hilt {
     enableAggregatingTask = true
@@ -107,7 +108,6 @@ dependencies {
     implementation(libs.lottie.compose)
 
 
-
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -117,7 +117,7 @@ dependencies {
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.rules)
-    androidTestImplementation(libs.uiautomator)
+//    androidTestImplementation(libs.uiautomator)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.androidx.activity.compose)

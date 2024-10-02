@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CountriesViewModel @Inject constructor(
-    countriesStateHolder: CountriesStateHolder,
+    countriesStateHolder: CountriesStateHolder
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = countriesStateHolder.state.map { state ->
         UiState(uiState = state)

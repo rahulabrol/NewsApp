@@ -1,6 +1,5 @@
 package com.rahul.newsapp.home.stateholder
 
-import android.app.Activity
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeStateHolder: HomeStateHolder,
+    private val homeStateHolder: HomeStateHolder
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = homeStateHolder.state.map { state ->
         UiState(tabs = state)
