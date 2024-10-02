@@ -58,14 +58,23 @@ class SearchStateHolder @Inject constructor(
     }
 
     private suspend fun search(query: String) {
-        searchUseCase(query).first().let { result ->
+        try {
+            searchUseCase(query).first().let { result ->
+                _state.update {
+                    it.copy(
+                        isEmpty = result.isEmpty(),
+                        articleList = result,
+                        isLoading = false
+                    )
+                }
+            }
+        } catch (ex: Exception) {
             _state.update {
                 it.copy(
-                    isEmpty = result.isEmpty(),
-                    articleList = result,
                     isLoading = false
                 )
             }
+            ex.printStackTrace()
         }
     }
 

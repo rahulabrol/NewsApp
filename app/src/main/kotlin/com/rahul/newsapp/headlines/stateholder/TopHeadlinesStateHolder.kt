@@ -50,12 +50,21 @@ class TopHeadlinesStateHolder @Inject constructor(
     }
 
     private fun fetchTopHeadlines() = launchFlow {
-        topHeadlinesUseCase(Constants.COUNTRY).collect { list ->
+        try {
+            topHeadlinesUseCase(Constants.COUNTRY).collect { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        articleList = list,
+                        connectedState = networkStateHolder.state.first().connectedState
+                    )
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
             _state.update {
                 it.copy(
-                    isLoading = false,
-                    articleList = list,
-                    connectedState = networkStateHolder.state.first().connectedState
+                    isLoading = false
                 )
             }
         }

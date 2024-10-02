@@ -10,8 +10,7 @@ import javax.inject.Inject
 class NewsSourceDataSourceImpl @Inject constructor(private val networkService: NetworkService) :
     NewsSourceDataSource {
 
-    override suspend fun newsSource(): Result<NewsSourceEntity> =
-        runCatching {
+    override suspend fun newsSource(): Result<NewsSourceEntity> = runCatching {
             networkService.getNewsSources()
         }
 }

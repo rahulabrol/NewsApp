@@ -37,11 +37,20 @@ class NewsSourceStateHolder @Inject constructor(
     }
 
     private suspend fun fetchNewsSource() {
-        newsSourceUseCase(Unit).first().let { list ->
+        try {
+            newsSourceUseCase(Unit).first().let { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        sourceList = list
+                    )
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
             _state.update {
                 it.copy(
-                    isLoading = false,
-                    sourceList = list
+                    isLoading = false
                 )
             }
         }
