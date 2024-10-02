@@ -6,4 +6,6 @@
     <string name="language_title">Language</string>
     <string name="search_title">Search</string>
     <string name="no_data_found">No data found</string>
+    <string name="no_network">No network connection available</string>
+    <string name="retry">Retry</string>
 </resources>

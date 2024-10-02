@@ -39,10 +39,9 @@ internal fun AnimatedContentTransitionScope<*>.defaultPopEnterTransition() =
 internal fun AnimatedContentTransitionScope<*>.defaultPopExitTransition() =
     slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End)
 
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppNavigationHost(
+internal fun AppNavigationHost(
     modifier: Modifier = Modifier,
     navController: AppNavigationController,
     startDestination: Any,

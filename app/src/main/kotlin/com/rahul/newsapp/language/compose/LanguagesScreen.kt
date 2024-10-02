@@ -24,13 +24,13 @@ import com.rahul.newsapp.language.utils.LanguagesTestTags
 internal fun LanguagesScreen(
     modifier: Modifier = Modifier,
     viewModel: LanguagesViewModel = hiltViewModel(),
-    onLanguagesItemClick: (String) -> Unit,
+    onLanguagesItemClick: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     LanguagesContent(
         modifier = modifier,
         state = state,
-        onLanguagesItemClick = onLanguagesItemClick,
+        onLanguagesItemClick = onLanguagesItemClick
     )
 }
 
@@ -39,10 +39,10 @@ private fun LanguagesContent(
     modifier: Modifier = Modifier,
     state: LanguagesViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
-    onLanguagesItemClick: (String) -> Unit,
+    onLanguagesItemClick: (String) -> Unit
 ) {
     Scaffold(
-        modifier = modifier.testTag(LanguagesTestTags.SCREEN_ROOT),
+        modifier = modifier.testTag(LanguagesTestTags.SCREEN_ROOT)
     ) { paddingValues ->
         println(paddingValues)
         LazyColumn(

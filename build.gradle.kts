@@ -5,4 +5,20 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.spotless)
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        trimTrailingWhitespace()
+        ktlint()
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        targetExclude("build.gradle.kts")
+        trimTrailingWhitespace()
+        ktlint()
+
+    }
 }

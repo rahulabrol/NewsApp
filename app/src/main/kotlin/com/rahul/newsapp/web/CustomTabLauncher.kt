@@ -5,7 +5,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.LifecycleOwner
 import com.rahul.newsapp.MainActivity
 
-
 /**
  * Created by abrol at 06/09/24.
  */

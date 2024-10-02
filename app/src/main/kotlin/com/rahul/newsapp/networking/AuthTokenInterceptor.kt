@@ -12,5 +12,4 @@ class AuthTokenInterceptor(@NetworkAPIKey private val apiKey: String) : Intercep
         val request = requestBuilder.build()
         return chain.proceed(request)
     }
-
 }

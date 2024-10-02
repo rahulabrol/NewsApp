@@ -37,7 +37,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor, authTokenInterceptor: AuthTokenInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authTokenInterceptor: AuthTokenInterceptor
     ): OkHttpClient = OkHttpClient().newBuilder().addInterceptor(authTokenInterceptor)
         .addInterceptor(httpLoggingInterceptor).build()
 
@@ -67,5 +68,4 @@ object AppModule {
     @Singleton
     @BaseUrl
     fun provideNetWorkBaseUrl(): String = "https://newsapi.org/v2/"
-
 }

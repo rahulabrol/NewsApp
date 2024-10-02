@@ -40,7 +40,7 @@ fun AppTabLargeItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
-    @DrawableRes iconResId: Int,
+    @DrawableRes iconResId: Int
 ) {
     Column(
         modifier = modifier

@@ -1,0 +1,11 @@
+task installGitHook(type: Copy) {
+    from new File("${rootDir}/scripts/", 'pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0777
+}
+
+task removePreCommitHook(type: Delete) {
+    delete "${project.rootDir}/.git/hooks/pre-commit"
+}
+
+tasks.getByPath(':app:preBuild').dependsOn installGitHook

@@ -1,7 +1,7 @@
 package com.rahul.newsapp.news.data.source
 
+import com.rahul.newsapp.headlines.data.model.TopHeadlinesNetworkEntity
 import com.rahul.newsapp.networking.NetworkService
-import com.rahul.newsapp.top_headlines.data.model.TopHeadlinesEntity
 import javax.inject.Inject
 
 /**
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class NewsByIdDataSourceImpl @Inject constructor(private val networkService: NetworkService) :
     NewsByIdDataSource {
 
-    override suspend fun newsBySourceId(sourceId: String): Result<TopHeadlinesEntity> =
+    override suspend fun newsBySourceId(sourceId: String): Result<TopHeadlinesNetworkEntity> =
         runCatching {
             networkService.getNewsBySources(sources = sourceId)
         }

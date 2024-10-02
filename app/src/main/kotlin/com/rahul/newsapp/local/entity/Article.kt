@@ -10,7 +10,9 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "TopHeadlinesArticle")
 data class Article(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "article_id") var articleId: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "article_id")
+    var articleId: Int = 0,
     @ColumnInfo(name = "title") val title: String = "",
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "url") val url: String = "",

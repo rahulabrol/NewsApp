@@ -24,15 +24,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahul.newsapp.common.compose.AppTabLargeItem
 import com.rahul.newsapp.countries.compose.CountriesScreen
+import com.rahul.newsapp.headlines.compose.PaginationTopHeadlinesScreen
 import com.rahul.newsapp.home.model.HomeTab
 import com.rahul.newsapp.home.model.Type
 import com.rahul.newsapp.home.stateholder.HomeStateHolder
 import com.rahul.newsapp.home.stateholder.HomeViewModel
 import com.rahul.newsapp.home.utils.HomeTestTags
 import com.rahul.newsapp.language.compose.LanguagesScreen
-import com.rahul.newsapp.news_source.compose.NewsSourceScreen
 import com.rahul.newsapp.search.compose.SearchScreen
-import com.rahul.newsapp.top_headlines.compose.PaginationTopHeadlinesScreen
+import com.rahul.newsapp.source.compose.NewsSourceScreen
 import kotlinx.coroutines.launch
 
 /**
@@ -43,7 +43,7 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit,
+    onNewsSourceItemClick: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
@@ -51,7 +51,7 @@ internal fun HomeScreen(
         uiState = state,
         onTabSelected = { viewModel.tabSelectedEvent(it) },
         onArticleItemClick = onArticleItemClick,
-        onNewsSourceItemClick = onNewsSourceItemClick,
+        onNewsSourceItemClick = onNewsSourceItemClick
     )
 }
 
@@ -61,7 +61,7 @@ private fun HomeScreenContent(
     uiState: HomeViewModel.UiState,
     onTabSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit,
+    onNewsSourceItemClick: (String) -> Unit
 ) {
     val pagerState: PagerState = rememberPagerState(
         pageCount = { uiState.tabs.tabs.size },
@@ -80,7 +80,7 @@ private fun HomeScreenContent(
             tabs = { uiState.tabs.tabs },
             onPageSelected = { page -> onTabSelected(page) },
             onArticleItemClick = onArticleItemClick,
-            onNewsSourceItemClick = onNewsSourceItemClick,
+            onNewsSourceItemClick = onNewsSourceItemClick
         )
     }
 }
@@ -94,7 +94,7 @@ private fun HomeTabs(
     TabRow(
         modifier = modifier
             .testTag(tag = HomeTestTags.TAB_ROW),
-        selectedTabIndex = pagerState.currentPage,
+        selectedTabIndex = pagerState.currentPage
     ) {
         val coroutineScope = rememberCoroutineScope()
         uiState().tabs.forEach { item ->
@@ -117,7 +117,6 @@ private fun HomeTabs(
             )
         }
     }
-
 }
 
 /**
@@ -138,9 +137,8 @@ private fun HomePager(
     tabs: () -> List<HomeTab>,
     onPageSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit,
+    onNewsSourceItemClick: (String) -> Unit
 ) {
-
     LaunchedEffect(pagerState) {
         // Collect from the a snapshotFlow reading the currentPage
         snapshotFlow { pagerState.currentPage }
@@ -153,7 +151,7 @@ private fun HomePager(
         modifier = modifier
             .fillMaxSize()
             .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
-        state = pagerState,
+        state = pagerState
     ) {
         when (it) {
             Type.TOP_HEADLINES.ordinal -> PaginationTopHeadlinesScreen(onArticleItemClick = onArticleItemClick)

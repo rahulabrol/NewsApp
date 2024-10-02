@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class NewsByIdViewModel @Inject constructor(
-    topHeadlinesState: NewsByIdStateHolder,
+    topHeadlinesState: NewsByIdStateHolder
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = topHeadlinesState.state.map { state ->
         UiState(uiState = state)

@@ -58,7 +58,7 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
                 },
             model = article().imageUrl.toUri(),
             contentDescription = article().title,
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.FillBounds
         )
         Text(
             modifier = Modifier
@@ -90,7 +90,7 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 letterSpacing = TextUnit(.2F, TextUnitType.Sp),
-                lineHeight = TextUnit(16F, TextUnitType.Sp),
+                lineHeight = TextUnit(16F, TextUnitType.Sp)
             )
         }
         val descAnchor =
@@ -107,7 +107,7 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
                 text = article().source.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

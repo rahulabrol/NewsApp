@@ -21,12 +21,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahul.newsapp.common.EmptyView
 import com.rahul.newsapp.common.IndeterminateCircularIndicator
 import com.rahul.newsapp.common.compose.ArticleItem
+import com.rahul.newsapp.headlines.utils.TopHeadlinesTestTags
 import com.rahul.newsapp.local.entity.Article
 import com.rahul.newsapp.local.entity.Source
 import com.rahul.newsapp.news.stateholder.NewsByIdStateHolder
 import com.rahul.newsapp.news.stateholder.NewsByIdViewModel
 import com.rahul.newsapp.theme.NewsAppTheme
-import com.rahul.newsapp.top_headlines.utils.TopHeadlinesTestTags
 
 /**
  * Created by abrol at 06/09/24.
@@ -46,13 +46,13 @@ import com.rahul.newsapp.top_headlines.utils.TopHeadlinesTestTags
 internal fun NewsByIdScreen(
     modifier: Modifier = Modifier,
     viewModel: NewsByIdViewModel = hiltViewModel(),
-    onArticleItemClick: (Uri) -> Unit,
+    onArticleItemClick: (Uri) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     NewsByIdContent(
         modifier = modifier,
         state = state,
-        onArticleItemClick = onArticleItemClick,
+        onArticleItemClick = onArticleItemClick
     )
 }
 
@@ -75,7 +75,6 @@ private fun NewsByIdContent(
         } else if (state.uiState.articleList.isEmpty()) {
             EmptyView()
         } else {
-
             LazyColumn(
                 modifier = Modifier
                     .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
@@ -107,10 +106,10 @@ private fun NewsByIdPreview() {
                             source = Source(sourceId = "2", name = "Source Test")
                         )
                     ),
-                    placeholderList = emptyList(),
+                    placeholderList = emptyList()
                 )
             ),
-            onArticleItemClick = {},
+            onArticleItemClick = {}
         )
     }
 }
