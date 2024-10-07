@@ -1,6 +1,7 @@
 package com.rahul.newsapp.headlines.stateholder
 
 import app.cash.turbine.test
+import com.rahul.newsapp.headlines.domain.LocalArticleUseCase
 import com.rahul.newsapp.headlines.domain.TopHeadlinesUseCase
 import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.local.entity.LocalSource
@@ -14,9 +15,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.time.OffsetDateTime
 
 /**
  * Test the Top Headlines state
@@ -34,16 +37,21 @@ class TopHeadlinesStateHolderTest {
     lateinit var topHeadlinesUseCase: TopHeadlinesUseCase
 
     @MockK(relaxed = true)
+    lateinit var localArticleUseCase: LocalArticleUseCase
+
+    @MockK(relaxed = true)
     lateinit var networkConnectivityStateHolder: NetworkConnectivityStateHolder
 
     /**
-     * 1. Initialize MockK
-     * 4. Instantiate a new instance of the [TopHeadlinesStateHolder] before each test
+     * Initialize MockK
+     * Instantiate a new instance of the [TopHeadlinesStateHolder] before each test
+     * Instantiate a new instance of the [LocalArticleUseCase] before each test
      */
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { topHeadlinesUseCase(Constants.COUNTRY) } returns flowOf(fakeTopHeadlinesList())
+        coEvery { topHeadlinesUseCase(Constants.COUNTRY) } returns flowOf(Unit)
+        coEvery { localArticleUseCase(Unit) } returns flowOf(fakeTopHeadlinesList())
         every { networkConnectivityStateHolder.state } returns flowOf(
             NetworkConnectivityStateHolder.UiState(
                 errorSnackBar = null,
@@ -51,15 +59,18 @@ class TopHeadlinesStateHolderTest {
             )
         )
 
-        stateHolder = TopHeadlinesStateHolder(networkConnectivityStateHolder, topHeadlinesUseCase)
+        stateHolder = TopHeadlinesStateHolder(
+            networkStateHolder = networkConnectivityStateHolder,
+            topHeadlinesUseCase = topHeadlinesUseCase,
+            localArticleUseCase = localArticleUseCase
+        )
     }
 
     @Test
     fun verifyInitialState() = runTest {
         val uiState = stateHolder.initialState
         assertTrue(uiState.isLoading)
-        assertNotNull(uiState.articleList)
-        assertNotNull(uiState.placeholderList)
+        assertNull(uiState.articleList)
     }
 
     @Test
@@ -75,17 +86,17 @@ class TopHeadlinesStateHolderTest {
     fun verifyIfArticleListEmptyNotFetchResult() = runTest {
         stateHolder.state.test {
             val uiState = awaitItem()
-            assertTrue(uiState.articleList.isEmpty())
+            assertTrue(uiState.articleList?.isNotEmpty() == true)
         }
     }
 
     @Test
     fun verifyIfArticleListNotEmptyFetchResultCalled() = runTest {
         stateHolder.state.test {
-            val value = topHeadlinesUseCase(Constants.COUNTRY).first()
+            val value = localArticleUseCase(Unit).first()
             assert(value.size == 1)
             val uiState = awaitItem()
-            assertTrue(uiState.articleList.isNotEmpty())
+            assertTrue(uiState.articleList?.isNotEmpty() == true)
         }
     }
 
@@ -96,8 +107,7 @@ class TopHeadlinesStateHolderTest {
             description = "This is test description.",
             url = "empty",
             imageUrl = "empty",
-            country = "us",
-            language = "ar",
+            publishedDate = OffsetDateTime.now(),
             localSource = LocalSource(sourceId = "sourceId", name = "Source test")
         )
     )

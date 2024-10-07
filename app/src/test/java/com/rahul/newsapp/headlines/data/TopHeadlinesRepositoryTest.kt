@@ -2,6 +2,7 @@ package com.rahul.newsapp.headlines.data
 
 import com.rahul.newsapp.headlines.data.model.TopHeadlinesNetworkEntity
 import com.rahul.newsapp.headlines.data.source.TopHeadlinesDataSource
+import com.rahul.newsapp.local.dao.TopHeadlinesDao
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -18,13 +19,16 @@ internal class TopHeadlinesRepositoryTest {
     @MockK
     lateinit var dataSource: TopHeadlinesDataSource
 
+    @MockK
+    lateinit var topHeadlinesDao: TopHeadlinesDao
+
     private lateinit var repository: TopHeadlinesRepository
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        repository = TopHeadlinesRepository(dataSource)
+        repository = TopHeadlinesRepository(dataSource, topHeadlinesDao)
     }
 
     @Test

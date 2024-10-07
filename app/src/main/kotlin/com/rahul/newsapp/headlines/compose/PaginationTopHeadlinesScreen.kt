@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -85,12 +86,16 @@ private fun TopHeadlinesContent(
             .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
-            if (state.topHeadlinesState.isLoading) {
-                IndeterminateCircularIndicator()
-            } else if (state.topHeadlinesState.articleList.isNullOrEmpty()) {
-                Box { EmptyView() }
-            } else {
-                LazyColumn(
+            when {
+                // Loading state
+                state.topHeadlinesState.isLoading -> IndeterminateCircularIndicator()
+                // Empty state
+                state.topHeadlinesState.articleList.isNullOrEmpty() -> Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) { EmptyView() }
+                //Content state
+                else -> LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(it)
@@ -107,6 +112,7 @@ private fun TopHeadlinesContent(
         }
     )
 
+    // No internet state
     val snackBarState = state.networkState.errorSnackBar
     when {
         snackBarState != null -> LaunchedEffect(snackBarState) {
