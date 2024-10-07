@@ -94,7 +94,7 @@ private fun TopHeadlinesContent(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) { EmptyView() }
-                //Content state
+                // Content state
                 else -> LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()

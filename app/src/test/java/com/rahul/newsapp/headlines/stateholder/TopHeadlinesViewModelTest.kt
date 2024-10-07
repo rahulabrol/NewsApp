@@ -46,7 +46,7 @@ class TopHeadlinesViewModelTest {
 
     private val expectedList = TopHeadlinesStateHolder.UiState(
         isLoading = true,
-        articleList = emptyList(),
+        articleList = emptyList()
     )
 
     /**
