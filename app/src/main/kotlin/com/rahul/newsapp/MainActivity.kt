@@ -13,6 +13,11 @@ import com.rahul.newsapp.theme.NewsAppTheme
 import com.rahul.newsapp.web.CustomTabLauncher
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This class is responsible for setting up the app's UI.
+ *
+ * Created by abrol at 24/08/24.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), CustomTabLauncher {
     override fun onCreate(savedInstanceState: Bundle?) {

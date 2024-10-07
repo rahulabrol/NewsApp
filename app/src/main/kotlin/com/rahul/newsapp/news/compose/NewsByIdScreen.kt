@@ -1,5 +1,6 @@
 package com.rahul.newsapp.news.compose
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,11 +23,12 @@ import com.rahul.newsapp.common.EmptyView
 import com.rahul.newsapp.common.IndeterminateCircularIndicator
 import com.rahul.newsapp.common.compose.ArticleItem
 import com.rahul.newsapp.headlines.utils.TopHeadlinesTestTags
-import com.rahul.newsapp.local.entity.Article
-import com.rahul.newsapp.local.entity.Source
+import com.rahul.newsapp.local.entity.LocalArticle
+import com.rahul.newsapp.local.entity.LocalSource
 import com.rahul.newsapp.news.stateholder.NewsByIdStateHolder
 import com.rahul.newsapp.news.stateholder.NewsByIdViewModel
 import com.rahul.newsapp.theme.NewsAppTheme
+import java.time.OffsetDateTime
 
 /**
  * Created by abrol at 06/09/24.
@@ -89,6 +91,7 @@ private fun NewsByIdContent(
     }
 }
 
+@SuppressLint("NewApi")
 @Preview
 @Composable
 private fun NewsByIdPreview() {
@@ -98,12 +101,13 @@ private fun NewsByIdPreview() {
                 uiState = NewsByIdStateHolder.UiState(
                     isLoading = false,
                     articleList = listOf(
-                        Article(
+                        LocalArticle(
                             title = "Test",
                             description = "Textjk aaslfkjahdk faj",
                             imageUrl = "ertryt.png",
                             url = "dfsdg.png",
-                            source = Source(sourceId = "2", name = "Source Test")
+                            localSource = LocalSource(sourceId = "2", name = "Source Test"),
+                            publishedDate = OffsetDateTime.now()
                         )
                     ),
                     placeholderList = emptyList()

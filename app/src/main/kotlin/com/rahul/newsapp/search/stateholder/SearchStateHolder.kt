@@ -3,7 +3,7 @@ package com.rahul.newsapp.search.stateholder
 import androidx.annotation.DrawableRes
 import com.rahul.newsapp.R
 import com.rahul.newsapp.base.StateHolder
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.search.domain.SearchUseCase
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.delay
@@ -81,7 +81,7 @@ class SearchStateHolder @Inject constructor(
     data class UiState(
         val isEmpty: Boolean,
         val isLoading: Boolean = false,
-        val articleList: List<Article>,
+        val articleList: List<LocalArticle>,
         @DrawableRes val iconResId: Int,
         val text: String
     )

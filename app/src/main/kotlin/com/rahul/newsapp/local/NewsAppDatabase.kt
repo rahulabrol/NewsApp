@@ -6,13 +6,13 @@ import com.rahul.newsapp.local.dao.CountryDao
 import com.rahul.newsapp.local.dao.LanguageDao
 import com.rahul.newsapp.local.dao.NewsSourceDao
 import com.rahul.newsapp.local.dao.TopHeadlinesDao
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 
 /**
  * Created by abrol at 25/08/24.
  */
 @Database(
-    entities = [Article::class/*, NewsSource::class, LanguageEntity::class, Country::class*/],
+    entities = [LocalArticle::class/*, NewsSource::class, LanguageEntity::class, Country::class*/],
     version = 1,
     exportSchema = false
 )

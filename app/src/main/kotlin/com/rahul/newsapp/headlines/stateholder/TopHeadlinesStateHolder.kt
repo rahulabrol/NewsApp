@@ -1,8 +1,9 @@
 package com.rahul.newsapp.headlines.stateholder
 
 import com.rahul.newsapp.base.StateHolder
+import com.rahul.newsapp.headlines.domain.LocalArticleUseCase
 import com.rahul.newsapp.headlines.domain.TopHeadlinesUseCase
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.utils.Constants
 import com.rahul.newsapp.utils.launchFlow
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -19,43 +21,48 @@ import javax.inject.Inject
 @ViewModelScoped
 class TopHeadlinesStateHolder @Inject constructor(
     private val networkStateHolder: NetworkConnectivityStateHolder,
-    private val topHeadlinesUseCase: TopHeadlinesUseCase
+    private val topHeadlinesUseCase: TopHeadlinesUseCase,
+    private val localArticleUseCase: LocalArticleUseCase
 ) : StateHolder<Unit, TopHeadlinesStateHolder.UiState>() {
 
     override val params = Unit
 
     override val initialState: UiState = UiState(
-        isLoading = true,
-        articleList = emptyList(),
-        placeholderList = listOf(
-            Article.placeholder,
-            Article.placeholder,
-            Article.placeholder
-        )
+        isLoading = true
     )
 
     private val _state = MutableStateFlow(initialState)
     override val state: Flow<UiState> = combine(
         networkStateHolder.state,
-        fetchTopHeadlines(),
+        fetchTopHeadlinesFromNetwork(),
+        fetchLocalHeadlines(),
         handleConnectionState(),
         _state
-    ) { _, _, _, internalState ->
+    ) { _, _, _, _, internalState ->
         UiState(
             isLoading = internalState.isLoading,
             connectedState = internalState.connectedState,
-            articleList = internalState.articleList,
-            placeholderList = internalState.placeholderList
+            articleList = internalState.articleList
         )
     }
 
-    private fun fetchTopHeadlines() = launchFlow {
+    private fun fetchLocalHeadlines() = launchFlow {
+        localArticleUseCase(Unit)
+            .collect { list ->
+                _state.update { it.copy(articleList = list) }
+            }
+    }
+
+    private fun fetchTopHeadlinesFromNetwork() = launchFlow {
+        fetchTopHeadlines()
+    }
+
+    private suspend fun fetchTopHeadlines() {
         try {
-            topHeadlinesUseCase(Constants.COUNTRY).collect { list ->
+            topHeadlinesUseCase(Constants.COUNTRY).firstOrNull().let {
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        articleList = list,
                         connectedState = networkStateHolder.state.first().connectedState
                     )
                 }
@@ -85,8 +92,8 @@ class TopHeadlinesStateHolder @Inject constructor(
         }
     }
 
-    internal fun fetchTopHeadlinesOnRetry() {
-        if (_state.value.articleList.isEmpty()) {
+    internal suspend fun fetchTopHeadlinesOnRetry() {
+        if (_state.value.articleList?.isEmpty() == true) {
             fetchTopHeadlines()
         }
     }
@@ -94,7 +101,6 @@ class TopHeadlinesStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         var connectedState: Boolean = true,
-        val articleList: List<Article>,
-        val placeholderList: List<Article>
+        val articleList: List<LocalArticle>? = null
     )
 }

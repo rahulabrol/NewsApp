@@ -36,6 +36,8 @@ import com.rahul.newsapp.source.compose.NewsSourceScreen
 import kotlinx.coroutines.launch
 
 /**
+ * This composable is responsible to show the horizontal tabs on home screen with horizontal pager.
+ *
  * Created by abrol at 25/08/24.
  */
 @Composable

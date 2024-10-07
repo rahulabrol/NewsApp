@@ -1,7 +1,7 @@
 package com.rahul.newsapp.search.domain
 
 import com.rahul.newsapp.base.ResultUseCase
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.search.data.SearchRepository
 import javax.inject.Inject
 
@@ -10,8 +10,8 @@ import javax.inject.Inject
  */
 class SearchUseCase @Inject constructor(
     private val searchRepository: SearchRepository
-) : ResultUseCase<String, List<Article>>() {
-    override suspend fun doWork(params: String): List<Article> {
+) : ResultUseCase<String, List<LocalArticle>>() {
+    override suspend fun doWork(params: String): List<LocalArticle> {
         return searchRepository.search(query = params).getOrDefault(emptyList())
     }
 }

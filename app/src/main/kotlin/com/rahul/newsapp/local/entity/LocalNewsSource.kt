@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
  * Created by abrol at 25/08/24.
  */
 @Entity(tableName = "NewsSource")
-data class NewsSource(
+data class LocalNewsSource(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int = 0,

@@ -1,7 +1,7 @@
 package com.rahul.newsapp.countries.stateholder
 
 import com.rahul.newsapp.base.StateHolder
-import com.rahul.newsapp.local.entity.Country
+import com.rahul.newsapp.local.entity.LocalCountry
 import com.rahul.newsapp.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +23,6 @@ class CountriesStateHolder @Inject constructor() :
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<Country>
+        val sourceList: List<LocalCountry>
     )
 }
