@@ -22,6 +22,7 @@ import com.rahul.newsapp.web.CustomTabLauncher
  *
  * @param modifier
  * @param navController
+ * @param customTabLauncher
  *
  * Created by abrol at 24/08/24.
  */
@@ -64,7 +65,6 @@ internal fun AppNavigation(
                 )
             })
         }
-
         composable<NewsListingById> {
             NewsByIdScreen(
                 onArticleItemClick = { customTabLauncher.launchTab(it) }

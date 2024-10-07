@@ -23,13 +23,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.net.toUri
 import coil.compose.AsyncImage
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 
 /**
  * Created by abrol at 25/08/24.
  */
 @Composable
-internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Unit) {
+internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -95,7 +95,7 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
         }
         val descAnchor =
             if (article().description.isNotEmpty()) descriptionText.bottom else titleText.bottom
-        if (article().source.name.isNotEmpty()) {
+        if (article().localSource.name.isNotEmpty()) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -104,7 +104,7 @@ internal fun ArticleItem(article: () -> Article, onArticleItemClick: (Uri) -> Un
                         top.linkTo(descAnchor)
                         end.linkTo(parent.end)
                     },
-                text = article().source.name,
+                text = article().localSource.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = MaterialTheme.colorScheme.primary

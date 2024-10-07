@@ -1,8 +1,8 @@
 package com.rahul.newsapp.headlines.domain
 
 import com.rahul.newsapp.headlines.data.TopHeadlinesRepository
-import com.rahul.newsapp.local.entity.Article
-import com.rahul.newsapp.local.entity.Source
+import com.rahul.newsapp.local.entity.LocalArticle
+import com.rahul.newsapp.local.entity.LocalSource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -59,8 +59,8 @@ class TopHeadlinesUseCaseTest {
         assertEquals(topHeadlinesEntity[0].description, result?.description)
     }
 
-    private fun fakeTopHeadlinesList(): List<Article> = listOf(
-        Article(
+    private fun fakeTopHeadlinesList(): List<LocalArticle> = listOf(
+        LocalArticle(
             articleId = 1,
             title = "Test",
             description = "This is test description.",
@@ -68,7 +68,7 @@ class TopHeadlinesUseCaseTest {
             imageUrl = "empty",
             country = "us",
             language = "ar",
-            source = Source(sourceId = "sourceId", name = "Source test")
+            localSource = LocalSource(sourceId = "sourceId", name = "Source test")
         )
     )
 }

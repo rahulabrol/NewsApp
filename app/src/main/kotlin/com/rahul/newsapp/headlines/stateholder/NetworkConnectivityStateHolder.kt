@@ -99,15 +99,8 @@ class NetworkConnectivityStateHolder @Inject constructor(
      * @property errorSnackBar
      * @constructor Create empty Ui state
      */
-    /**
-     * Ui state
-     *
-     * @property connectedState
-     * @property errorSnackBar
-     * @constructor Create empty Ui state
-     */
     data class UiState(
+        val errorSnackBar: SnackBarUiState? = null,
         val connectedState: Boolean = true,
-        val errorSnackBar: SnackBarUiState? = null
     )
 }

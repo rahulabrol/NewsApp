@@ -11,6 +11,6 @@ class NewsSourceDataSourceImpl @Inject constructor(private val networkService: N
     NewsSourceDataSource {
 
     override suspend fun newsSource(): Result<NewsSourceEntity> = runCatching {
-            networkService.getNewsSources()
-        }
+        networkService.getNewsSources()
+    }
 }

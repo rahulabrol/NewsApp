@@ -1,7 +1,7 @@
 package com.rahul.newsapp.language.stateholder
 
 import com.rahul.newsapp.base.StateHolder
-import com.rahul.newsapp.local.entity.Language
+import com.rahul.newsapp.local.entity.LocalLanguage
 import com.rahul.newsapp.utils.Constants
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
@@ -18,13 +18,13 @@ class LanguagesStateHolder @Inject constructor() :
     override val params: Unit = Unit
 
     override val initialState: UiState = UiState(
-        sourceList = Constants.LANGUAGES
+        sourceList = Constants.LocalLANGUAGES
     )
 
     private val _state = MutableStateFlow(initialState)
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<Language>
+        val sourceList: List<LocalLanguage>
     )
 }

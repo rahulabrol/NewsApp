@@ -2,7 +2,7 @@ package com.rahul.newsapp.news.stateholder
 
 import androidx.lifecycle.SavedStateHandle
 import com.rahul.newsapp.base.StateHolder
-import com.rahul.newsapp.local.entity.Article
+import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.news.domain.NewsByIdUseCase
 import com.rahul.newsapp.utils.COUNTRIES
 import com.rahul.newsapp.utils.LANGUAGES
@@ -35,9 +35,9 @@ class NewsByIdStateHolder @Inject constructor(
         isLoading = true,
         articleList = emptyList(),
         placeholderList = listOf(
-            Article.placeholder,
-            Article.placeholder,
-            Article.placeholder
+            LocalArticle.placeholder,
+            LocalArticle.placeholder,
+            LocalArticle.placeholder
         )
     )
 
@@ -85,8 +85,8 @@ class NewsByIdStateHolder @Inject constructor(
 
     data class UiState(
         val isLoading: Boolean,
-        val placeholderList: List<Article>,
-        val articleList: List<Article>
+        val placeholderList: List<LocalArticle>,
+        val articleList: List<LocalArticle>
     )
 }
 

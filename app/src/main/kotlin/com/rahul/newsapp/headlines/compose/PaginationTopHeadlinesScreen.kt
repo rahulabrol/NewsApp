@@ -1,8 +1,10 @@
 package com.rahul.newsapp.headlines.compose
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +16,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,17 +30,18 @@ import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rahul.newsapp.common.EmptyView
 import com.rahul.newsapp.common.IndeterminateCircularIndicator
 import com.rahul.newsapp.common.compose.ArticleItem
 import com.rahul.newsapp.headlines.stateholder.NetworkConnectivityStateHolder
 import com.rahul.newsapp.headlines.stateholder.TopHeadlinesStateHolder
 import com.rahul.newsapp.headlines.stateholder.TopHeadlinesViewModel
 import com.rahul.newsapp.headlines.utils.TopHeadlinesTestTags
-import com.rahul.newsapp.local.entity.Article
-import com.rahul.newsapp.local.entity.Source
+import com.rahul.newsapp.local.entity.LocalArticle
+import com.rahul.newsapp.local.entity.LocalSource
 import com.rahul.newsapp.theme.NewsAppTheme
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.OffsetDateTime
 
 /**
  * The composable entry point to display the paginated top headlines tab/screen
@@ -60,7 +64,6 @@ internal fun PaginationTopHeadlinesScreen(
     TopHeadlinesContent(
         modifier = modifier,
         state = state,
-        scope = coroutineScope,
         onArticleItemClick = onArticleItemClick,
         onRetryClick = { coroutineScope.launch { viewModel.onRetryClick() } }
     )
@@ -71,7 +74,6 @@ private fun TopHeadlinesContent(
     modifier: Modifier = Modifier,
     state: TopHeadlinesViewModel.UiState,
     resource: Resources = LocalContext.current.resources,
-    scope: CoroutineScope,
     listState: LazyListState = rememberLazyListState(),
     onArticleItemClick: (Uri) -> Unit,
     onRetryClick: () -> Unit
@@ -85,16 +87,19 @@ private fun TopHeadlinesContent(
         content = {
             if (state.topHeadlinesState.isLoading) {
                 IndeterminateCircularIndicator()
+            } else if (state.topHeadlinesState.articleList.isNullOrEmpty()) {
+                Box { EmptyView() }
             } else {
                 LazyColumn(
                     modifier = Modifier
+                        .fillMaxSize()
                         .padding(it)
                         .clearSemantics(state.topHeadlinesState.isLoading)
                         .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
                         .background(Color.LightGray),
                     state = listState
                 ) {
-                    items(items = state.topHeadlinesState.articleList) {
+                    items(items = state.topHeadlinesState.articleList.orEmpty()) {
                         ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
                     }
                 }
@@ -102,25 +107,26 @@ private fun TopHeadlinesContent(
         }
     )
 
-    if (state.networkState.connectedState.not()) {
-        state.networkState.errorSnackBar?.let { snackBarState ->
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    message = resource.getString(snackBarState.message),
-                    actionLabel = resource.getString(snackBarState.actionLabel),
-                    duration = snackBarState.duration
-                ).also { result ->
-                    if (result == SnackbarResult.ActionPerformed) {
-                        onRetryClick()
-                    }
+    val snackBarState = state.networkState.errorSnackBar
+    when {
+        snackBarState != null -> LaunchedEffect(snackBarState) {
+            snackbarHostState.showSnackbar(
+                message = resource.getString(snackBarState.message),
+                actionLabel = resource.getString(snackBarState.actionLabel),
+                duration = snackBarState.duration
+            ).also { result ->
+                if (result == SnackbarResult.ActionPerformed) {
+                    onRetryClick()
+                    snackbarHostState.currentSnackbarData?.dismiss()
                 }
             }
         }
-    } else {
-        snackbarHostState.currentSnackbarData?.dismiss()
+        // snackBar state is null, dismiss current snackBar
+        else -> {}
     }
 }
 
+@SuppressLint("NewApi")
 @Preview
 @Composable
 private fun PaginationTopHeadlinesPreview() {
@@ -130,21 +136,20 @@ private fun PaginationTopHeadlinesPreview() {
                 topHeadlinesState = TopHeadlinesStateHolder.UiState(
                     isLoading = false,
                     articleList = listOf(
-                        Article(
+                        LocalArticle(
                             title = "Test",
                             description = "Textjk aaslfkjahdk faj",
                             imageUrl = "ertryt.png",
                             url = "dfsdg.png",
-                            source = Source(sourceId = "2", name = "Source Test")
+                            publishedDate = OffsetDateTime.MAX,
+                            localSource = LocalSource(sourceId = "2", name = "Source Test")
                         )
                     ),
-                    placeholderList = emptyList()
                 ),
                 networkState = NetworkConnectivityStateHolder.UiState()
             ),
             onArticleItemClick = {},
             onRetryClick = {},
-            scope = rememberCoroutineScope()
         )
     }
 }
