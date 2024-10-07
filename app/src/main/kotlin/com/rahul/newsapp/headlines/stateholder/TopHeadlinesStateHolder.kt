@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -53,8 +54,12 @@ class TopHeadlinesStateHolder @Inject constructor(
     }
 
     private fun fetchTopHeadlinesFromNetwork() = launchFlow {
+        fetchTopHeadlines()
+    }
+
+    private suspend fun fetchTopHeadlines() {
         try {
-            topHeadlinesUseCase(Constants.COUNTRY).first().let {
+            topHeadlinesUseCase(Constants.COUNTRY).firstOrNull().let {
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -75,21 +80,21 @@ class TopHeadlinesStateHolder @Inject constructor(
     private fun handleConnectionState() = launchFlow {
         networkStateHolder.state.collect { networkUiState ->
             if (networkUiState.connectedState != _state.value.connectedState) {
+                if (networkUiState.connectedState) {
+                    fetchTopHeadlines()
+                }
                 _state.update {
                     it.copy(
                         connectedState = networkUiState.connectedState
                     )
                 }
-                if (networkUiState.connectedState) {
-                    fetchTopHeadlinesOnRetry()
-                }
             }
         }
     }
 
-    internal fun fetchTopHeadlinesOnRetry() {
+    internal suspend fun fetchTopHeadlinesOnRetry() {
         if (_state.value.articleList?.isEmpty() == true) {
-            fetchTopHeadlinesFromNetwork()
+            fetchTopHeadlines()
         }
     }
 

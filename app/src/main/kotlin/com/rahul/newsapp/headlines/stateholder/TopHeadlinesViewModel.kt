@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -47,7 +48,9 @@ class TopHeadlinesViewModel @Inject constructor(
      *
      */
     internal suspend fun onRetryClick() {
-        topHeadlinesState.fetchTopHeadlinesOnRetry()
+        viewModelScope.launch {
+            topHeadlinesState.fetchTopHeadlinesOnRetry()
+        }
         networkConnectivityStateHolder.onRetryClick()
     }
 
