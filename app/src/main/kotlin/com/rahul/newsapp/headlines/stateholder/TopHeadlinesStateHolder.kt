@@ -27,7 +27,7 @@ class TopHeadlinesStateHolder @Inject constructor(
     override val params = Unit
 
     override val initialState: UiState = UiState(
-        isLoading = true,
+        isLoading = true
     )
 
     private val _state = MutableStateFlow(initialState)
@@ -41,7 +41,7 @@ class TopHeadlinesStateHolder @Inject constructor(
         UiState(
             isLoading = internalState.isLoading,
             connectedState = internalState.connectedState,
-            articleList = internalState.articleList,
+            articleList = internalState.articleList
         )
     }
 
@@ -51,7 +51,6 @@ class TopHeadlinesStateHolder @Inject constructor(
                 _state.update { it.copy(articleList = list) }
             }
     }
-
 
     private fun fetchTopHeadlinesFromNetwork() = launchFlow {
         try {
@@ -97,6 +96,6 @@ class TopHeadlinesStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         var connectedState: Boolean = true,
-        val articleList: List<LocalArticle>? = null,
+        val articleList: List<LocalArticle>? = null
     )
 }

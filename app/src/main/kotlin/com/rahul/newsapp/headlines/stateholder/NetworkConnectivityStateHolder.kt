@@ -101,6 +101,6 @@ class NetworkConnectivityStateHolder @Inject constructor(
      */
     data class UiState(
         val errorSnackBar: SnackBarUiState? = null,
-        val connectedState: Boolean = true,
+        val connectedState: Boolean = true
     )
 }

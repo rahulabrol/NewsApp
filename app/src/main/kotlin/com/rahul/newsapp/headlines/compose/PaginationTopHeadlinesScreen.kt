@@ -144,12 +144,12 @@ private fun PaginationTopHeadlinesPreview() {
                             publishedDate = OffsetDateTime.MAX,
                             localSource = LocalSource(sourceId = "2", name = "Source Test")
                         )
-                    ),
+                    )
                 ),
                 networkState = NetworkConnectivityStateHolder.UiState()
             ),
             onArticleItemClick = {},
-            onRetryClick = {},
+            onRetryClick = {}
         )
     }
 }

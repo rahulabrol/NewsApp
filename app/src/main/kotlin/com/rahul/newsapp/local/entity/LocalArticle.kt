@@ -21,8 +21,9 @@ data class LocalArticle(
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "url") val url: String = "",
     @ColumnInfo(name = "urlToImage") val imageUrl: String = "",
+    /* @ColumnInfo(name = "published_date")*/
     @Embedded
-   /* @ColumnInfo(name = "published_date")*/ val publishedDate: OffsetDateTime?,
+    val publishedDate: OffsetDateTime?,
     @Embedded var localSource: LocalSource
 ) {
     companion object {

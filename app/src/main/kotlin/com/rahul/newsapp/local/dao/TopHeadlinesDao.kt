@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.rahul.newsapp.local.entity.LocalArticle
 import kotlinx.coroutines.flow.Flow
 
@@ -44,5 +43,4 @@ interface TopHeadlinesDao {
      */
     @Query("DELETE FROM cached_articles")
     suspend fun clearCachedArticles()
-
 }

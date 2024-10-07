@@ -6,7 +6,6 @@ import com.rahul.newsapp.local.dao.TopHeadlinesDao
 import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.local.entity.toLocalArticleEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import java.time.OffsetDateTime
 import javax.inject.Inject
 
@@ -15,7 +14,7 @@ import javax.inject.Inject
  */
 class TopHeadlinesRepository @Inject constructor(
     private val topHeadlinesDataSource: TopHeadlinesDataSource,
-    private val topHeadlinesDao: TopHeadlinesDao,
+    private val topHeadlinesDao: TopHeadlinesDao
 ) {
     /**
      * Type Ahead Feedback call
