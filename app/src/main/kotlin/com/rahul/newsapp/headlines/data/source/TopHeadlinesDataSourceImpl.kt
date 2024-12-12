@@ -10,7 +10,7 @@ class TopHeadlinesDataSourceImpl @Inject constructor(
     private val networkService: NetworkService
 ) : TopHeadlinesDataSource {
 
-    override suspend fun topHeadlines(country: String) = runCatching {
-        networkService.getTopHeadlines(country = country)
+    override suspend fun topHeadlines(country: String, page: Int) = runCatching {
+        networkService.getTopHeadlines(country = country, page = page)
     }
 }

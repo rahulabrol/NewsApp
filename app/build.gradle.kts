@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -63,7 +65,10 @@ android {
 }
 
 composeCompiler {
-    enableStrongSkippingMode = true
+    featureFlags.addAll(
+        ComposeFeatureFlag.StrongSkipping,
+        ComposeFeatureFlag.OptimizeNonSkippingGroups
+    )
 }
 
 dependencies {
@@ -106,6 +111,8 @@ dependencies {
 
     //Lottie
     implementation(libs.lottie.compose)
+    // Paging 3
+    implementation(libs.paging)
 
 
     // Testing

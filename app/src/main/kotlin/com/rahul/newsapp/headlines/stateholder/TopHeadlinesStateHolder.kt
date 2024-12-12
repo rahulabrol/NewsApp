@@ -2,6 +2,7 @@ package com.rahul.newsapp.headlines.stateholder
 
 import com.rahul.newsapp.base.StateHolder
 import com.rahul.newsapp.headlines.domain.LocalArticleUseCase
+import com.rahul.newsapp.headlines.domain.TopHeadlinesParams
 import com.rahul.newsapp.headlines.domain.TopHeadlinesUseCase
 import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.utils.Constants
@@ -59,7 +60,8 @@ class TopHeadlinesStateHolder @Inject constructor(
 
     private suspend fun fetchTopHeadlines() {
         try {
-            topHeadlinesUseCase(Constants.COUNTRY).firstOrNull().let {
+            val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 0)
+            topHeadlinesUseCase(params = params).firstOrNull().let {
                 _state.update {
                     it.copy(
                         isLoading = false,

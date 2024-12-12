@@ -22,9 +22,12 @@ class TopHeadlinesRepository @Inject constructor(
      */
     @SuppressLint("NewApi")
     @Throws
-    internal suspend fun topHeadlines(country: String) {
+    internal suspend fun topHeadlines(country: String, page: Int) {
         // Fetch the top headlines from network
-        val response = topHeadlinesDataSource.topHeadlines(country = country).getOrThrow()
+        val response = topHeadlinesDataSource.topHeadlines(
+            country = country,
+            page = page
+        ).getOrThrow()
         val cachedArticles = response.articles.map {
             it.toLocalArticleEntity(
                 publishedDate = OffsetDateTime.parse(it.publishedAt)

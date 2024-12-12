@@ -9,8 +9,20 @@ import javax.inject.Inject
  */
 class TopHeadlinesUseCase @Inject constructor(
     private val topHeadlinesRepository: TopHeadlinesRepository
-) : ResultUseCase<String, Unit>() {
-    override suspend fun doWork(params: String) {
-        topHeadlinesRepository.topHeadlines(country = params)
+) : ResultUseCase<TopHeadlinesParams, Unit>() {
+    override suspend fun doWork(params: TopHeadlinesParams) {
+        topHeadlinesRepository.topHeadlines(country = params.country, page = params.page)
     }
 }
+
+/**
+ * Top headlines params
+ *
+ * @property country which country news we want
+ * @property page which page data we want to fetch
+ * @constructor Create empty Top headlines params
+ */
+data class TopHeadlinesParams(
+    val country: String,
+    val page: Int
+)
