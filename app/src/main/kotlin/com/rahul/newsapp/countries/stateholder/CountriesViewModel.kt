@@ -15,14 +15,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CountriesViewModel @Inject constructor(
-    countriesStateHolder: CountriesStateHolder
+    countriesStateHolder: CountriesStateHolder,
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = countriesStateHolder.state.map { state ->
         UiState(uiState = state)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = countriesStateHolder.initialState)
+        initialValue = UiState(uiState = countriesStateHolder.initialState),
     )
 
     /**
@@ -32,6 +32,6 @@ class CountriesViewModel @Inject constructor(
      */
     @Immutable
     internal data class UiState(
-        val uiState: CountriesStateHolder.UiState
+        val uiState: CountriesStateHolder.UiState,
     )
 }

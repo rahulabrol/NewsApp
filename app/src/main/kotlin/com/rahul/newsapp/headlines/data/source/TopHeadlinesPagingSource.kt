@@ -16,7 +16,7 @@ const val NETWORK_PAGE_SIZE = 10
  */
 class TopHeadlinesPagingSource @Inject constructor(
     private val networkService: NetworkService,
-    private val country: String
+    private val country: String,
 ) : PagingSource<Int, ArticlesNetworkEntity>() {
 
     // The refresh key is used for subsequent refresh calls to PagingSource.load after the initial load
@@ -27,7 +27,6 @@ class TopHeadlinesPagingSource @Inject constructor(
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-
         }
     }
 
@@ -38,7 +37,9 @@ class TopHeadlinesPagingSource @Inject constructor(
 //        val range = start.until(start + params.loadSize)
         return try {
             val response = networkService.getTopHeadlines(
-                country = country, page = position, pageSize = params.loadSize
+                country = country,
+                page = position,
+                pageSize = params.loadSize,
             )
             val articles = response.articles
             val nextKey = if (articles.isEmpty()) {
@@ -52,7 +53,7 @@ class TopHeadlinesPagingSource @Inject constructor(
             LoadResult.Page(
                 data = articles,
                 prevKey = if (position == STARTING_KEY) null else position - 1,
-                nextKey = nextKey
+                nextKey = nextKey,
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

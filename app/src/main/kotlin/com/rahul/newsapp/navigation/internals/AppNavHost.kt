@@ -45,7 +45,7 @@ internal fun AppNavigationHost(
     modifier: Modifier = Modifier,
     navController: AppNavigationController,
     startDestination: Any,
-    builder: NavGraphBuilder.() -> Unit
+    builder: NavGraphBuilder.() -> Unit,
 ) {
     NavHost(
         navController = navController.asNavHostController(),
@@ -55,6 +55,6 @@ internal fun AppNavigationHost(
         popEnterTransition = { defaultPopEnterTransition() },
         popExitTransition = { defaultPopExitTransition() },
         modifier = modifier,
-        builder = builder
+        builder = builder,
     )
 }

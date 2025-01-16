@@ -15,14 +15,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LanguagesViewModel @Inject constructor(
-    languagesStateHolder: LanguagesStateHolder
+    languagesStateHolder: LanguagesStateHolder,
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = languagesStateHolder.state.map { state ->
         UiState(uiState = state)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = languagesStateHolder.initialState)
+        initialValue = UiState(uiState = languagesStateHolder.initialState),
     )
 
     /**
@@ -32,6 +32,6 @@ class LanguagesViewModel @Inject constructor(
      */
     @Immutable
     internal data class UiState(
-        val uiState: LanguagesStateHolder.UiState
+        val uiState: LanguagesStateHolder.UiState,
     )
 }

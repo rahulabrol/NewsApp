@@ -23,13 +23,13 @@ import javax.inject.Inject
 class TopHeadlinesStateHolder @Inject constructor(
     private val networkStateHolder: NetworkConnectivityStateHolder,
     private val topHeadlinesUseCase: TopHeadlinesUseCase,
-    private val localArticleUseCase: LocalArticleUseCase
+    private val localArticleUseCase: LocalArticleUseCase,
 ) : StateHolder<Unit, TopHeadlinesStateHolder.UiState>() {
 
     override val params = Unit
 
     override val initialState: UiState = UiState(
-        isLoading = true
+        isLoading = true,
     )
 
     private val _state = MutableStateFlow(initialState)
@@ -38,12 +38,12 @@ class TopHeadlinesStateHolder @Inject constructor(
         fetchTopHeadlinesFromNetwork(),
         fetchLocalHeadlines(),
         handleConnectionState(),
-        _state
+        _state,
     ) { _, _, _, _, internalState ->
         UiState(
             isLoading = internalState.isLoading,
             connectedState = internalState.connectedState,
-            articleList = internalState.articleList
+            articleList = internalState.articleList,
         )
     }
 
@@ -65,7 +65,7 @@ class TopHeadlinesStateHolder @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        connectedState = networkStateHolder.state.first().connectedState
+                        connectedState = networkStateHolder.state.first().connectedState,
                     )
                 }
             }
@@ -73,7 +73,7 @@ class TopHeadlinesStateHolder @Inject constructor(
             ex.printStackTrace()
             _state.update {
                 it.copy(
-                    isLoading = false
+                    isLoading = false,
                 )
             }
         }
@@ -87,7 +87,7 @@ class TopHeadlinesStateHolder @Inject constructor(
                 }
                 _state.update {
                     it.copy(
-                        connectedState = networkUiState.connectedState
+                        connectedState = networkUiState.connectedState,
                     )
                 }
             }
@@ -103,6 +103,6 @@ class TopHeadlinesStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         var connectedState: Boolean = true,
-        val articleList: List<LocalArticle>? = null
+        val articleList: List<LocalArticle>? = null,
     )
 }

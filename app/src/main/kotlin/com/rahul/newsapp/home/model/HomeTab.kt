@@ -20,5 +20,5 @@ data class HomeTab(
     @StringRes val labelResId: Int,
     @StringRes val contentDescriptionResId: Int?,
     @DrawableRes val iconResId: Int,
-    val testTag: String
+    val testTag: String,
 )

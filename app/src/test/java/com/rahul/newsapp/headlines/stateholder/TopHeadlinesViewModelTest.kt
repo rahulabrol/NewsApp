@@ -46,7 +46,7 @@ class TopHeadlinesViewModelTest {
 
     private val expectedList = TopHeadlinesStateHolder.UiState(
         isLoading = true,
-        articleList = emptyList()
+        articleList = emptyList(),
     )
 
     /**
@@ -60,13 +60,13 @@ class TopHeadlinesViewModelTest {
         coEvery { networkConnectivityStateHolder.state } returns flowOf(
             NetworkConnectivityStateHolder.UiState(
                 errorSnackBar = null,
-                connectedState = false
-            )
+                connectedState = false,
+            ),
         )
 
         viewModel = TopHeadlinesViewModel(
             networkConnectivityStateHolder = networkConnectivityStateHolder,
-            topHeadlinesState = topHeadlinesStateHolder
+            topHeadlinesState = topHeadlinesStateHolder,
         )
     }
 

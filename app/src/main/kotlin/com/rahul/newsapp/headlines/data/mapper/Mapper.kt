@@ -22,10 +22,10 @@ private fun ArticlesNetworkEntity.toArticle() = LocalArticle(
     url = this.url,
     imageUrl = this.imageUrl.orEmpty(),
     localSource = this.source.toSource(),
-    publishedDate = OffsetDateTime.parse(this.publishedAt)
+    publishedDate = OffsetDateTime.parse(this.publishedAt),
 )
 
 private fun SourceNetworkEntity.toSource() = LocalSource(
     sourceId = this.id.orEmpty(),
-    name = this.name
+    name = this.name,
 )

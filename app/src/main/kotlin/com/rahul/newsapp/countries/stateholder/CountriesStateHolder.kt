@@ -16,13 +16,13 @@ class CountriesStateHolder @Inject constructor() :
     override val params: Unit = Unit
 
     override val initialState: UiState = UiState(
-        sourceList = Constants.COUNTRIES
+        sourceList = Constants.COUNTRIES,
     )
 
     private val _state = MutableStateFlow(initialState)
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<LocalCountry>
+        val sourceList: List<LocalCountry>,
     )
 }

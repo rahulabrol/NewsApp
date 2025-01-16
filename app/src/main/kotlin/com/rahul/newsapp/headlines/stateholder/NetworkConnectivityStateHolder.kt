@@ -21,7 +21,7 @@ import javax.inject.Inject
  */
 @ViewModelScoped
 class NetworkConnectivityStateHolder @Inject constructor(
-    private val networkConnectivity: NetworkConnectivity
+    private val networkConnectivity: NetworkConnectivity,
 ) : StateHolder<Unit, NetworkConnectivityStateHolder.UiState>() {
 
     override val params = Unit
@@ -33,11 +33,11 @@ class NetworkConnectivityStateHolder @Inject constructor(
             errorSnackBar = SnackBarUiState(
                 message = R.string.no_network,
                 actionLabel = R.string.retry,
-                duration = SnackbarDuration.Indefinite
+                duration = SnackbarDuration.Indefinite,
             ).takeIf {
                 internal.showSnackBar
             },
-            connectedState = internal.showSnackBar.not()
+            connectedState = internal.showSnackBar.not(),
         )
     }
 
@@ -47,14 +47,14 @@ class NetworkConnectivityStateHolder @Inject constructor(
                 _state.update {
                     it.copy(
                         snackBarVisible = true,
-                        showSnackBar = true
+                        showSnackBar = true,
                     )
                 }
             } else if (networkState is Network.State.Connected) {
                 _state.update {
                     it.copy(
                         snackBarVisible = false,
-                        showSnackBar = false
+                        showSnackBar = false,
                     )
                 }
             }
@@ -69,7 +69,7 @@ class NetworkConnectivityStateHolder @Inject constructor(
         _state.update {
             it.copy(
                 snackBarVisible = false,
-                showSnackBar = false
+                showSnackBar = false,
             )
         }
         networkState().collect {}
@@ -89,7 +89,7 @@ class NetworkConnectivityStateHolder @Inject constructor(
      */
     data class InternalState(
         val showSnackBar: Boolean = false,
-        val snackBarVisible: Boolean = false
+        val snackBarVisible: Boolean = false,
     )
 
     /**
@@ -101,6 +101,6 @@ class NetworkConnectivityStateHolder @Inject constructor(
      */
     data class UiState(
         val errorSnackBar: SnackBarUiState? = null,
-        val connectedState: Boolean = true
+        val connectedState: Boolean = true,
     )
 }

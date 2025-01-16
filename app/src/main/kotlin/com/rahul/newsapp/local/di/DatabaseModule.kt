@@ -21,11 +21,11 @@ internal object DatabaseModule {
     @Provides
     @Singleton
     fun provideNewsAppDatabase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): NewsAppDatabase = Room.databaseBuilder(
         context,
         NewsAppDatabase::class.java,
-        "news-app-database"
+        "news-app-database",
     ).build()
 
     @Provides

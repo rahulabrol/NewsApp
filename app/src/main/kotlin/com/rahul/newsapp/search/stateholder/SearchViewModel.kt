@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchStateHolder: SearchStateHolder
+    private val searchStateHolder: SearchStateHolder,
 ) : ViewModel() {
 
     internal val state: StateFlow<UiState> = searchStateHolder.state.map { state ->
@@ -24,7 +24,7 @@ class SearchViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = searchStateHolder.initialState)
+        initialValue = UiState(uiState = searchStateHolder.initialState),
     )
 
     internal fun onTextChangeEvent(query: String) {
@@ -40,6 +40,6 @@ class SearchViewModel @Inject constructor(
      */
     @Immutable
     internal data class UiState(
-        val uiState: SearchStateHolder.UiState
+        val uiState: SearchStateHolder.UiState,
     )
 }

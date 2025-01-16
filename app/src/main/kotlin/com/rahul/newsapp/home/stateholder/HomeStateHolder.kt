@@ -21,13 +21,13 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
     private val _state = MutableStateFlow(
         UiState(
             tabs = tabs(Type.TOP_HEADLINES),
-            selectedTab = Type.TOP_HEADLINES
-        )
+            selectedTab = Type.TOP_HEADLINES,
+        ),
     )
 
     override val initialState: UiState = UiState(
         tabs = tabs(Type.TOP_HEADLINES),
-        selectedTab = Type.TOP_HEADLINES
+        selectedTab = Type.TOP_HEADLINES,
     )
 
     /**
@@ -44,8 +44,8 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         _state.emit(
             _state.value.copy(
                 selectedTab = type,
-                tabs = tabs(type)
-            )
+                tabs = tabs(type),
+            ),
         )
     }
 
@@ -55,8 +55,8 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
                 it.ordinal,
                 homeTabItem(
                     type = it,
-                    isSelected = selectedType == it
-                )
+                    isSelected = selectedType == it,
+                ),
             )
         }
     }
@@ -78,7 +78,7 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         } else {
             R.drawable.ic_headline
         },
-        testTag = HomeTestTags.TAB_TOP_HEADLINES
+        testTag = HomeTestTags.TAB_TOP_HEADLINES,
     )
 
     private fun newsSource(selected: Boolean) = HomeTab(
@@ -90,7 +90,7 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         } else {
             R.drawable.ic_news_source
         },
-        testTag = HomeTestTags.TAB_NEWS_SOURCE
+        testTag = HomeTestTags.TAB_NEWS_SOURCE,
     )
 
     private fun country(selected: Boolean) = HomeTab(
@@ -102,7 +102,7 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         } else {
             R.drawable.ic_country
         },
-        testTag = HomeTestTags.TAB_COUNTRY
+        testTag = HomeTestTags.TAB_COUNTRY,
     )
 
     private fun language(selected: Boolean) = HomeTab(
@@ -114,7 +114,7 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         } else {
             R.drawable.ic_language
         },
-        testTag = HomeTestTags.TAB_LANGUAGE
+        testTag = HomeTestTags.TAB_LANGUAGE,
     )
 
     private fun search(selected: Boolean) = HomeTab(
@@ -126,7 +126,7 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
         } else {
             R.drawable.ic_search
         },
-        testTag = HomeTestTags.TAB_SEARCH
+        testTag = HomeTestTags.TAB_SEARCH,
     )
 
     /**
@@ -137,6 +137,6 @@ class HomeStateHolder @Inject constructor() : StateHolder<Unit, HomeStateHolder.
      */
     data class UiState(
         val selectedTab: Type,
-        val tabs: List<HomeTab>
+        val tabs: List<HomeTab>,
     )
 }

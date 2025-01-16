@@ -8,5 +8,5 @@ import com.google.gson.annotations.SerializedName
 data class TopHeadlinesNetworkEntity(
     @SerializedName("status") val status: String = "",
     @SerializedName("totalResults") val count: Int = 0,
-    @SerializedName("articles") val articles: List<ArticlesNetworkEntity> = emptyList()
+    @SerializedName("articles") val articles: List<ArticlesNetworkEntity> = emptyList(),
 )

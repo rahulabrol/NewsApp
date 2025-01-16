@@ -58,7 +58,7 @@ import java.time.OffsetDateTime
 internal fun PaginationTopHeadlinesScreen(
     modifier: Modifier = Modifier,
     viewModel: TopHeadlinesViewModel = hiltViewModel(),
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
@@ -66,7 +66,7 @@ internal fun PaginationTopHeadlinesScreen(
         modifier = modifier,
         state = state,
         onArticleItemClick = onArticleItemClick,
-        onRetryClick = { coroutineScope.launch { viewModel.onRetryClick() } }
+        onRetryClick = { coroutineScope.launch { viewModel.onRetryClick() } },
     )
 }
 
@@ -77,7 +77,7 @@ private fun TopHeadlinesContent(
     resource: Resources = LocalContext.current.resources,
     listState: LazyListState = rememberLazyListState(),
     onArticleItemClick: (Uri) -> Unit,
-    onRetryClick: () -> Unit
+    onRetryClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
@@ -92,7 +92,7 @@ private fun TopHeadlinesContent(
                 // Empty state
                 state.topHeadlinesState.articleList.isNullOrEmpty() -> Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) { EmptyView() }
                 // Content state
                 else -> LazyColumn(
@@ -102,14 +102,14 @@ private fun TopHeadlinesContent(
                         .clearSemantics(state.topHeadlinesState.isLoading)
                         .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
                         .background(Color.LightGray),
-                    state = listState
+                    state = listState,
                 ) {
-                    items(items = state.topHeadlinesState.articleList.orEmpty()) {
+                    items(items = state.topHeadlinesState.articleList) {
                         ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
                     }
                 }
             }
-        }
+        },
     )
 
     // No internet state
@@ -119,7 +119,7 @@ private fun TopHeadlinesContent(
             snackbarHostState.showSnackbar(
                 message = resource.getString(snackBarState.message),
                 actionLabel = resource.getString(snackBarState.actionLabel),
-                duration = snackBarState.duration
+                duration = snackBarState.duration,
             ).also { result ->
                 if (result == SnackbarResult.ActionPerformed) {
                     onRetryClick()
@@ -148,14 +148,14 @@ private fun PaginationTopHeadlinesPreview() {
                             imageUrl = "ertryt.png",
                             url = "dfsdg.png",
                             publishedDate = OffsetDateTime.MAX,
-                            localSource = LocalSource(sourceId = "2", name = "Source Test")
-                        )
-                    )
+                            localSource = LocalSource(sourceId = "2", name = "Source Test"),
+                        ),
+                    ),
                 ),
-                networkState = NetworkConnectivityStateHolder.UiState()
+                networkState = NetworkConnectivityStateHolder.UiState(),
             ),
             onArticleItemClick = {},
-            onRetryClick = {}
+            onRetryClick = {},
         )
     }
 }
@@ -168,7 +168,7 @@ private fun PaginationTopHeadlinesPreview() {
  */
 @OptIn(ExperimentalComposeUiApi::class)
 private fun Modifier.clearSemantics(
-    loading: Boolean
+    loading: Boolean,
 ): Modifier =
     if (loading) {
         clearAndSetSemantics {

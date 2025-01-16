@@ -29,16 +29,16 @@ object AppModule {
     fun provideNetworkService(
         @BaseUrl baseUrl: String,
         gsonConverterFactory: GsonConverterFactory,
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
     ): NetworkService = Retrofit.Builder().baseUrl(baseUrl).client(
-        okHttpClient
+        okHttpClient,
     ).addConverterFactory(gsonConverterFactory).build().create(NetworkService::class.java)
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authTokenInterceptor: AuthTokenInterceptor
+        authTokenInterceptor: AuthTokenInterceptor,
     ): OkHttpClient = OkHttpClient().newBuilder().addInterceptor(authTokenInterceptor)
         .addInterceptor(httpLoggingInterceptor).build()
 

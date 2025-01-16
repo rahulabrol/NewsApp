@@ -15,14 +15,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class NewsSourceViewModel @Inject constructor(
-    topHeadlinesState: NewsSourceStateHolder
+    topHeadlinesState: NewsSourceStateHolder,
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = topHeadlinesState.state.map { state ->
         UiState(uiState = state)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = topHeadlinesState.initialState)
+        initialValue = UiState(uiState = topHeadlinesState.initialState),
     )
 
     /**
@@ -32,6 +32,6 @@ class NewsSourceViewModel @Inject constructor(
      */
     @Immutable
     internal data class UiState(
-        val uiState: NewsSourceStateHolder.UiState
+        val uiState: NewsSourceStateHolder.UiState,
     )
 }

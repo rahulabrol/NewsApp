@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @ViewModelScoped
 class NewsSourceStateHolder @Inject constructor(
-    private val newsSourceUseCase: NewsSourceUseCase
+    private val newsSourceUseCase: NewsSourceUseCase,
 ) : StateHolder<Unit, NewsSourceStateHolder.UiState>() {
 
     override val params: Unit = Unit
@@ -27,8 +27,8 @@ class NewsSourceStateHolder @Inject constructor(
         placeholderList = listOf(
             Source.placeholder,
             Source.placeholder,
-            Source.placeholder
-        )
+            Source.placeholder,
+        ),
     )
 
     private val _state = MutableStateFlow(initialState)
@@ -42,7 +42,7 @@ class NewsSourceStateHolder @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        sourceList = list
+                        sourceList = list,
                     )
                 }
             }
@@ -50,7 +50,7 @@ class NewsSourceStateHolder @Inject constructor(
             ex.printStackTrace()
             _state.update {
                 it.copy(
-                    isLoading = false
+                    isLoading = false,
                 )
             }
         }
@@ -59,6 +59,6 @@ class NewsSourceStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         val sourceList: List<Source>,
-        val placeholderList: List<Source>
+        val placeholderList: List<Source>,
     )
 }

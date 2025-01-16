@@ -22,7 +22,7 @@ internal class NetworkConnectivityImpl(@ApplicationContext context: Context) : N
 
         val connectivityManager = ContextCompat.getSystemService(
             context,
-            ConnectivityManager::class.java
+            ConnectivityManager::class.java,
         ) as ConnectivityManager
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {

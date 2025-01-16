@@ -40,31 +40,31 @@ fun AppTabLargeItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
-    @DrawableRes iconResId: Int
+    @DrawableRes iconResId: Int,
 ) {
     Column(
         modifier = modifier
             .padding(
                 top = 8.dp,
-                bottom = 8.dp
+                bottom = 8.dp,
             ),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AppTabLargeItemIcon(
             selected = selected,
-            iconResId = iconResId
+            iconResId = iconResId,
         )
         Spacer(
             modifier = Modifier.height(
-                height = 4.dp
-            )
+                height = 4.dp,
+            ),
         )
         AppTabText(
             text = text,
             selected = selected,
             color = AppTabDefaults.LargeItemTextColor,
-            style = AppTabDefaults.LargeItemTextStyle
+            style = AppTabDefaults.LargeItemTextStyle,
         )
     }
 }
@@ -89,22 +89,22 @@ fun AppTabLargeItemIcon(
     largeIconBackgroundSize: Dp = AppTabDefaults.LargeIconBackgroundSize,
     largeIconSize: Dp = AppTabDefaults.LargeIconSize,
     shape: Shape = AppTabDefaults.IconBackgroundShape,
-    iconResId: Int
+    iconResId: Int,
 ) {
     Box(
         modifier = modifier
             .size(size = largeIconBackgroundSize)
             .background(
                 color = if (selected) colorSelected else colorNormal,
-                shape = shape
+                shape = shape,
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Image(
             modifier = Modifier
                 .size(size = largeIconSize),
             painter = painterResource(id = iconResId),
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -124,13 +124,13 @@ private fun AppTabText(
     selected: Boolean,
     text: String,
     color: Color,
-    style: TextStyle
+    style: TextStyle,
 ) {
     Text(
         modifier = modifier,
         text = text,
         color = color,
         style = style,
-        fontWeight = if (selected) FontWeight.Bold else null
+        fontWeight = if (selected) FontWeight.Bold else null,
     )
 }

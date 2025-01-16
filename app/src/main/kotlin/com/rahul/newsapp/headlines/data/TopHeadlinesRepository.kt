@@ -14,7 +14,7 @@ import javax.inject.Inject
  */
 class TopHeadlinesRepository @Inject constructor(
     private val topHeadlinesDataSource: TopHeadlinesDataSource,
-    private val topHeadlinesDao: TopHeadlinesDao
+    private val topHeadlinesDao: TopHeadlinesDao,
 ) {
     /**
      * Type Ahead Feedback call
@@ -26,11 +26,11 @@ class TopHeadlinesRepository @Inject constructor(
         // Fetch the top headlines from network
         val response = topHeadlinesDataSource.topHeadlines(
             country = country,
-            page = page
+            page = page,
         ).getOrThrow()
         val cachedArticles = response.articles.map {
             it.toLocalArticleEntity(
-                publishedDate = OffsetDateTime.parse(it.publishedAt)
+                publishedDate = OffsetDateTime.parse(it.publishedAt),
             )
         }
         // Cache them locally by clearing the previous cache and inserting the new articles

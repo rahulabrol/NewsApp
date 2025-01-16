@@ -20,7 +20,7 @@ object Constants {
         LocalLanguage("pt", "Portuguese"),
         LocalLanguage("ru", "Russian"),
         LocalLanguage("sv", "Swedish"),
-        LocalLanguage("zh", "Chinese")
+        LocalLanguage("zh", "Chinese"),
     )
 
     val COUNTRIES = listOf(
@@ -76,6 +76,6 @@ object Constants {
         LocalCountry("ua", "Ukraine"),
         LocalCountry("us", "United States of America"),
         LocalCountry("ve", "Venezuela"),
-        LocalCountry("za", "South Africa")
+        LocalCountry("za", "South Africa"),
     )
 }

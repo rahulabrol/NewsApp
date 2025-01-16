@@ -45,7 +45,7 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
@@ -53,7 +53,7 @@ internal fun HomeScreen(
         uiState = state,
         onTabSelected = { viewModel.tabSelectedEvent(it) },
         onArticleItemClick = onArticleItemClick,
-        onNewsSourceItemClick = onNewsSourceItemClick
+        onNewsSourceItemClick = onNewsSourceItemClick,
     )
 }
 
@@ -63,18 +63,18 @@ private fun HomeScreenContent(
     uiState: HomeViewModel.UiState,
     onTabSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     val pagerState: PagerState = rememberPagerState(
         pageCount = { uiState.tabs.tabs.size },
-        initialPage = uiState.tabs.selectedTab.ordinal
+        initialPage = uiState.tabs.selectedTab.ordinal,
     )
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(vertical = 38.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeTabs(pagerState = pagerState, uiState = { uiState.tabs })
         HomePager(
@@ -82,7 +82,7 @@ private fun HomeScreenContent(
             tabs = { uiState.tabs.tabs },
             onPageSelected = { page -> onTabSelected(page) },
             onArticleItemClick = onArticleItemClick,
-            onNewsSourceItemClick = onNewsSourceItemClick
+            onNewsSourceItemClick = onNewsSourceItemClick,
         )
     }
 }
@@ -91,12 +91,12 @@ private fun HomeScreenContent(
 private fun HomeTabs(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    uiState: () -> HomeStateHolder.UiState
+    uiState: () -> HomeStateHolder.UiState,
 ) {
     TabRow(
         modifier = modifier
             .testTag(tag = HomeTestTags.TAB_ROW),
-        selectedTabIndex = pagerState.currentPage
+        selectedTabIndex = pagerState.currentPage,
     ) {
         val coroutineScope = rememberCoroutineScope()
         uiState().tabs.forEach { item ->
@@ -113,9 +113,9 @@ private fun HomeTabs(
                     AppTabLargeItem(
                         selected = item.type == uiState().selectedTab,
                         text = stringResource(id = item.labelResId),
-                        iconResId = item.iconResId
+                        iconResId = item.iconResId,
                     )
-                }
+                },
             )
         }
     }
@@ -139,7 +139,7 @@ private fun HomePager(
     tabs: () -> List<HomeTab>,
     onPageSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     LaunchedEffect(pagerState) {
         // Collect from the a snapshotFlow reading the currentPage
@@ -153,7 +153,7 @@ private fun HomePager(
         modifier = modifier
             .fillMaxSize()
             .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
-        state = pagerState
+        state = pagerState,
     ) {
         when (it) {
             Type.TOP_HEADLINES.ordinal -> PaginationTopHeadlinesScreen(onArticleItemClick = onArticleItemClick)

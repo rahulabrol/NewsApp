@@ -10,6 +10,5 @@ enum class Type {
     NEWS_SOURCE,
     COUNTRY,
     LANGUAGE,
-    SEARCH
-    ;
+    SEARCH,
 }

@@ -55,14 +55,14 @@ class TopHeadlinesStateHolderTest {
         every { networkConnectivityStateHolder.state } returns flowOf(
             NetworkConnectivityStateHolder.UiState(
                 errorSnackBar = null,
-                connectedState = true
-            )
+                connectedState = true,
+            ),
         )
 
         stateHolder = TopHeadlinesStateHolder(
             networkStateHolder = networkConnectivityStateHolder,
             topHeadlinesUseCase = topHeadlinesUseCase,
-            localArticleUseCase = localArticleUseCase
+            localArticleUseCase = localArticleUseCase,
         )
     }
 
@@ -108,7 +108,7 @@ class TopHeadlinesStateHolderTest {
             url = "empty",
             imageUrl = "empty",
             publishedDate = OffsetDateTime.now(),
-            localSource = LocalSource(sourceId = "sourceId", name = "Source test")
-        )
+            localSource = LocalSource(sourceId = "sourceId", name = "Source test"),
+        ),
     )
 }

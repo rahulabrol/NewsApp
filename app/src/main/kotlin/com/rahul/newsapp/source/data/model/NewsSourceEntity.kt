@@ -8,5 +8,5 @@ import com.rahul.newsapp.headlines.data.model.APINewsSourceEntity
  */
 data class NewsSourceEntity(
     @SerializedName("status") val status: String = "",
-    @SerializedName("sources") val newsSource: List<APINewsSourceEntity> = emptyList()
+    @SerializedName("sources") val newsSource: List<APINewsSourceEntity> = emptyList(),
 )

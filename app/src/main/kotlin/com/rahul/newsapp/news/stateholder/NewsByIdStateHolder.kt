@@ -1,8 +1,12 @@
 package com.rahul.newsapp.news.stateholder
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.toRoute
 import com.rahul.newsapp.base.StateHolder
 import com.rahul.newsapp.local.entity.LocalArticle
+import com.rahul.newsapp.navigation.routes.BookType
+import com.rahul.newsapp.navigation.routes.NewsListingById
+import com.rahul.newsapp.navigation.routes.Test
 import com.rahul.newsapp.news.domain.NewsByIdUseCase
 import com.rahul.newsapp.utils.COUNTRIES
 import com.rahul.newsapp.utils.LANGUAGES
@@ -14,6 +18,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlin.reflect.typeOf
+
+private fun SavedStateHandle.toNewsByIdParams(): Params {
+    val item = this.toRoute<NewsListingById>(typeMap = mapOf(typeOf<List<Test>>() to BookType)).test
+    return Params(
+        id = item[0].id,
+        type = item[0].type,
+    )
+}
 
 /**
  * Created by abrol at 25/08/24.
@@ -23,13 +36,10 @@ class NewsByIdStateHolder @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val newsByIdUseCase: NewsByIdUseCase,
     private val newsByCountryUseCase: NewsByIdUseCase,
-    private val newsByLanguageUseCase: NewsByIdUseCase
+    private val newsByLanguageUseCase: NewsByIdUseCase,
 ) : StateHolder<Params, NewsByIdStateHolder.UiState>() {
 
-    override val params = Params(
-        id = savedStateHandle.get<String>(key = "id").orEmpty(),
-        type = savedStateHandle.get<String>(key = "type").orEmpty()
-    )
+    override val params = savedStateHandle.toNewsByIdParams()
 
     override val initialState: UiState = UiState(
         isLoading = true,
@@ -37,8 +47,8 @@ class NewsByIdStateHolder @Inject constructor(
         placeholderList = listOf(
             LocalArticle.placeholder,
             LocalArticle.placeholder,
-            LocalArticle.placeholder
-        )
+            LocalArticle.placeholder,
+        ),
     )
 
     private val _state = MutableStateFlow(initialState)
@@ -55,7 +65,7 @@ class NewsByIdStateHolder @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    articleList = list
+                    articleList = list,
                 )
             }
         }
@@ -66,7 +76,7 @@ class NewsByIdStateHolder @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    articleList = list
+                    articleList = list,
                 )
             }
         }
@@ -77,7 +87,7 @@ class NewsByIdStateHolder @Inject constructor(
             _state.update {
                 it.copy(
                     isLoading = false,
-                    articleList = list
+                    articleList = list,
                 )
             }
         }
@@ -86,11 +96,11 @@ class NewsByIdStateHolder @Inject constructor(
     data class UiState(
         val isLoading: Boolean,
         val placeholderList: List<LocalArticle>,
-        val articleList: List<LocalArticle>
+        val articleList: List<LocalArticle>,
     )
 }
 
 data class Params(
     val type: String,
-    val id: String
+    val id: String,
 )

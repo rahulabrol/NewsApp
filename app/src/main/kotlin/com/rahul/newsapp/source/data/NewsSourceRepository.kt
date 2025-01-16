@@ -8,7 +8,7 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 class NewsSourceRepository @Inject constructor(
-    private val newsSourceDataSource: NewsSourceDataSource
+    private val newsSourceDataSource: NewsSourceDataSource,
 ) {
     /**
      * Type Ahead Feedback call

@@ -40,14 +40,14 @@ import com.rahul.newsapp.theme.NewsAppTheme
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     SearchContent(
         modifier = modifier,
         state = state,
         onValueChange = { viewModel.onTextChangeEvent(it) },
-        onArticleItemClick = onArticleItemClick
+        onArticleItemClick = onArticleItemClick,
     )
 }
 
@@ -57,12 +57,12 @@ private fun SearchContent(
     state: SearchViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
     onValueChange: (String) -> Unit,
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
 ) {
     val kbdFocusRequester = remember { FocusRequester() }
     Column(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextField(
             modifier = Modifier
@@ -70,7 +70,7 @@ private fun SearchContent(
                 .focusRequester(kbdFocusRequester)
                 .padding(all = 12.dp),
             value = state.uiState.text,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
         )
         if (state.uiState.isLoading) {
             IndeterminateCircularIndicator()
@@ -81,12 +81,12 @@ private fun SearchContent(
                 modifier = Modifier
                     .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
                     .background(Color.LightGray),
-                state = listState
+                state = listState,
             ) {
                 items(items = state.uiState.articleList) {
                     ArticleItem(
                         article = { it },
-                        onArticleItemClick = onArticleItemClick
+                        onArticleItemClick = onArticleItemClick,
                     )
                 }
             }
@@ -104,11 +104,11 @@ private fun SearchContentPreview() {
                     isEmpty = true,
                     articleList = emptyList(),
                     iconResId = R.drawable.ic_search,
-                    text = ""
-                )
+                    text = "",
+                ),
             ),
             onValueChange = {},
-            onArticleItemClick = {}
+            onArticleItemClick = {},
         )
     }
 }

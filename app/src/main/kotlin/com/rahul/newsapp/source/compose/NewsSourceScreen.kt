@@ -35,13 +35,13 @@ import com.rahul.newsapp.source.utils.NewsSourceTestTags
 internal fun NewsSourceScreen(
     modifier: Modifier = Modifier,
     viewModel: NewsSourceViewModel = hiltViewModel(),
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     NewsSourceContent(
         modifier = modifier,
         state = state,
-        onNewsSourceItemClick = onNewsSourceItemClick
+        onNewsSourceItemClick = onNewsSourceItemClick,
     )
 }
 
@@ -50,14 +50,14 @@ private fun NewsSourceContent(
     modifier: Modifier = Modifier,
     state: NewsSourceViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .testTag(NewsSourceTestTags.SCREEN_ROOT),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         if (state.uiState.isLoading) {
             IndeterminateCircularIndicator()
@@ -66,13 +66,13 @@ private fun NewsSourceContent(
                 modifier = Modifier
                     .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
                     .background(Color.LightGray),
-                state = listState
+                state = listState,
             ) {
                 items(items = state.uiState.sourceList) {
                     NewsItem(
                         id = { it.id.orEmpty() },
                         name = { it.name },
-                        onNewsSourceItemClick = onNewsSourceItemClick
+                        onNewsSourceItemClick = onNewsSourceItemClick,
                     )
                 }
             }

@@ -5,7 +5,7 @@ package com.rahul.newsapp.source.domain.model
  */
 data class Source(
     val id: String? = null,
-    val name: String = ""
+    val name: String = "",
 ) {
     companion object {
         /**
@@ -13,7 +13,7 @@ data class Source(
          */
         val placeholder = Source(
             id = "",
-            name = "This is a test name"
+            name = "This is a test name",
         )
     }
 }

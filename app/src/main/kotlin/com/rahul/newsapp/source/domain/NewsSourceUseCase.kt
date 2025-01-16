@@ -10,7 +10,7 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 class NewsSourceUseCase @Inject constructor(
-    private val newsSourceRepository: NewsSourceRepository
+    private val newsSourceRepository: NewsSourceRepository,
 ) : ResultUseCase<Unit, List<Source>>() {
     @Throws
     override suspend fun doWork(params: Unit): List<Source> {

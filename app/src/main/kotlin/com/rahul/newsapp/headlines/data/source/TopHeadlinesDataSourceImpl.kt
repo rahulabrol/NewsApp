@@ -7,7 +7,7 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 class TopHeadlinesDataSourceImpl @Inject constructor(
-    private val networkService: NetworkService
+    private val networkService: NetworkService,
 ) : TopHeadlinesDataSource {
 
     override suspend fun topHeadlines(country: String, page: Int) = runCatching {

@@ -39,9 +39,9 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
             .clickable {
                 onArticleItemClick(
                     article().url
-                        .toUri()
+                        .toUri(),
                 )
-            }
+            },
     ) {
         val (articleImage, titleText, descriptionText, sourceText) = createRefs()
 
@@ -58,7 +58,7 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
                 },
             model = article().imageUrl.toUri(),
             contentDescription = article().title,
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.FillBounds,
         )
         Text(
             modifier = Modifier
@@ -73,7 +73,7 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
             overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
+            fontSize = 16.sp,
         )
         if (article().description.isNotEmpty()) {
             Text(
@@ -90,7 +90,7 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 letterSpacing = TextUnit(.2F, TextUnitType.Sp),
-                lineHeight = TextUnit(16F, TextUnitType.Sp)
+                lineHeight = TextUnit(16F, TextUnitType.Sp),
             )
         }
         val descAnchor =
@@ -107,7 +107,7 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
                 text = article().localSource.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
         }
     }

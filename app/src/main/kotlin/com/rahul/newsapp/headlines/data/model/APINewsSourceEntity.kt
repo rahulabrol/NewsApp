@@ -12,5 +12,5 @@ data class APINewsSourceEntity(
     @SerializedName("url") val url: String = "",
     @SerializedName("category") val category: String = "",
     @SerializedName("language") val language: String = "",
-    @SerializedName("country") val country: String = ""
+    @SerializedName("country") val country: String = "",
 )

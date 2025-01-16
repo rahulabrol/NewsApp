@@ -18,13 +18,13 @@ class LanguagesStateHolder @Inject constructor() :
     override val params: Unit = Unit
 
     override val initialState: UiState = UiState(
-        sourceList = Constants.LocalLANGUAGES
+        sourceList = Constants.LocalLANGUAGES,
     )
 
     private val _state = MutableStateFlow(initialState)
     override val state: Flow<UiState> = _state
 
     data class UiState(
-        val sourceList: List<LocalLanguage>
+        val sourceList: List<LocalLanguage>,
     )
 }

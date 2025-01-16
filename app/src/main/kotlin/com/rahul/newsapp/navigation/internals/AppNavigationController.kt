@@ -9,8 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.Navigator
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.rememberNavController
-import com.rahul.newsapp.navigation.routes.ScreenGraph
-
 /**
  * Wraps a NavController, which offers additional APIs for use by a NavHost to connect the NavController
  * to external dependencies.
@@ -23,7 +21,7 @@ import com.rahul.newsapp.navigation.routes.ScreenGraph
  * Created by abrol at 24/08/24.
  */
 data class AppNavigationController(
-    private val _controller: NavHostController
+    private val _controller: NavHostController,
 ) {
     /**
      * @return the wrapped [NavHostController]
@@ -36,7 +34,7 @@ data class AppNavigationController(
  *
  * @param screenGraph
  */
-fun AppNavigationController.navigate(screenGraph: ScreenGraph) {
+fun AppNavigationController.navigate(screenGraph: Any) {
     asNavHostController().navigate(route = screenGraph)
 }
 
@@ -73,7 +71,8 @@ fun AppNavigationController.popBackStack() {
         Lifecycle.State.INITIALIZED,
         Lifecycle.State.CREATED,
         Lifecycle.State.STARTED,
-        null -> {
+        null,
+        -> {
         } // no-op, not valid state to pop back stack
         else -> {}
     }
@@ -93,13 +92,13 @@ fun AppNavigationController.popBackStack() {
  */
 @Composable
 fun rememberAppAnimatedNavController(
-    vararg navigators: Navigator<out NavDestination>
+    vararg navigators: Navigator<out NavDestination>,
 ): AppNavigationController {
     val animatedNavigator = remember { ComposeNavigator() }
     return AppNavigationController(
         _controller = rememberNavController(
             animatedNavigator,
-            *navigators
-        )
+            *navigators,
+        ),
     )
 }

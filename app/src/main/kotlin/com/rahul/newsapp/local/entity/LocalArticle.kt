@@ -24,7 +24,7 @@ data class LocalArticle(
     /* @ColumnInfo(name = "published_date")*/
     @Embedded
     val publishedDate: OffsetDateTime?,
-    @Embedded var localSource: LocalSource
+    @Embedded var localSource: LocalSource,
 ) {
     companion object {
         /**
@@ -38,7 +38,7 @@ data class LocalArticle(
             description = "This is a test description used for the placeholder.",
             url = "",
             publishedDate = OffsetDateTime.now(),
-            localSource = LocalSource(sourceId = "", name = "This is a Test Source.")
+            localSource = LocalSource(sourceId = "", name = "This is a Test Source."),
 
         )
     }
@@ -51,7 +51,7 @@ internal fun ArticlesNetworkEntity.toLocalArticleEntity(publishedDate: OffsetDat
         url = this.url,
         imageUrl = this.imageUrl.orEmpty(),
         publishedDate = publishedDate,
-        localSource = this.source.toLocalSource()
+        localSource = this.source.toLocalSource(),
     )
 
 private fun SourceNetworkEntity.toLocalSource(): LocalSource {

@@ -8,7 +8,7 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 class TopHeadlinesUseCase @Inject constructor(
-    private val topHeadlinesRepository: TopHeadlinesRepository
+    private val topHeadlinesRepository: TopHeadlinesRepository,
 ) : ResultUseCase<TopHeadlinesParams, Unit>() {
     override suspend fun doWork(params: TopHeadlinesParams) {
         topHeadlinesRepository.topHeadlines(country = params.country, page = params.page)
@@ -24,5 +24,5 @@ class TopHeadlinesUseCase @Inject constructor(
  */
 data class TopHeadlinesParams(
     val country: String,
-    val page: Int
+    val page: Int,
 )

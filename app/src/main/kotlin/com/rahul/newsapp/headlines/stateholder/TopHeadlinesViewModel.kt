@@ -20,9 +20,9 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 @HiltViewModel
-class TopHeadlinesViewModel @Inject constructor(
+internal class TopHeadlinesViewModel @Inject constructor(
     private val topHeadlinesState: TopHeadlinesStateHolder,
-    private val networkConnectivityStateHolder: NetworkConnectivityStateHolder
+    private val networkConnectivityStateHolder: NetworkConnectivityStateHolder,
 ) : ViewModel() {
 
     /**
@@ -30,7 +30,7 @@ class TopHeadlinesViewModel @Inject constructor(
      */
     internal val state: StateFlow<UiState> = combine(
         topHeadlinesState.state,
-        networkConnectivityStateHolder.state
+        networkConnectivityStateHolder.state,
     ) { headlineState, networkState ->
         UiState(topHeadlinesState = headlineState, networkState = networkState)
     }.stateIn(
@@ -38,8 +38,8 @@ class TopHeadlinesViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = UiState(
             topHeadlinesState = topHeadlinesState.initialState,
-            networkState = networkConnectivityStateHolder.initialState
-        )
+            networkState = networkConnectivityStateHolder.initialState,
+        ),
     )
 
     /**
@@ -63,6 +63,6 @@ class TopHeadlinesViewModel @Inject constructor(
     @Immutable
     internal data class UiState(
         val topHeadlinesState: TopHeadlinesStateHolder.UiState,
-        val networkState: NetworkConnectivityStateHolder.UiState
+        val networkState: NetworkConnectivityStateHolder.UiState,
     )
 }

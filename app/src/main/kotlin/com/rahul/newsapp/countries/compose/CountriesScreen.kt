@@ -24,13 +24,13 @@ import com.rahul.newsapp.countries.utils.CountriesTestTags
 internal fun CountriesScreen(
     modifier: Modifier = Modifier,
     viewModel: CountriesViewModel = hiltViewModel(),
-    onCountriesItemClick: (String) -> Unit
+    onCountriesItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CountriesContent(
         modifier = modifier,
         state = state,
-        onCountriesItemClick = onCountriesItemClick
+        onCountriesItemClick = onCountriesItemClick,
     )
 }
 
@@ -39,23 +39,23 @@ private fun CountriesContent(
     modifier: Modifier = Modifier,
     state: CountriesViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
-    onCountriesItemClick: (String) -> Unit
+    onCountriesItemClick: (String) -> Unit,
 ) {
     Scaffold(
-        modifier = modifier.testTag(CountriesTestTags.SCREEN_ROOT)
+        modifier = modifier.testTag(CountriesTestTags.SCREEN_ROOT),
     ) { paddingValues ->
         println(paddingValues)
         LazyColumn(
             modifier = Modifier
                 .testTag(CountriesTestTags.LISTINGS_COUNTRIES)
                 .background(Color.LightGray),
-            state = listState
+            state = listState,
         ) {
             items(items = state.uiState.sourceList) {
                 NewsItem(
                     id = { it.id },
                     name = { it.name },
-                    onNewsSourceItemClick = onCountriesItemClick
+                    onNewsSourceItemClick = onCountriesItemClick,
                 )
             }
         }

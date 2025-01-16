@@ -22,7 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 internal fun NewsItem(
     id: () -> String,
     name: () -> String,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -30,7 +30,7 @@ internal fun NewsItem(
             .padding(all = 8.dp)
             .background(color = Color.White, shape = RoundedCornerShape(12.dp))
             .clickable { onNewsSourceItemClick(id()) }
-            .padding(all = 12.dp)
+            .padding(all = 12.dp),
     ) {
         val (titleText) = createRefs()
 
@@ -46,7 +46,7 @@ internal fun NewsItem(
             text = name(),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

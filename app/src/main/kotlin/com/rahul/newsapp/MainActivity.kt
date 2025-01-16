@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity(), CustomTabLauncher {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     AppNavigation(
                         navController = rememberAppAnimatedNavController(),
-                        customTabLauncher = this
+                        customTabLauncher = this,
                     )
                 }
             }

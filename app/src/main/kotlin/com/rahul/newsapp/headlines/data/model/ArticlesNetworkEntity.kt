@@ -12,5 +12,5 @@ data class ArticlesNetworkEntity(
     @SerializedName("url") val url: String = "",
     @SerializedName("urlToImage") val imageUrl: String? = "",
     @SerialName(value = "publishedAt") val publishedAt: String? = "",
-    @SerializedName("source") val source: SourceNetworkEntity
+    @SerializedName("source") val source: SourceNetworkEntity,
 )

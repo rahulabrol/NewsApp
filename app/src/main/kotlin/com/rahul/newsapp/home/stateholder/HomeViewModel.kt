@@ -17,14 +17,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeStateHolder: HomeStateHolder
+    private val homeStateHolder: HomeStateHolder,
 ) : ViewModel() {
     internal val state: StateFlow<UiState> = homeStateHolder.state.map { state ->
         UiState(tabs = state)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(tabs = homeStateHolder.initialState)
+        initialValue = UiState(tabs = homeStateHolder.initialState),
     )
 
     /**
@@ -45,6 +45,6 @@ class HomeViewModel @Inject constructor(
      */
     @Immutable
     internal data class UiState(
-        val tabs: HomeStateHolder.UiState
+        val tabs: HomeStateHolder.UiState,
     )
 }

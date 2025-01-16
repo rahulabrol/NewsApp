@@ -18,7 +18,7 @@ import javax.inject.Inject
  */
 @ViewModelScoped
 class SearchStateHolder @Inject constructor(
-    private val searchUseCase: SearchUseCase
+    private val searchUseCase: SearchUseCase,
 ) : StateHolder<Unit, SearchStateHolder.UiState>() {
 
     override val params: Unit = Unit
@@ -26,7 +26,7 @@ class SearchStateHolder @Inject constructor(
         isEmpty = true,
         articleList = emptyList(),
         iconResId = R.drawable.ic_search,
-        text = ""
+        text = "",
     )
 
     private val _state = MutableStateFlow(initialState)
@@ -41,7 +41,7 @@ class SearchStateHolder @Inject constructor(
         with(_state) {
             update {
                 it.copy(
-                    text = criteria
+                    text = criteria,
                 )
             }
         }
@@ -64,14 +64,14 @@ class SearchStateHolder @Inject constructor(
                     it.copy(
                         isEmpty = result.isEmpty(),
                         articleList = result,
-                        isLoading = false
+                        isLoading = false,
                     )
                 }
             }
         } catch (ex: Exception) {
             _state.update {
                 it.copy(
-                    isLoading = false
+                    isLoading = false,
                 )
             }
             ex.printStackTrace()
@@ -83,7 +83,7 @@ class SearchStateHolder @Inject constructor(
         val isLoading: Boolean = false,
         val articleList: List<LocalArticle>,
         @DrawableRes val iconResId: Int,
-        val text: String
+        val text: String,
     )
 
     companion object {

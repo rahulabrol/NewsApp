@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName
  */
 data class SourceNetworkEntity(
     @SerializedName("id") val id: String? = null,
-    @SerializedName("name") val name: String = ""
+    @SerializedName("name") val name: String = "",
 )

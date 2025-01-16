@@ -47,7 +47,7 @@ class TopHeadlinesDataSourceTest {
         Assert.assertEquals(mockResponse, result.getOrNull())
         Assert.assertEquals(
             mockResponse.articles.isNotEmpty(),
-            result.getOrNull()?.articles?.isNotEmpty()
+            result.getOrNull()?.articles?.isNotEmpty(),
         )
     }
 }

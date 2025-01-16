@@ -29,7 +29,7 @@ abstract class FlowUseCase<P : Any, T> {
     private val paramState: MutableSharedFlow<P> = MutableSharedFlow(
         replay = 1,
         extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
     private val flow: Flow<T> = paramState
         .distinctUntilChanged()

@@ -14,7 +14,7 @@ import com.rahul.newsapp.local.entity.LocalArticle
 @Database(
     entities = [LocalArticle::class/*, NewsSource::class, LanguageEntity::class, Country::class*/],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 abstract class NewsAppDatabase : RoomDatabase() {
     abstract fun topHeadlinesDao(): TopHeadlinesDao

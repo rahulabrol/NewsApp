@@ -48,13 +48,13 @@ import java.time.OffsetDateTime
 internal fun NewsByIdScreen(
     modifier: Modifier = Modifier,
     viewModel: NewsByIdViewModel = hiltViewModel(),
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     NewsByIdContent(
         modifier = modifier,
         state = state,
-        onArticleItemClick = onArticleItemClick
+        onArticleItemClick = onArticleItemClick,
     )
 }
 
@@ -63,14 +63,14 @@ private fun NewsByIdContent(
     modifier: Modifier = Modifier,
     state: NewsByIdViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
-    onArticleItemClick: (Uri) -> Unit
+    onArticleItemClick: (Uri) -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         if (state.uiState.isLoading) {
             IndeterminateCircularIndicator()
@@ -81,7 +81,7 @@ private fun NewsByIdContent(
                 modifier = Modifier
                     .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
                     .background(Color.LightGray),
-                state = listState
+                state = listState,
             ) {
                 items(items = state.uiState.articleList) {
                     ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
@@ -107,13 +107,13 @@ private fun NewsByIdPreview() {
                             imageUrl = "ertryt.png",
                             url = "dfsdg.png",
                             localSource = LocalSource(sourceId = "2", name = "Source Test"),
-                            publishedDate = OffsetDateTime.now()
-                        )
+                            publishedDate = OffsetDateTime.now(),
+                        ),
                     ),
-                    placeholderList = emptyList()
-                )
+                    placeholderList = emptyList(),
+                ),
             ),
-            onArticleItemClick = {}
+            onArticleItemClick = {},
         )
     }
 }
