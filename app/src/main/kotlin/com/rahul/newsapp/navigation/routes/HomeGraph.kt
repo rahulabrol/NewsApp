@@ -14,62 +14,66 @@ import java.util.ArrayList
  * Created by abrol at 24/08/24.
  */
 @Serializable
-data object Home
+data object HomeRoute
 
 @Serializable
-data object PaginationTopHeadlines
+data object PaginationTopHeadlinesRoute
 
 @Serializable
-data object TopHeadlines
+data object NewsSourceRoute
 
 @Serializable
-data object NewsSource
-
-@Serializable
-data class NewsListingById(
-    val test: List<Test>,
+data class NewsListingByIdRoute(
+    val test: List<TestRoute>,
 )
 
 @Serializable
 @Parcelize
-data class Test(
+data class TestRoute(
     val id: String,
     val type: String,
 ) : Parcelable
 
 @Serializable
-data object Countries
+data object CountriesRoute
 
 @Serializable
-data object Languages
+data object LanguagesRoute
 
 @Serializable
-data object Search
+data object SearchRoute
 
-val BookType = object : NavType<List<Test>>(
+/**
+ * Custom NavType for handling a list of [TestRoute] objects in navigation.
+ *
+ * This NavType allows you to pass a list of [TestRoute] objects as a navigation argument.
+ * It handles serialization and deserialization of the list using JSON and ensures proper
+ * encoding for URI compatibility.
+ */
+val TestRouteListNavType = object : NavType<List<TestRoute>>(
     isNullableAllowed = false,
 ) {
-    override fun get(bundle: Bundle, key: String): List<Test>? {
+    override fun get(bundle: Bundle, key: String): List<TestRoute>? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            bundle.getParcelableArrayList<Test>(key, Test::class.java)
+            bundle.getParcelableArrayList<TestRoute>(key, TestRoute::class.java)
         } else {
             @Suppress("DEPRECATION")
-            bundle.getParcelable(key)
+            bundle.getParcelableArrayList<TestRoute>(key) as List<TestRoute>
         }
     }
 
-    override fun parseValue(value: String): List<Test> {
+    override fun parseValue(value: String): List<TestRoute> {
         // Navigation takes care of decoding the string
         // before passing it to parseValue()
-        return Json.decodeFromString<List<Test>>(value)
+        return Json.decodeFromString<List<TestRoute>>(value)
     }
 
-    override fun serializeAsValue(value: List<Test>): String {
+    override fun serializeAsValue(value: List<TestRoute>): String {
         // Serialized values must always be Uri encoded
         return Uri.encode(Json.encodeToString(value))
     }
 
-    override fun put(bundle: Bundle, key: String, value: List<Test>) {
+    override fun put(bundle: Bundle, key: String, value: List<TestRoute>) {
         bundle.putParcelableArrayList(key, value as ArrayList<out Parcelable?>?)
     }
 }

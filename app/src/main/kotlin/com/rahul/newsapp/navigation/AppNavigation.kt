@@ -8,12 +8,12 @@ import com.rahul.newsapp.home.compose.HomeScreen
 import com.rahul.newsapp.navigation.internals.AppNavigationController
 import com.rahul.newsapp.navigation.internals.AppNavigationHost
 import com.rahul.newsapp.navigation.internals.navigate
-import com.rahul.newsapp.navigation.routes.BookType
-import com.rahul.newsapp.navigation.routes.Home
-import com.rahul.newsapp.navigation.routes.NewsListingById
-import com.rahul.newsapp.navigation.routes.NewsSource
-import com.rahul.newsapp.navigation.routes.PaginationTopHeadlines
-import com.rahul.newsapp.navigation.routes.Test
+import com.rahul.newsapp.navigation.routes.HomeRoute
+import com.rahul.newsapp.navigation.routes.NewsListingByIdRoute
+import com.rahul.newsapp.navigation.routes.NewsSourceRoute
+import com.rahul.newsapp.navigation.routes.PaginationTopHeadlinesRoute
+import com.rahul.newsapp.navigation.routes.TestRoute
+import com.rahul.newsapp.navigation.routes.TestRouteListNavType
 import com.rahul.newsapp.news.compose.NewsByIdScreen
 import com.rahul.newsapp.source.compose.NewsSourceScreen
 import com.rahul.newsapp.utils.NEWS_SOURCE
@@ -38,16 +38,16 @@ internal fun AppNavigation(
     AppNavigationHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Home,
+        startDestination = HomeRoute,
     ) {
-        composable<Home> {
+        composable<HomeRoute> {
             HomeScreen(
                 onArticleItemClick = { customTabLauncher.launchTab(it) },
                 onNewsSourceItemClick = {
                     navController.navigate(
-                        NewsListingById(
+                        NewsListingByIdRoute(
                             test = listOf(
-                                Test(
+                                TestRoute(
                                     id = it,
                                     type = NEWS_SOURCE,
                                 ),
@@ -57,17 +57,17 @@ internal fun AppNavigation(
                 },
             )
         }
-        composable<PaginationTopHeadlines> {
+        composable<PaginationTopHeadlinesRoute> {
             PaginationTopHeadlinesScreen(
                 onArticleItemClick = { customTabLauncher.launchTab(it) },
             )
         }
-        composable<NewsSource> {
+        composable<NewsSourceRoute> {
             NewsSourceScreen(onNewsSourceItemClick = {
                 navController.navigate(
-                    NewsListingById(
+                    NewsListingByIdRoute(
                         test = listOf(
-                            Test(
+                            TestRoute(
                                 id = it,
                                 type = NEWS_SOURCE,
                             ),
@@ -76,7 +76,7 @@ internal fun AppNavigation(
                 )
             })
         }
-        composable<NewsListingById>(typeMap = mapOf(typeOf<List<Test>>() to BookType)) {
+        composable<NewsListingByIdRoute>(typeMap = mapOf(typeOf<List<TestRoute>>() to TestRouteListNavType)) {
             NewsByIdScreen(
                 onArticleItemClick = { customTabLauncher.launchTab(it) },
             )
