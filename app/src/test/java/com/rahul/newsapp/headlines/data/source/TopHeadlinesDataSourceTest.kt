@@ -35,19 +35,20 @@ class TopHeadlinesDataSourceTest {
     }
 
     @Test
-    fun if_client_returning_top_headlines() = runTest {
-        val result = dataSource.topHeadlines("us", 1)
+    fun if_client_returning_top_headlines() =
+        runTest {
+            val result = dataSource.topHeadlines("us", 1)
 
-        coVerify { client.getTopHeadlines("us", 1) }
+            coVerify { client.getTopHeadlines("us", 1) }
 
-        Assert.assertTrue(result.isSuccess)
+            Assert.assertTrue(result.isSuccess)
 
-        Assert.assertFalse(result.isFailure)
+            Assert.assertFalse(result.isFailure)
 
-        Assert.assertEquals(mockResponse, result.getOrNull())
-        Assert.assertEquals(
-            mockResponse.articles.isNotEmpty(),
-            result.getOrNull()?.articles?.isNotEmpty(),
-        )
-    }
+            Assert.assertEquals(mockResponse, result.getOrNull())
+            Assert.assertEquals(
+                mockResponse.articles.isNotEmpty(),
+                result.getOrNull()?.articles?.isNotEmpty(),
+            )
+        }
 }

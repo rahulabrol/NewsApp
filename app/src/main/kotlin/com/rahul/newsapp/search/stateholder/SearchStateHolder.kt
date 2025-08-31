@@ -17,76 +17,78 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 @ViewModelScoped
-class SearchStateHolder @Inject constructor(
-    private val searchUseCase: SearchUseCase,
-) : StateHolder<Unit, SearchStateHolder.UiState>() {
+class SearchStateHolder
+    @Inject
+    constructor(
+        private val searchUseCase: SearchUseCase,
+    ) : StateHolder<Unit, SearchStateHolder.UiState>() {
+        override val params: Unit = Unit
+        override val initialState: UiState =
+            UiState(
+                isEmpty = true,
+                articleList = emptyList(),
+                iconResId = R.drawable.ic_search,
+                text = "",
+            )
 
-    override val params: Unit = Unit
-    override val initialState: UiState = UiState(
-        isEmpty = true,
-        articleList = emptyList(),
-        iconResId = R.drawable.ic_search,
-        text = "",
-    )
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> = _state
 
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = _state
-
-    /**
-     * Update the text in the UI when query input changes
-     *
-     * @param criteria User search string
-     */
-    private fun onSearchFieldUpdated(criteria: String) {
-        with(_state) {
-            update {
-                it.copy(
-                    text = criteria,
-                )
-            }
-        }
-    }
-
-    internal suspend fun onTextChange(query: String) {
-        onSearchFieldUpdated(criteria = query)
-
-        if (query.length > SEARCH_THRESHOLD) {
-            delay(300)
-            _state.update { it.copy(isLoading = true) }
-            search(query)
-        }
-    }
-
-    private suspend fun search(query: String) {
-        try {
-            searchUseCase(query).first().let { result ->
-                _state.update {
+        /**
+         * Update the text in the UI when query input changes
+         *
+         * @param criteria User search string
+         */
+        private fun onSearchFieldUpdated(criteria: String) {
+            with(_state) {
+                update {
                     it.copy(
-                        isEmpty = result.isEmpty(),
-                        articleList = result,
-                        isLoading = false,
+                        text = criteria,
                     )
                 }
             }
-        } catch (ex: Exception) {
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                )
+        }
+
+        internal suspend fun onTextChange(query: String) {
+            onSearchFieldUpdated(criteria = query)
+
+            if (query.length > SEARCH_THRESHOLD) {
+                delay(300)
+                _state.update { it.copy(isLoading = true) }
+                search(query)
             }
-            ex.printStackTrace()
+        }
+
+        private suspend fun search(query: String) {
+            try {
+                searchUseCase(query).first().let { result ->
+                    _state.update {
+                        it.copy(
+                            isEmpty = result.isEmpty(),
+                            articleList = result,
+                            isLoading = false,
+                        )
+                    }
+                }
+            } catch (ex: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                    )
+                }
+                ex.printStackTrace()
+            }
+        }
+
+        data class UiState(
+            val isEmpty: Boolean,
+            val isLoading: Boolean = false,
+            val articleList: List<LocalArticle>,
+            @DrawableRes val iconResId: Int,
+            val text: String,
+        )
+
+        companion object {
+            private const val SEARCH_THRESHOLD = 2
         }
     }
-
-    data class UiState(
-        val isEmpty: Boolean,
-        val isLoading: Boolean = false,
-        val articleList: List<LocalArticle>,
-        @DrawableRes val iconResId: Int,
-        val text: String,
-    )
-
-    companion object {
-        private const val SEARCH_THRESHOLD = 2
-    }
-}

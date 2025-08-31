@@ -10,19 +10,20 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class CountriesStateHolder @Inject constructor() :
-    StateHolder<Unit, CountriesStateHolder.UiState>() {
+class CountriesStateHolder
+    @Inject
+    constructor() : StateHolder<Unit, CountriesStateHolder.UiState>() {
+        override val params: Unit = Unit
 
-    override val params: Unit = Unit
+        override val initialState: UiState =
+            UiState(
+                sourceList = Constants.COUNTRIES,
+            )
 
-    override val initialState: UiState = UiState(
-        sourceList = Constants.COUNTRIES,
-    )
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> = _state
 
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = _state
-
-    data class UiState(
-        val sourceList: List<LocalCountry>,
-    )
-}
+        data class UiState(
+            val sourceList: List<LocalCountry>,
+        )
+    }

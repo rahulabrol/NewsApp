@@ -17,12 +17,12 @@ hilt {
 
 android {
     namespace = "com.rahul.newsapp"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rahul.newsapp"
         minSdk = 25
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -109,13 +109,10 @@ dependencies {
     implementation(libs.room.ktx)
     //Custom Tabs
     implementation(libs.browser)
-
     //Lottie
     implementation(libs.lottie.compose)
     // Paging 3
     implementation(libs.paging)
-
-
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

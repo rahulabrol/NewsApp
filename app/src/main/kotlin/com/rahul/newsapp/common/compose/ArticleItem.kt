@@ -28,46 +28,54 @@ import com.rahul.newsapp.local.entity.LocalArticle
 /**
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
-internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) -> Unit) {
+internal fun ArticleItem(
+    article: () -> LocalArticle,
+    onArticleItemClick: (Uri) -> Unit,
+) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 8.dp, end = 8.dp)
-            .background(color = Color.White, shape = RoundedCornerShape(12.dp))
-            .padding(all = 12.dp)
-            .clickable {
-                onArticleItemClick(
-                    article().url
-                        .toUri(),
-                )
-            },
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                .background(color = Color.White, shape = RoundedCornerShape(12.dp))
+                .padding(all = 12.dp)
+                .clickable {
+                    onArticleItemClick(
+                        article()
+                            .url
+                            .toUri(),
+                    )
+                },
     ) {
         val (articleImage, titleText, descriptionText, sourceText) = createRefs()
 
         AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .constrainAs(articleImage) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    width = Dimension.preferredWrapContent
-                    height = Dimension.value(200.dp)
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .constrainAs(articleImage) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        width = Dimension.preferredWrapContent
+                        height = Dimension.value(200.dp)
+                    },
             model = article().imageUrl.toUri(),
             contentDescription = article().title,
             contentScale = ContentScale.FillBounds,
         )
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(titleText) {
-                    start.linkTo(parent.start)
-                    top.linkTo(articleImage.bottom, 4.dp)
-                    end.linkTo(parent.end)
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .constrainAs(titleText) {
+                        start.linkTo(parent.start)
+                        top.linkTo(articleImage.bottom, 4.dp)
+                        end.linkTo(parent.end)
+                    },
             text = article().title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -77,13 +85,14 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
         )
         if (article().description.isNotEmpty()) {
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .constrainAs(descriptionText) {
-                        start.linkTo(titleText.start)
-                        top.linkTo(titleText.bottom)
-                        end.linkTo(parent.end)
-                    },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .constrainAs(descriptionText) {
+                            start.linkTo(titleText.start)
+                            top.linkTo(titleText.bottom)
+                            end.linkTo(parent.end)
+                        },
                 text = article().description,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -97,13 +106,14 @@ internal fun ArticleItem(article: () -> LocalArticle, onArticleItemClick: (Uri) 
             if (article().description.isNotEmpty()) descriptionText.bottom else titleText.bottom
         if (article().localSource.name.isNotEmpty()) {
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .constrainAs(sourceText) {
-                        start.linkTo(parent.start)
-                        top.linkTo(descAnchor)
-                        end.linkTo(parent.end)
-                    },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .constrainAs(sourceText) {
+                            start.linkTo(parent.start)
+                            top.linkTo(descAnchor)
+                            end.linkTo(parent.end)
+                        },
                 text = article().localSource.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

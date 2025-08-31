@@ -27,7 +27,8 @@ abstract class Module {
          */
         @Provides
         @Singleton
-        fun bind(@ApplicationContext context: Context): NetworkConnectivity =
-            NetworkConnectivityImpl(context = context)
+        fun bind(
+            @ApplicationContext context: Context,
+        ): NetworkConnectivity = NetworkConnectivityImpl(context = context)
     }
 }

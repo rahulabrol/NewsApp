@@ -8,11 +8,13 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class NewsByIdRepository @Inject constructor(
-    private val newsByIdDataSource: NewsByIdDataSource,
-) {
-    suspend fun newsBySourceId(sourceId: String): Result<List<LocalArticle>> {
-        return newsByIdDataSource.newsBySourceId(sourceId = sourceId)
-            .map { it.articles.toArticleList() }
+class NewsByIdRepository
+    @Inject
+    constructor(
+        private val newsByIdDataSource: NewsByIdDataSource,
+    ) {
+        suspend fun newsBySourceId(sourceId: String): Result<List<LocalArticle>> =
+            newsByIdDataSource
+                .newsBySourceId(sourceId = sourceId)
+                .map { it.articles.toArticleList() }
     }
-}

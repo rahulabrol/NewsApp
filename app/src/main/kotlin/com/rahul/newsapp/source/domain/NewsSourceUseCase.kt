@@ -9,13 +9,18 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class NewsSourceUseCase @Inject constructor(
-    private val newsSourceRepository: NewsSourceRepository,
-) : ResultUseCase<Unit, List<Source>>() {
-    @Throws
-    override suspend fun doWork(params: Unit): List<Source> {
-        return newsSourceRepository.newsSource().getOrThrow().newsSource.map { it.toNewsSource() }
+class NewsSourceUseCase
+    @Inject
+    constructor(
+        private val newsSourceRepository: NewsSourceRepository,
+    ) : ResultUseCase<Unit, List<Source>>() {
+        @Throws
+        override suspend fun doWork(params: Unit): List<Source> =
+            newsSourceRepository
+                .newsSource()
+                .getOrThrow()
+                .newsSource
+                .map { it.toNewsSource() }
     }
-}
 
 private fun APINewsSourceEntity.toNewsSource() = Source(id = this.id, name = this.name)

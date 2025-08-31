@@ -7,8 +7,11 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class SearchDataSourceImpl @Inject constructor(private val networkService: NetworkService) :
-    SearchDataSource {
-    override suspend fun search(query: String): Result<TopHeadlinesNetworkEntity> =
-        runCatching { networkService.getNewsByQueries(queries = query) }
-}
+class SearchDataSourceImpl
+    @Inject
+    constructor(
+        private val networkService: NetworkService,
+    ) : SearchDataSource {
+        override suspend fun search(query: String): Result<TopHeadlinesNetworkEntity> =
+            runCatching { networkService.getNewsByQueries(queries = query) }
+    }

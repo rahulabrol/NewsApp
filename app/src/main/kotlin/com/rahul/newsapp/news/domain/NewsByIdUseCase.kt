@@ -8,11 +8,12 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class NewsByIdUseCase @Inject constructor(
-    private val newsByIdRepository: NewsByIdRepository,
-) : ResultUseCase<String, List<LocalArticle>>() {
-    @Throws
-    override suspend fun doWork(params: String): List<LocalArticle> {
-        return newsByIdRepository.newsBySourceId(sourceId = params).getOrDefault(emptyList())
+class NewsByIdUseCase
+    @Inject
+    constructor(
+        private val newsByIdRepository: NewsByIdRepository,
+    ) : ResultUseCase<String, List<LocalArticle>>() {
+        @Throws
+        override suspend fun doWork(params: String): List<LocalArticle> =
+            newsByIdRepository.newsBySourceId(sourceId = params).getOrDefault(emptyList())
     }
-}

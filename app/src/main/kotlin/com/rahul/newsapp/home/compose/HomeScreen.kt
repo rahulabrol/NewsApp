@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
  *
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -57,6 +58,7 @@ internal fun HomeScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
@@ -65,14 +67,16 @@ private fun HomeScreenContent(
     onArticleItemClick: (Uri) -> Unit,
     onNewsSourceItemClick: (String) -> Unit,
 ) {
-    val pagerState: PagerState = rememberPagerState(
-        pageCount = { uiState.tabs.tabs.size },
-        initialPage = uiState.tabs.selectedTab.ordinal,
-    )
+    val pagerState: PagerState =
+        rememberPagerState(
+            pageCount = { uiState.tabs.tabs.size },
+            initialPage = uiState.tabs.selectedTab.ordinal,
+        )
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 38.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(vertical = 38.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -87,6 +91,7 @@ private fun HomeScreenContent(
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun HomeTabs(
     modifier: Modifier = Modifier,
@@ -94,15 +99,17 @@ private fun HomeTabs(
     uiState: () -> HomeStateHolder.UiState,
 ) {
     TabRow(
-        modifier = modifier
-            .testTag(tag = HomeTestTags.TAB_ROW),
+        modifier =
+            modifier
+                .testTag(tag = HomeTestTags.TAB_ROW),
         selectedTabIndex = pagerState.currentPage,
     ) {
         val coroutineScope = rememberCoroutineScope()
         uiState().tabs.forEach { item ->
             Tab(
-                modifier = Modifier
-                    .testTag(tag = item.testTag),
+                modifier =
+                    Modifier
+                        .testTag(tag = item.testTag),
                 selected = item.type == uiState().selectedTab,
                 onClick = {
                     coroutineScope.launch {
@@ -132,6 +139,7 @@ private fun HomeTabs(
  * @param tabs The list of [TabRow] items displayed in the screen
  * @param onPageSelected A lambda that is invoked when the pager was swiped and the current pages changes
  */
+@Suppress("FunctionName")
 @Composable
 private fun HomePager(
     modifier: Modifier = Modifier,
@@ -150,9 +158,10 @@ private fun HomePager(
     }
 
     HorizontalPager(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
         state = pagerState,
     ) {
         when (it) {

@@ -20,87 +20,85 @@ import javax.inject.Inject
  * Created by abrol at 29/09/24.
  */
 @ViewModelScoped
-class NetworkConnectivityStateHolder @Inject constructor(
-    private val networkConnectivity: NetworkConnectivity,
-) : StateHolder<Unit, NetworkConnectivityStateHolder.UiState>() {
+class NetworkConnectivityStateHolder
+    @Inject
+    constructor(
+        private val networkConnectivity: NetworkConnectivity,
+    ) : StateHolder<Unit, NetworkConnectivityStateHolder.UiState>() {
+        override val params = Unit
+        override val initialState: UiState = UiState()
+        private val _state = MutableStateFlow(InternalState())
 
-    override val params = Unit
-    override val initialState: UiState = UiState()
-    private val _state = MutableStateFlow(InternalState())
+        override val state: Flow<UiState> =
+            combine(_state, networkState()) { internal, _ ->
+                UiState(
+                    errorSnackBar =
+                        SnackBarUiState(
+                            message = R.string.no_network,
+                            actionLabel = R.string.retry,
+                            duration = SnackbarDuration.Indefinite,
+                        ).takeIf {
+                            internal.showSnackBar
+                        },
+                    connectedState = internal.showSnackBar.not(),
+                )
+            }
 
-    override val state: Flow<UiState> = combine(_state, networkState()) { internal, _ ->
-        UiState(
-            errorSnackBar = SnackBarUiState(
-                message = R.string.no_network,
-                actionLabel = R.string.retry,
-                duration = SnackbarDuration.Indefinite,
-            ).takeIf {
-                internal.showSnackBar
-            },
-            connectedState = internal.showSnackBar.not(),
-        )
-    }
-
-    private fun networkState() = launchFlow {
-        networkConnectivity.state.collect { networkState ->
-            if (networkState is Network.State.Disconnected && !_state.value.snackBarVisible) {
-                _state.update {
-                    it.copy(
-                        snackBarVisible = true,
-                        showSnackBar = true,
-                    )
-                }
-            } else if (networkState is Network.State.Connected) {
-                _state.update {
-                    it.copy(
-                        snackBarVisible = false,
-                        showSnackBar = false,
-                    )
+        private fun networkState() =
+            launchFlow {
+                networkConnectivity.state.collect { networkState ->
+                    if (networkState is Network.State.Disconnected && !_state.value.snackBarVisible) {
+                        _state.update {
+                            it.copy(
+                                snackBarVisible = true,
+                                showSnackBar = true,
+                            )
+                        }
+                    } else if (networkState is Network.State.Connected) {
+                        _state.update {
+                            it.copy(
+                                snackBarVisible = false,
+                                showSnackBar = false,
+                            )
+                        }
+                    }
                 }
             }
+
+        /**
+         * On retry click
+         *
+         */
+        internal suspend fun onRetryClick() {
+            _state.update {
+                it.copy(
+                    snackBarVisible = false,
+                    showSnackBar = false,
+                )
+            }
+            networkState().collect {}
         }
+
+        /**
+         * Internal Network Connectivity State
+         *
+         * @property showSnackBar
+         * @property snackBarVisible
+         */
+        data class InternalState(
+            val showSnackBar: Boolean = false,
+            val snackBarVisible: Boolean = false,
+        )
+
+        /**
+         * Ui state
+         *
+         * @property connectedState
+         * @property errorSnackBar
+         * @constructor Create empty Ui state
+         */
+        data class UiState(
+            val errorSnackBar: SnackBarUiState? = null,
+            val connectedState: Boolean = true,
+        )
     }
-
-    /**
-     * On retry click
-     *
-     */
-    internal suspend fun onRetryClick() {
-        _state.update {
-            it.copy(
-                snackBarVisible = false,
-                showSnackBar = false,
-            )
-        }
-        networkState().collect {}
-    }
-
-    /**
-     * Internal Network Connectivity State
-     *
-     * @property showSnackBar
-     * @property snackBarVisible
-     */
-    /**
-     * Internal Network Connectivity State
-     *
-     * @property showSnackBar
-     * @property snackBarVisible
-     */
-    data class InternalState(
-        val showSnackBar: Boolean = false,
-        val snackBarVisible: Boolean = false,
-    )
-
-    /**
-     * Ui state
-     *
-     * @property connectedState
-     * @property errorSnackBar
-     * @constructor Create empty Ui state
-     */
-    data class UiState(
-        val errorSnackBar: SnackBarUiState? = null,
-        val connectedState: Boolean = true,
-    )
-}

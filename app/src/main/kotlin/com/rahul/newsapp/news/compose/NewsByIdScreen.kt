@@ -31,10 +31,6 @@ import com.rahul.newsapp.theme.NewsAppTheme
 import java.time.OffsetDateTime
 
 /**
- * Created by abrol at 06/09/24.
- */
-
-/**
  * The composable entry point to display the news by its Id screen.
  *
  * @param modifier An ordered, immutable collection of modifier elements that decorate or add behavior to
@@ -44,6 +40,7 @@ import java.time.OffsetDateTime
  *
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun NewsByIdScreen(
     modifier: Modifier = Modifier,
@@ -58,6 +55,7 @@ internal fun NewsByIdScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun NewsByIdContent(
     modifier: Modifier = Modifier,
@@ -66,9 +64,10 @@ private fun NewsByIdContent(
     onArticleItemClick: (Uri) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -78,9 +77,10 @@ private fun NewsByIdContent(
             EmptyView()
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
-                    .background(Color.LightGray),
+                modifier =
+                    Modifier
+                        .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
+                        .background(Color.LightGray),
                 state = listState,
             ) {
                 items(items = state.uiState.articleList, key = { it.url }) { article ->
@@ -91,28 +91,32 @@ private fun NewsByIdContent(
     }
 }
 
+@Suppress("FunctionName")
 @SuppressLint("NewApi")
 @Preview
 @Composable
 private fun NewsByIdPreview() {
     NewsAppTheme {
         NewsByIdContent(
-            state = NewsByIdViewModel.UiState(
-                uiState = NewsByIdStateHolder.UiState(
-                    isLoading = false,
-                    articleList = listOf(
-                        LocalArticle(
-                            title = "Test",
-                            description = "Textjk aaslfkjahdk faj",
-                            imageUrl = "ertryt.png",
-                            url = "dfsdg.png",
-                            localSource = LocalSource(sourceId = "2", name = "Source Test"),
-                            publishedDate = OffsetDateTime.now(),
+            state =
+                NewsByIdViewModel.UiState(
+                    uiState =
+                        NewsByIdStateHolder.UiState(
+                            isLoading = false,
+                            articleList =
+                                listOf(
+                                    LocalArticle(
+                                        title = "Test",
+                                        description = "Textjk aaslfkjahdk faj",
+                                        imageUrl = "ertryt.png",
+                                        url = "dfsdg.png",
+                                        localSource = LocalSource(sourceId = "2", name = "Source Test"),
+                                        publishedDate = OffsetDateTime.now(),
+                                    ),
+                                ),
+                            placeholderList = emptyList(),
                         ),
-                    ),
-                    placeholderList = emptyList(),
                 ),
-            ),
             onArticleItemClick = {},
         )
     }

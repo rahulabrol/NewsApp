@@ -8,10 +8,12 @@ import com.rahul.newsapp.headlines.data.model.TopHeadlinesNetworkEntity
  * Created by abrol at 25/08/24.
  */
 interface TopHeadlinesDataSource {
-
     /**
      * Top headlines API for news listing.
      *
      */
-    suspend fun topHeadlines(country: String, page: Int): Result<TopHeadlinesNetworkEntity>
+    suspend fun topHeadlines(
+        country: String,
+        page: Int,
+    ): Result<TopHeadlinesNetworkEntity>
 }

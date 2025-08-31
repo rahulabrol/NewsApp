@@ -54,6 +54,7 @@ import java.time.OffsetDateTime
  *
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun PaginationTopHeadlinesScreen(
     modifier: Modifier = Modifier,
@@ -70,6 +71,7 @@ internal fun PaginationTopHeadlinesScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun TopHeadlinesContent(
     modifier: Modifier = Modifier,
@@ -81,33 +83,37 @@ private fun TopHeadlinesContent(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .testTag(TopHeadlinesTestTags.SCREEN_ROOT),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
             when {
                 // Loading state
                 state.topHeadlinesState.isLoading -> IndeterminateCircularIndicator()
                 // Empty state
-                state.topHeadlinesState.articleList.isNullOrEmpty() -> Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) { EmptyView() }
+                state.topHeadlinesState.articleList.isNullOrEmpty() ->
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) { EmptyView() }
                 // Content state
-                else -> LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                        .clearSemantics(state.topHeadlinesState.isLoading)
-                        .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
-                        .background(Color.LightGray),
-                    state = listState,
-                ) {
-                    items(items = state.topHeadlinesState.articleList) {
-                        ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+                else ->
+                    LazyColumn(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(it)
+                                .clearSemantics(state.topHeadlinesState.isLoading)
+                                .testTag(TopHeadlinesTestTags.LISTINGS_TOP_HEADLINES)
+                                .background(Color.LightGray),
+                        state = listState,
+                    ) {
+                        items(items = state.topHeadlinesState.articleList) {
+                            ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+                        }
                     }
-                }
             }
         },
     )
@@ -115,45 +121,51 @@ private fun TopHeadlinesContent(
     // No internet state
     val snackBarState = state.networkState.errorSnackBar
     when {
-        snackBarState != null -> LaunchedEffect(snackBarState) {
-            snackbarHostState.showSnackbar(
-                message = resource.getString(snackBarState.message),
-                actionLabel = resource.getString(snackBarState.actionLabel),
-                duration = snackBarState.duration,
-            ).also { result ->
-                if (result == SnackbarResult.ActionPerformed) {
-                    onRetryClick()
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                }
+        snackBarState != null ->
+            LaunchedEffect(snackBarState) {
+                snackbarHostState
+                    .showSnackbar(
+                        message = resource.getString(snackBarState.message),
+                        actionLabel = resource.getString(snackBarState.actionLabel),
+                        duration = snackBarState.duration,
+                    ).also { result ->
+                        if (result == SnackbarResult.ActionPerformed) {
+                            onRetryClick()
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                        }
+                    }
             }
-        }
         // snackBar state is null, dismiss current snackBar
         else -> {}
     }
 }
 
+@Suppress("FunctionName")
 @SuppressLint("NewApi")
 @Preview
 @Composable
 private fun PaginationTopHeadlinesPreview() {
     NewsAppTheme {
         TopHeadlinesContent(
-            state = TopHeadlinesViewModel.UiState(
-                topHeadlinesState = TopHeadlinesStateHolder.UiState(
-                    isLoading = false,
-                    articleList = listOf(
-                        LocalArticle(
-                            title = "Test",
-                            description = "Textjk aaslfkjahdk faj",
-                            imageUrl = "ertryt.png",
-                            url = "dfsdg.png",
-                            publishedDate = OffsetDateTime.MAX,
-                            localSource = LocalSource(sourceId = "2", name = "Source Test"),
+            state =
+                TopHeadlinesViewModel.UiState(
+                    topHeadlinesState =
+                        TopHeadlinesStateHolder.UiState(
+                            isLoading = false,
+                            articleList =
+                                listOf(
+                                    LocalArticle(
+                                        title = "Test",
+                                        description = "Textjk aaslfkjahdk faj",
+                                        imageUrl = "ertryt.png",
+                                        url = "dfsdg.png",
+                                        publishedDate = OffsetDateTime.MAX,
+                                        localSource = LocalSource(sourceId = "2", name = "Source Test"),
+                                    ),
+                                ),
                         ),
-                    ),
+                    networkState = NetworkConnectivityStateHolder.UiState(),
                 ),
-                networkState = NetworkConnectivityStateHolder.UiState(),
-            ),
             onArticleItemClick = {},
             onRetryClick = {},
         )
@@ -167,9 +179,7 @@ private fun PaginationTopHeadlinesPreview() {
  * @return Modifier
  */
 @OptIn(ExperimentalComposeUiApi::class)
-private fun Modifier.clearSemantics(
-    loading: Boolean,
-): Modifier =
+private fun Modifier.clearSemantics(loading: Boolean): Modifier =
     if (loading) {
         clearAndSetSemantics {
             invisibleToUser()

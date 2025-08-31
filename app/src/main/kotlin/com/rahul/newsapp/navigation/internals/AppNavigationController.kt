@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.Navigator
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.rememberNavController
+
 /**
  * Wraps a NavController, which offers additional APIs for use by a NavHost to connect the NavController
  * to external dependencies.
@@ -91,14 +92,13 @@ fun AppNavigationController.popBackStack() {
  * @see NavHost
  */
 @Composable
-fun rememberAppAnimatedNavController(
-    vararg navigators: Navigator<out NavDestination>,
-): AppNavigationController {
+fun rememberAppAnimatedNavController(vararg navigators: Navigator<out NavDestination>): AppNavigationController {
     val animatedNavigator = remember { ComposeNavigator() }
     return AppNavigationController(
-        _controller = rememberNavController(
-            animatedNavigator,
-            *navigators,
-        ),
+        _controller =
+            rememberNavController(
+                animatedNavigator,
+                *navigators,
+            ),
     )
 }

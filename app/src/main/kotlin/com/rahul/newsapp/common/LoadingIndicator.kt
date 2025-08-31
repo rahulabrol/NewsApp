@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 /**
  * Created by abrol at 07/09/24.
  */
+@Suppress("FunctionName")
 @Composable
 fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
     Column(

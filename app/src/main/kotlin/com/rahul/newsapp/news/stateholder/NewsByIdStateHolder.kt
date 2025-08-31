@@ -33,9 +33,10 @@ import kotlin.reflect.typeOf
  * @see Params
  */
 private fun SavedStateHandle.toNewsByIdParams(): Params {
-    val route = this.toRoute<NewsListingByIdRoute>(
-        typeMap = mapOf(typeOf<List<TestRoute>>() to TestRouteListNavType),
-    )
+    val route =
+        this.toRoute<NewsListingByIdRoute>(
+            typeMap = mapOf(typeOf<List<TestRoute>>() to TestRouteListNavType),
+        )
     val testItems = route.test
     require(testItems.isNotEmpty()) { "NewsListingByIdRoute.test must contain at least one item" }
     val first = testItems.first()
@@ -65,101 +66,105 @@ private fun SavedStateHandle.toNewsByIdParams(): Params {
  *  @see NewsByIdUseCase
  */
 @ViewModelScoped
-class NewsByIdStateHolder @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val newsByIdUseCase: NewsByIdUseCase,
-    private val newsByCountryUseCase: NewsByIdUseCase,
-    private val newsByLanguageUseCase: NewsByIdUseCase,
-) : StateHolder<Params, NewsByIdStateHolder.UiState>() {
+class NewsByIdStateHolder
+    @Inject
+    constructor(
+        savedStateHandle: SavedStateHandle,
+        private val newsByIdUseCase: NewsByIdUseCase,
+        private val newsByCountryUseCase: NewsByIdUseCase,
+        private val newsByLanguageUseCase: NewsByIdUseCase,
+    ) : StateHolder<Params, NewsByIdStateHolder.UiState>() {
+        override val params = savedStateHandle.toNewsByIdParams()
 
-    override val params = savedStateHandle.toNewsByIdParams()
+        override val initialState: UiState =
+            UiState(
+                isLoading = true,
+                articleList = emptyList(),
+                placeholderList =
+                    listOf(
+                        LocalArticle.placeholder,
+                        LocalArticle.placeholder,
+                        LocalArticle.placeholder,
+                    ),
+            )
 
-    override val initialState: UiState = UiState(
-        isLoading = true,
-        articleList = emptyList(),
-        placeholderList = listOf(
-            LocalArticle.placeholder,
-            LocalArticle.placeholder,
-            LocalArticle.placeholder,
-        ),
-    )
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> =
+            _state.onStart {
+                when (params.type) {
+                    NEWS_SOURCE -> fetchNewsBySource()
+                    COUNTRIES -> fetchNewsByCountry()
+                    LANGUAGES -> fetchNewsByLanguage()
+                }
+            }
 
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = _state.onStart {
-        when (params.type) {
-            NEWS_SOURCE -> fetchNewsBySource()
-            COUNTRIES -> fetchNewsByCountry()
-            LANGUAGES -> fetchNewsByLanguage()
-        }
-    }
-
-    private suspend fun fetchNewsByCountry() {
-        newsByCountryUseCase(params.id).first().let { list ->
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    articleList = list,
-                )
+        private suspend fun fetchNewsByCountry() {
+            newsByCountryUseCase(params.id).first().let { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        articleList = list,
+                    )
+                }
             }
         }
-    }
 
-    /**
-     * Fetches news articles based on the language specified in the `params.id`.
-     *
-     * This function uses the `newsByLanguageUseCase` to retrieve a list of articles.
-     * It then updates the state to reflect the fetched data, setting `isLoading` to false
-     * and updating the `articleList` with the retrieved articles.
-     *
-     * The function uses `first()` to retrieve the first emission of the Flow returned by `newsByLanguageUseCase`.
-     *
-     * @throws Exception if an error occurs during data fetching from the use case
-     */
-    private suspend fun fetchNewsByLanguage() {
-        newsByLanguageUseCase(params.id).first().let { list ->
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    articleList = list,
-                )
+        /**
+         * Fetches news articles based on the language specified in the `params.id`.
+         *
+         * This function uses the `newsByLanguageUseCase` to retrieve a list of articles.
+         * It then updates the state to reflect the fetched data, setting `isLoading` to false
+         * and updating the `articleList` with the retrieved articles.
+         *
+         * The function uses `first()` to retrieve the first emission of the Flow returned by `newsByLanguageUseCase`.
+         *
+         * @throws Exception if an error occurs during data fetching from the use case
+         */
+        private suspend fun fetchNewsByLanguage() {
+            newsByLanguageUseCase(params.id).first().let { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        articleList = list,
+                    )
+                }
             }
         }
-    }
 
-    /**
-     * Fetches news articles from a source and updates the view model state.
-     */
-    private suspend fun fetchNewsBySource() {
-        newsByIdUseCase(params.id).first().let { list ->
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    articleList = list,
-                )
+        /**
+         * Fetches news articles from a source and updates the view model state.
+         */
+        private suspend fun fetchNewsBySource() {
+            newsByIdUseCase(params.id).first().let { list ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        articleList = list,
+                    )
+                }
             }
         }
-    }
 
-    /**
-     * Represents the UI state for a screen displaying a list of articles.
-     *
-     * This data class encapsulates the different states the UI can be in, including
-     * whether data is loading, a placeholder list to show while loading, and the actual
-     * list of articles.
-     *
-     * @property isLoading A boolean indicating whether data is currently being loaded.
-     *                    `true` if loading, `false` otherwise.
-     * @property placeholderList A list of [LocalArticle] objects to display as placeholders
-     *                          while the actual data is loading.
-     * @property articleList A list of [LocalArticle] objects representing the actual articles
-     *                      to be displayed when loading is complete.
-     */
-    data class UiState(
-        val isLoading: Boolean,
-        val placeholderList: List<LocalArticle>,
-        val articleList: List<LocalArticle>,
-    )
-}
+        /**
+         * Represents the UI state for a screen displaying a list of articles.
+         *
+         * This data class encapsulates the different states the UI can be in, including
+         * whether data is loading, a placeholder list to show while loading, and the actual
+         * list of articles.
+         *
+         * @property isLoading A boolean indicating whether data is currently being loaded.
+         *                    `true` if loading, `false` otherwise.
+         * @property placeholderList A list of [LocalArticle] objects to display as placeholders
+         *                          while the actual data is loading.
+         * @property articleList A list of [LocalArticle] objects representing the actual articles
+         *                      to be displayed when loading is complete.
+         */
+        data class UiState(
+            val isLoading: Boolean,
+            val placeholderList: List<LocalArticle>,
+            val articleList: List<LocalArticle>,
+        )
+    }
 
 /**
  * Represents a set of parameters used in a specific context.

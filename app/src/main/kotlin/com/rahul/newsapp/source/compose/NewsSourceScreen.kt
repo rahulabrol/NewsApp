@@ -31,6 +31,7 @@ import com.rahul.newsapp.source.utils.NewsSourceTestTags
  *
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun NewsSourceScreen(
     modifier: Modifier = Modifier,
@@ -45,6 +46,7 @@ internal fun NewsSourceScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun NewsSourceContent(
     modifier: Modifier = Modifier,
@@ -53,9 +55,10 @@ private fun NewsSourceContent(
     onNewsSourceItemClick: (String) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag(NewsSourceTestTags.SCREEN_ROOT),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .testTag(NewsSourceTestTags.SCREEN_ROOT),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -63,9 +66,10 @@ private fun NewsSourceContent(
             IndeterminateCircularIndicator()
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
-                    .background(Color.LightGray),
+                modifier =
+                    Modifier
+                        .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
+                        .background(Color.LightGray),
                 state = listState,
             ) {
                 items(items = state.uiState.sourceList) {

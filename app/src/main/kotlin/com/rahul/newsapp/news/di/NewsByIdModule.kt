@@ -8,9 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 /**
- * Created by abrol at 06/09/24.
- */
-/**
  * DI NewsByIdModule supplying the Top Headlines data source dependencies
  *
  * Created by abrol at 25/08/24.
@@ -18,7 +15,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class NewsByIdModule {
-
     /**
      * @param impl The News By Id data source implementation
      * @return A concrete impl of the News By Id data source

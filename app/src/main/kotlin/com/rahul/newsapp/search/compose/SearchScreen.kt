@@ -36,6 +36,7 @@ import com.rahul.newsapp.theme.NewsAppTheme
 /**
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun SearchScreen(
     modifier: Modifier = Modifier,
@@ -51,6 +52,7 @@ internal fun SearchScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun SearchContent(
     modifier: Modifier = Modifier,
@@ -65,10 +67,11 @@ private fun SearchContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(kbdFocusRequester)
-                .padding(all = 12.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .focusRequester(kbdFocusRequester)
+                    .padding(all = 12.dp),
             value = state.uiState.text,
             onValueChange = onValueChange,
         )
@@ -78,9 +81,10 @@ private fun SearchContent(
             EmptyView()
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
-                    .background(Color.LightGray),
+                modifier =
+                    Modifier
+                        .testTag(NewsSourceTestTags.LISTINGS_NEWS_SOURCE)
+                        .background(Color.LightGray),
                 state = listState,
             ) {
                 items(items = state.uiState.articleList) {
@@ -94,19 +98,22 @@ private fun SearchContent(
     }
 }
 
+@Suppress("FunctionName")
 @Preview
 @Composable
 private fun SearchContentPreview() {
     NewsAppTheme {
         SearchContent(
-            state = SearchViewModel.UiState(
-                uiState = SearchStateHolder.UiState(
-                    isEmpty = true,
-                    articleList = emptyList(),
-                    iconResId = R.drawable.ic_search,
-                    text = "",
+            state =
+                SearchViewModel.UiState(
+                    uiState =
+                        SearchStateHolder.UiState(
+                            isEmpty = true,
+                            articleList = emptyList(),
+                            iconResId = R.drawable.ic_search,
+                            text = "",
+                        ),
                 ),
-            ),
             onValueChange = {},
             onArticleItemClick = {},
         )

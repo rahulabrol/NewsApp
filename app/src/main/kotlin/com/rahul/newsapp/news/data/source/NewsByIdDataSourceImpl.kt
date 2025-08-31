@@ -7,11 +7,13 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class NewsByIdDataSourceImpl @Inject constructor(private val networkService: NetworkService) :
-    NewsByIdDataSource {
-
-    override suspend fun newsBySourceId(sourceId: String): Result<TopHeadlinesNetworkEntity> =
-        runCatching {
-            networkService.getNewsBySources(sources = sourceId)
-        }
-}
+class NewsByIdDataSourceImpl
+    @Inject
+    constructor(
+        private val networkService: NetworkService,
+    ) : NewsByIdDataSource {
+        override suspend fun newsBySourceId(sourceId: String): Result<TopHeadlinesNetworkEntity> =
+            runCatching {
+                networkService.getNewsBySources(sources = sourceId)
+            }
+    }

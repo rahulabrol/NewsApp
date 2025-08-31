@@ -44,10 +44,11 @@ class TopHeadlinesViewModelTest {
 
     private lateinit var viewModel: TopHeadlinesViewModel
 
-    private val expectedList = TopHeadlinesStateHolder.UiState(
-        isLoading = true,
-        articleList = emptyList(),
-    )
+    private val expectedList =
+        TopHeadlinesStateHolder.UiState(
+            isLoading = true,
+            articleList = emptyList(),
+        )
 
     /**
      * Create a new view model before each test to verify state from it's initial state
@@ -57,43 +58,48 @@ class TopHeadlinesViewModelTest {
         MockKAnnotations.init(this, relaxed = true)
         coEvery { topHeadlinesStateHolder.state } returns flowOf(expectedList)
 
-        coEvery { networkConnectivityStateHolder.state } returns flowOf(
-            NetworkConnectivityStateHolder.UiState(
-                errorSnackBar = null,
-                connectedState = false,
-            ),
-        )
+        coEvery { networkConnectivityStateHolder.state } returns
+            flowOf(
+                NetworkConnectivityStateHolder.UiState(
+                    errorSnackBar = null,
+                    connectedState = false,
+                ),
+            )
 
-        viewModel = TopHeadlinesViewModel(
-            networkConnectivityStateHolder = networkConnectivityStateHolder,
-            topHeadlinesState = topHeadlinesStateHolder,
-        )
+        viewModel =
+            TopHeadlinesViewModel(
+                networkConnectivityStateHolder = networkConnectivityStateHolder,
+                topHeadlinesState = topHeadlinesStateHolder,
+            )
     }
 
     @Test
-    fun verifyInitialState() = runTest {
-        viewModel.state.test {
-            val uiState = awaitItem()
+    fun verifyInitialState() =
+        runTest {
+            viewModel.state.test {
+                val uiState = awaitItem()
 
-            // verify List
-            val actualList = uiState.topHeadlinesState
-            assertEquals(actualList, expectedList)
+                // verify List
+                val actualList = uiState.topHeadlinesState
+                assertEquals(actualList, expectedList)
+            }
         }
-    }
-
-    @Test
-    fun testOnNetworkRetryEvent() = runTest {
-        viewModel.onRetryClick()
-        coVerify(exactly = 1) {
-            networkConnectivityStateHolder.onRetryClick()
-        }
-    }
 
     @Test
-    fun testOnTopHeadlinesRetryEvent() = runTest {
-        viewModel.onRetryClick()
-        coVerify(exactly = 1) {
-            topHeadlinesStateHolder.fetchTopHeadlinesOnRetry()
+    fun testOnNetworkRetryEvent() =
+        runTest {
+            viewModel.onRetryClick()
+            coVerify(exactly = 1) {
+                networkConnectivityStateHolder.onRetryClick()
+            }
         }
-    }
+
+    @Test
+    fun testOnTopHeadlinesRetryEvent() =
+        runTest {
+            viewModel.onRetryClick()
+            coVerify(exactly = 1) {
+                topHeadlinesStateHolder.fetchTopHeadlinesOnRetry()
+            }
+        }
 }

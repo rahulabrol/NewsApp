@@ -20,89 +20,95 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 @ViewModelScoped
-class TopHeadlinesStateHolder @Inject constructor(
-    private val networkStateHolder: NetworkConnectivityStateHolder,
-    private val topHeadlinesUseCase: TopHeadlinesUseCase,
-    private val localArticleUseCase: LocalArticleUseCase,
-) : StateHolder<Unit, TopHeadlinesStateHolder.UiState>() {
+class TopHeadlinesStateHolder
+    @Inject
+    constructor(
+        private val networkStateHolder: NetworkConnectivityStateHolder,
+        private val topHeadlinesUseCase: TopHeadlinesUseCase,
+        private val localArticleUseCase: LocalArticleUseCase,
+    ) : StateHolder<Unit, TopHeadlinesStateHolder.UiState>() {
+        override val params = Unit
 
-    override val params = Unit
+        override val initialState: UiState =
+            UiState(
+                isLoading = true,
+            )
 
-    override val initialState: UiState = UiState(
-        isLoading = true,
-    )
-
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = combine(
-        networkStateHolder.state,
-        fetchTopHeadlinesFromNetwork(),
-        fetchLocalHeadlines(),
-        handleConnectionState(),
-        _state,
-    ) { _, _, _, _, internalState ->
-        UiState(
-            isLoading = internalState.isLoading,
-            connectedState = internalState.connectedState,
-            articleList = internalState.articleList,
-        )
-    }
-
-    private fun fetchLocalHeadlines() = launchFlow {
-        localArticleUseCase(Unit)
-            .collect { list ->
-                _state.update { it.copy(articleList = list) }
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> =
+            combine(
+                networkStateHolder.state,
+                fetchTopHeadlinesFromNetwork(),
+                fetchLocalHeadlines(),
+                handleConnectionState(),
+                _state,
+            ) { _, _, _, _, internalState ->
+                UiState(
+                    isLoading = internalState.isLoading,
+                    connectedState = internalState.connectedState,
+                    articleList = internalState.articleList,
+                )
             }
-    }
 
-    private fun fetchTopHeadlinesFromNetwork() = launchFlow {
-        fetchTopHeadlines()
-    }
+        private fun fetchLocalHeadlines() =
+            launchFlow {
+                localArticleUseCase(Unit)
+                    .collect { list ->
+                        _state.update { it.copy(articleList = list) }
+                    }
+            }
 
-    private suspend fun fetchTopHeadlines() {
-        try {
-            val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 0)
-            topHeadlinesUseCase(params = params).firstOrNull().let {
+        private fun fetchTopHeadlinesFromNetwork() =
+            launchFlow {
+                fetchTopHeadlines()
+            }
+
+        private suspend fun fetchTopHeadlines() {
+            try {
+                val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 0)
+                topHeadlinesUseCase(params = params).firstOrNull().let {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            connectedState = networkStateHolder.state.first().connectedState,
+                        )
+                    }
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        connectedState = networkStateHolder.state.first().connectedState,
-                    )
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                )
-            }
-        }
-    }
-
-    private fun handleConnectionState() = launchFlow {
-        networkStateHolder.state.collect { networkUiState ->
-            if (networkUiState.connectedState != _state.value.connectedState) {
-                if (networkUiState.connectedState) {
-                    fetchTopHeadlines()
-                }
-                _state.update {
-                    it.copy(
-                        connectedState = networkUiState.connectedState,
                     )
                 }
             }
         }
-    }
 
-    internal suspend fun fetchTopHeadlinesOnRetry() {
-        if (_state.value.articleList?.isEmpty() == true) {
-            fetchTopHeadlines()
+        private fun handleConnectionState() =
+            launchFlow {
+                networkStateHolder.state.collect { networkUiState ->
+                    if (networkUiState.connectedState != _state.value.connectedState) {
+                        if (networkUiState.connectedState) {
+                            fetchTopHeadlines()
+                        }
+                        _state.update {
+                            it.copy(
+                                connectedState = networkUiState.connectedState,
+                            )
+                        }
+                    }
+                }
+            }
+
+        internal suspend fun fetchTopHeadlinesOnRetry() {
+            if (_state.value.articleList?.isEmpty() == true) {
+                fetchTopHeadlines()
+            }
         }
-    }
 
-    data class UiState(
-        val isLoading: Boolean,
-        var connectedState: Boolean = true,
-        val articleList: List<LocalArticle>? = null,
-    )
-}
+        data class UiState(
+            val isLoading: Boolean,
+            var connectedState: Boolean = true,
+            val articleList: List<LocalArticle>? = null,
+        )
+    }

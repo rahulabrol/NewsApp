@@ -20,6 +20,7 @@ import com.rahul.newsapp.language.utils.LanguagesTestTags
 /**
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun LanguagesScreen(
     modifier: Modifier = Modifier,
@@ -34,6 +35,7 @@ internal fun LanguagesScreen(
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun LanguagesContent(
     modifier: Modifier = Modifier,
@@ -46,9 +48,10 @@ private fun LanguagesContent(
     ) { paddingValues ->
         println(paddingValues)
         LazyColumn(
-            modifier = Modifier
-                .testTag(LanguagesTestTags.LISTINGS_LANGUAGES)
-                .background(Color.LightGray),
+            modifier =
+                Modifier
+                    .testTag(LanguagesTestTags.LISTINGS_LANGUAGES)
+                    .background(Color.LightGray),
             state = listState,
         ) {
             items(items = state.uiState.sourceList) {

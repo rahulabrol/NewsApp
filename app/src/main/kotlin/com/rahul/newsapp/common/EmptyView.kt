@@ -21,6 +21,7 @@ import com.rahul.newsapp.theme.NewsAppTheme
 /**
  * Created by abrol at 07/09/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun EmptyView() {
 //    val composition by rememberLottieComposition(
@@ -54,6 +55,7 @@ internal fun EmptyView() {
     }
 }
 
+@Suppress("FunctionName")
 @Preview
 @Composable
 private fun EmptyViewPreview() {

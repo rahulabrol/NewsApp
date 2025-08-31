@@ -28,7 +28,6 @@ import java.time.OffsetDateTime
  * Created by abrol at 07/09/24.
  */
 class TopHeadlinesStateHolderTest {
-
     /**
      * The state object to be tested
      */
@@ -54,63 +53,70 @@ class TopHeadlinesStateHolderTest {
         val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 1)
         coEvery { topHeadlinesUseCase(params) } returns flowOf(Unit)
         coEvery { localArticleUseCase(Unit) } returns flowOf(fakeTopHeadlinesList())
-        every { networkConnectivityStateHolder.state } returns flowOf(
-            NetworkConnectivityStateHolder.UiState(
-                errorSnackBar = null,
-                connectedState = true,
+        every { networkConnectivityStateHolder.state } returns
+            flowOf(
+                NetworkConnectivityStateHolder.UiState(
+                    errorSnackBar = null,
+                    connectedState = true,
+                ),
+            )
+
+        stateHolder =
+            TopHeadlinesStateHolder(
+                networkStateHolder = networkConnectivityStateHolder,
+                topHeadlinesUseCase = topHeadlinesUseCase,
+                localArticleUseCase = localArticleUseCase,
+            )
+    }
+
+    @Test
+    fun verifyInitialState() =
+        runTest {
+            val uiState = stateHolder.initialState
+            assertTrue(uiState.isLoading)
+            assertNull(uiState.articleList)
+        }
+
+    @Test
+    fun verifySuccessState() =
+        runTest {
+            stateHolder.state.test {
+                val state = awaitItem()
+                assertNotNull(state.articleList)
+                assertFalse(state.isLoading)
+            }
+        }
+
+    @Test
+    fun verifyIfArticleListEmptyNotFetchResult() =
+        runTest {
+            stateHolder.state.test {
+                val uiState = awaitItem()
+                assertTrue(uiState.articleList?.isNotEmpty() == true)
+            }
+        }
+
+    @Test
+    fun verifyIfArticleListNotEmptyFetchResultCalled() =
+        runTest {
+            stateHolder.state.test {
+                val value = localArticleUseCase(Unit).first()
+                assert(value.size == 1)
+                val uiState = awaitItem()
+                assertTrue(uiState.articleList?.isNotEmpty() == true)
+            }
+        }
+
+    private fun fakeTopHeadlinesList(): List<LocalArticle> =
+        listOf(
+            LocalArticle(
+                articleId = 1,
+                title = "Test",
+                description = "This is test description.",
+                url = "empty",
+                imageUrl = "empty",
+                publishedDate = OffsetDateTime.now(),
+                localSource = LocalSource(sourceId = "sourceId", name = "Source test"),
             ),
         )
-
-        stateHolder = TopHeadlinesStateHolder(
-            networkStateHolder = networkConnectivityStateHolder,
-            topHeadlinesUseCase = topHeadlinesUseCase,
-            localArticleUseCase = localArticleUseCase,
-        )
-    }
-
-    @Test
-    fun verifyInitialState() = runTest {
-        val uiState = stateHolder.initialState
-        assertTrue(uiState.isLoading)
-        assertNull(uiState.articleList)
-    }
-
-    @Test
-    fun verifySuccessState() = runTest {
-        stateHolder.state.test {
-            val state = awaitItem()
-            assertNotNull(state.articleList)
-            assertFalse(state.isLoading)
-        }
-    }
-
-    @Test
-    fun verifyIfArticleListEmptyNotFetchResult() = runTest {
-        stateHolder.state.test {
-            val uiState = awaitItem()
-            assertTrue(uiState.articleList?.isNotEmpty() == true)
-        }
-    }
-
-    @Test
-    fun verifyIfArticleListNotEmptyFetchResultCalled() = runTest {
-        stateHolder.state.test {
-            val value = localArticleUseCase(Unit).first()
-            assert(value.size == 1)
-            val uiState = awaitItem()
-            assertTrue(uiState.articleList?.isNotEmpty() == true)
-        }
-    }
-
-    private fun fakeTopHeadlinesList(): List<LocalArticle> = listOf(
-        LocalArticle(
-            articleId = 1,
-            title = "Test",
-            description = "This is test description.",
-            url = "empty",
-            imageUrl = "empty",
-            publishedDate = OffsetDateTime.now(),
-            localSource = LocalSource(sourceId = "sourceId", name = "Source test"),
-        ),
-    )
 }

@@ -6,11 +6,15 @@ import javax.inject.Inject
 /**
  * Created by abrol at 25/08/24.
  */
-class TopHeadlinesDataSourceImpl @Inject constructor(
-    private val networkService: NetworkService,
-) : TopHeadlinesDataSource {
-
-    override suspend fun topHeadlines(country: String, page: Int) = runCatching {
-        networkService.getTopHeadlines(country = country, page = page)
+class TopHeadlinesDataSourceImpl
+    @Inject
+    constructor(
+        private val networkService: NetworkService,
+    ) : TopHeadlinesDataSource {
+        override suspend fun topHeadlines(
+            country: String,
+            page: Int,
+        ) = runCatching {
+            networkService.getTopHeadlines(country = country, page = page)
+        }
     }
-}

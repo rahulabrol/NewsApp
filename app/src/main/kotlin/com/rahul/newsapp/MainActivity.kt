@@ -19,7 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by abrol at 24/08/24.
  */
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), CustomTabLauncher {
+class MainActivity :
+    ComponentActivity(),
+    CustomTabLauncher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

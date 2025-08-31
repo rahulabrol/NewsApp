@@ -29,6 +29,7 @@ import kotlin.reflect.typeOf
  *
  * Created by abrol at 24/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
@@ -46,12 +47,13 @@ internal fun AppNavigation(
                 onNewsSourceItemClick = {
                     navController.navigate(
                         NewsListingByIdRoute(
-                            test = listOf(
-                                TestRoute(
-                                    id = it,
-                                    type = NEWS_SOURCE,
+                            test =
+                                listOf(
+                                    TestRoute(
+                                        id = it,
+                                        type = NEWS_SOURCE,
+                                    ),
                                 ),
-                            ),
                         ),
                     )
                 },
@@ -66,12 +68,13 @@ internal fun AppNavigation(
             NewsSourceScreen(onNewsSourceItemClick = {
                 navController.navigate(
                     NewsListingByIdRoute(
-                        test = listOf(
-                            TestRoute(
-                                id = it,
-                                type = NEWS_SOURCE,
+                        test =
+                            listOf(
+                                TestRoute(
+                                    id = it,
+                                    type = NEWS_SOURCE,
+                                ),
                             ),
-                        ),
                     ),
                 )
             })

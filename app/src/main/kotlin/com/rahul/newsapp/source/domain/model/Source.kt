@@ -11,9 +11,10 @@ data class Source(
         /**
          * Placeholder, used for Shimmer UI effect
          */
-        val placeholder = Source(
-            id = "",
-            name = "This is a test name",
-        )
+        val placeholder =
+            Source(
+                id = "",
+                name = "This is a test name",
+            )
     }
 }

@@ -32,18 +32,22 @@ internal class TopHeadlinesRepositoryTest {
     }
 
     @Test
-    fun verifySuccess() = runTest {
-        coEvery { dataSource.topHeadlines("us", 1) } returns Result.success(
-            mockkClass(TopHeadlinesNetworkEntity::class, relaxed = true),
-        )
-        assertNotNull(dataSource.topHeadlines("us", 1))
-    }
+    fun verifySuccess() =
+        runTest {
+            coEvery { dataSource.topHeadlines("us", 1) } returns
+                Result.success(
+                    mockkClass(TopHeadlinesNetworkEntity::class, relaxed = true),
+                )
+            assertNotNull(dataSource.topHeadlines("us", 1))
+        }
 
     @Test
-    fun verifyFailure() = runTest {
-        coEvery { dataSource.topHeadlines("us", 1) } returns Result.failure(
-            Throwable(),
-        )
-        assert(dataSource.topHeadlines("us", 1).isFailure)
-    }
+    fun verifyFailure() =
+        runTest {
+            coEvery { dataSource.topHeadlines("us", 1) } returns
+                Result.failure(
+                    Throwable(),
+                )
+            assert(dataSource.topHeadlines("us", 1).isFailure)
+        }
 }
