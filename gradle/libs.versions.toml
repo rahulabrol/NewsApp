@@ -29,6 +29,7 @@ runner = "1.7.0"
 rules = "1.7.0"
 lottie = "6.6.7"
 spotless = "7.2.1"
+kover = "0.9.1"
 paging = "3.3.6"
 
 [libraries]
@@ -82,4 +83,6 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
 

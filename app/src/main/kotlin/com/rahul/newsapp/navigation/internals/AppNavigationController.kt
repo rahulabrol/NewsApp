@@ -75,7 +75,6 @@ fun AppNavigationController.popBackStack() {
         null,
         -> {
         } // no-op, not valid state to pop back stack
-        else -> {}
     }
 }
 

@@ -65,6 +65,9 @@ class TopHeadlinesStateHolder
 
         private suspend fun fetchTopHeadlines() {
             try {
+                // Indicate loading when a network fetch starts (e.g., connectivity regained or manual refresh)
+                _state.update { it.copy(isLoading = true) }
+
                 val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 0)
                 topHeadlinesUseCase(params = params).firstOrNull().let {
                     _state.update {
@@ -89,6 +92,8 @@ class TopHeadlinesStateHolder
                 networkStateHolder.state.collect { networkUiState ->
                     if (networkUiState.connectedState != _state.value.connectedState) {
                         if (networkUiState.connectedState) {
+                            // Show loading while refetching on connectivity regain
+                            _state.update { it.copy(isLoading = true) }
                             fetchTopHeadlines()
                         }
                         _state.update {
