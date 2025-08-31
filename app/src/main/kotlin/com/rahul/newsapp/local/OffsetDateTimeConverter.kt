@@ -8,11 +8,10 @@ import java.time.format.DateTimeFormatter
 /**
  * Created by abrol at 31/08/25.
  */
+@SuppressLint("NewApi")
 object OffsetDateTimeConverter {
-    @SuppressLint("NewApi")
     private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
-    @SuppressLint("NewApi")
     @TypeConverter
     @JvmStatic
     fun fromOffsetDateTime(value: OffsetDateTime?): String? = value?.format(formatter)

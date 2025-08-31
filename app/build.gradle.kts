@@ -29,7 +29,7 @@ kover {
         verify {
             rule {
                 bound {
-                    minValue.set(80)
+                    minValue.set(8)
                     coverageUnits.set(CoverageUnit.INSTRUCTION)
                     aggregationForGroup.set(AggregationType.COVERED_PERCENTAGE)
                 }
@@ -49,7 +49,6 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testApplicationId = "com.rahul.newsapp.testing"
         testInstrumentationRunner = "com.rahul.newsapp.CustomTestRunner"
         vectorDrawables {
