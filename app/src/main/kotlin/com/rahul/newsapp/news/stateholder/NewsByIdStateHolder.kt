@@ -33,11 +33,17 @@ import kotlin.reflect.typeOf
  * @see Params
  */
 private fun SavedStateHandle.toNewsByIdParams(): Params {
-    val testItems =
-        this.toRoute<NewsListingByIdRoute>(typeMap = mapOf(typeOf<List<TestRoute>>() to TestRouteListNavType)).test
+    val route = this.toRoute<NewsListingByIdRoute>(
+        typeMap = mapOf(typeOf<List<TestRoute>>() to TestRouteListNavType),
+    )
+    val testItems = route.test
+    require(testItems.isNotEmpty()) { "NewsListingByIdRoute.test must contain at least one item" }
+    val first = testItems.first()
+    require(first.id.isNotBlank()) { "TestRoute.id must not be blank" }
+    require(first.type.isNotBlank()) { "TestRoute.type must not be blank" }
     return Params(
-        id = testItems[0].id,
-        type = testItems[0].type,
+        id = first.id,
+        type = first.type,
     )
 }
 

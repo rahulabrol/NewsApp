@@ -26,9 +26,9 @@ class TopHeadlinesUseCaseTest {
 
     @Test
     fun whenGetSuccess() = runTest {
-        coEvery { repository.topHeadlines("us") } returns Unit
-
-        val result = useCase("us").single()
+        coEvery { repository.topHeadlines("us", 1) } returns Unit
+        val params = TopHeadlinesParams("us", 1)
+        val result = useCase(params).single()
         assert(result == Unit)
     }
 }

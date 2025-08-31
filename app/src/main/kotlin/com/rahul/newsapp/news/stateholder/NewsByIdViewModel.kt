@@ -21,7 +21,7 @@ class NewsByIdViewModel @Inject constructor(
         UiState(uiState = state)
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
         initialValue = UiState(uiState = topHeadlinesState.initialState),
     )
 

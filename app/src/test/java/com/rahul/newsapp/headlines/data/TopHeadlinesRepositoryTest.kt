@@ -33,17 +33,17 @@ internal class TopHeadlinesRepositoryTest {
 
     @Test
     fun verifySuccess() = runTest {
-        coEvery { dataSource.topHeadlines("us") } returns Result.success(
+        coEvery { dataSource.topHeadlines("us", 1) } returns Result.success(
             mockkClass(TopHeadlinesNetworkEntity::class, relaxed = true),
         )
-        assertNotNull(dataSource.topHeadlines("us"))
+        assertNotNull(dataSource.topHeadlines("us", 1))
     }
 
     @Test
     fun verifyFailure() = runTest {
-        coEvery { dataSource.topHeadlines("us") } returns Result.failure(
+        coEvery { dataSource.topHeadlines("us", 1) } returns Result.failure(
             Throwable(),
         )
-        assert(dataSource.topHeadlines("us").isFailure)
+        assert(dataSource.topHeadlines("us", 1).isFailure)
     }
 }

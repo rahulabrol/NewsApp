@@ -31,14 +31,14 @@ class TopHeadlinesDataSourceTest {
 
         dataSource = TopHeadlinesDataSourceImpl(client)
 
-        coEvery { client.getTopHeadlines("us") } returns mockResponse
+        coEvery { client.getTopHeadlines("us", 1) } returns mockResponse
     }
 
     @Test
     fun if_client_returning_top_headlines() = runTest {
-        val result = dataSource.topHeadlines("us")
+        val result = dataSource.topHeadlines("us", 1)
 
-        coVerify { client.getTopHeadlines("us") }
+        coVerify { client.getTopHeadlines("us", 1) }
 
         Assert.assertTrue(result.isSuccess)
 

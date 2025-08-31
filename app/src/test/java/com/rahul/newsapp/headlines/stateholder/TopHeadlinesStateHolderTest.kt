@@ -2,6 +2,7 @@ package com.rahul.newsapp.headlines.stateholder
 
 import app.cash.turbine.test
 import com.rahul.newsapp.headlines.domain.LocalArticleUseCase
+import com.rahul.newsapp.headlines.domain.TopHeadlinesParams
 import com.rahul.newsapp.headlines.domain.TopHeadlinesUseCase
 import com.rahul.newsapp.local.entity.LocalArticle
 import com.rahul.newsapp.local.entity.LocalSource
@@ -50,7 +51,8 @@ class TopHeadlinesStateHolderTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { topHeadlinesUseCase(Constants.COUNTRY) } returns flowOf(Unit)
+        val params = TopHeadlinesParams(country = Constants.COUNTRY, page = 1)
+        coEvery { topHeadlinesUseCase(params) } returns flowOf(Unit)
         coEvery { localArticleUseCase(Unit) } returns flowOf(fakeTopHeadlinesList())
         every { networkConnectivityStateHolder.state } returns flowOf(
             NetworkConnectivityStateHolder.UiState(

@@ -83,8 +83,8 @@ private fun NewsByIdContent(
                     .background(Color.LightGray),
                 state = listState,
             ) {
-                items(items = state.uiState.articleList) {
-                    ArticleItem(article = { it }, onArticleItemClick = onArticleItemClick)
+                items(items = state.uiState.articleList, key = { it.url }) { article ->
+                    ArticleItem(article = { article }, onArticleItemClick = onArticleItemClick)
                 }
             }
         }
