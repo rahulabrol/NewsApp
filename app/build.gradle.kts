@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
@@ -21,7 +21,7 @@ hilt {
 
 kover {
     reports {
-        filters{
+        filters {
             excludes {
                 androidGeneratedClasses()
             }
@@ -91,6 +91,7 @@ kotlin {
 }
 composeCompiler {
     featureFlags.addAll(
+        ComposeFeatureFlag.StrongSkipping,
         ComposeFeatureFlag.OptimizeNonSkippingGroups
     )
 }
