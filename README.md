@@ -27,7 +27,7 @@ buildConfigField("String", "API_KEY", "\"<Add your API Key>\"")
 - **Coroutines** and **Flow** for asynchronous programming
 - **StateFlow** for streamlined state management
 - **Pagination** to efficiently load and display news articles (In-Progress)
-- **Unit tests** and **UI tests** for robust code coverage
+- **Unit tests** and **UI tests** (In-Progress) for robust code coverage
 - **Instant search** for quick access to relevant news
 - **Navigation 2.8.0** for smooth transitions between screens
 - **CustomTabLauncher** for a seamless reading experience
