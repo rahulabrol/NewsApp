@@ -19,7 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     fun provideConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
@@ -29,23 +28,34 @@ object AppModule {
     fun provideNetworkService(
         @BaseUrl baseUrl: String,
         gsonConverterFactory: GsonConverterFactory,
-        okHttpClient: OkHttpClient
-    ): NetworkService = Retrofit.Builder().baseUrl(baseUrl).client(
-        okHttpClient
-    ).addConverterFactory(gsonConverterFactory).build().create(NetworkService::class.java)
+        okHttpClient: OkHttpClient,
+    ): NetworkService =
+        Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .client(
+                okHttpClient,
+            ).addConverterFactory(gsonConverterFactory)
+            .build()
+            .create(NetworkService::class.java)
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authTokenInterceptor: AuthTokenInterceptor
-    ): OkHttpClient = OkHttpClient().newBuilder().addInterceptor(authTokenInterceptor)
-        .addInterceptor(httpLoggingInterceptor).build()
+        authTokenInterceptor: AuthTokenInterceptor,
+    ): OkHttpClient =
+        OkHttpClient()
+            .newBuilder()
+            .addInterceptor(authTokenInterceptor)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
 
     @Provides
     @Singleton
-    fun provideAuthTokenInterceptor(@NetworkAPIKey apiKey: String): AuthTokenInterceptor =
-        AuthTokenInterceptor(apiKey)
+    fun provideAuthTokenInterceptor(
+        @NetworkAPIKey apiKey: String,
+    ): AuthTokenInterceptor = AuthTokenInterceptor(apiKey)
 
     @Provides
     @Singleton

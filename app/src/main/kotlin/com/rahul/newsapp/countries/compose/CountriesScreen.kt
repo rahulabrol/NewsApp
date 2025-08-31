@@ -11,53 +11,81 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahul.newsapp.common.compose.NewsItem
+import com.rahul.newsapp.countries.stateholder.CountriesStateHolder
 import com.rahul.newsapp.countries.stateholder.CountriesViewModel
 import com.rahul.newsapp.countries.utils.CountriesTestTags
+import com.rahul.newsapp.local.entity.LocalCountry
+import com.rahul.newsapp.theme.NewsAppTheme
 
 /**
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun CountriesScreen(
     modifier: Modifier = Modifier,
     viewModel: CountriesViewModel = hiltViewModel(),
-    onCountriesItemClick: (String) -> Unit
+    onCountriesItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CountriesContent(
         modifier = modifier,
         state = state,
-        onCountriesItemClick = onCountriesItemClick
+        onCountriesItemClick = onCountriesItemClick,
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun CountriesContent(
     modifier: Modifier = Modifier,
     state: CountriesViewModel.UiState,
     listState: LazyListState = rememberLazyListState(),
-    onCountriesItemClick: (String) -> Unit
+    onCountriesItemClick: (String) -> Unit,
 ) {
     Scaffold(
-        modifier = modifier.testTag(CountriesTestTags.SCREEN_ROOT)
+        modifier = modifier.testTag(CountriesTestTags.SCREEN_ROOT),
     ) { paddingValues ->
         println(paddingValues)
         LazyColumn(
-            modifier = Modifier
-                .testTag(CountriesTestTags.LISTINGS_COUNTRIES)
-                .background(Color.LightGray),
-            state = listState
+            modifier =
+                Modifier
+                    .testTag(CountriesTestTags.LISTINGS_COUNTRIES)
+                    .background(Color.LightGray),
+            state = listState,
         ) {
             items(items = state.uiState.sourceList) {
                 NewsItem(
                     id = { it.id },
                     name = { it.name },
-                    onNewsSourceItemClick = onCountriesItemClick
+                    onNewsSourceItemClick = onCountriesItemClick,
                 )
             }
         }
+    }
+}
+
+@Suppress("FunctionName")
+@Preview
+@Composable
+private fun CountriesContentPreview() {
+    NewsAppTheme {
+        CountriesContent(
+            state =
+                CountriesViewModel.UiState(
+                    uiState =
+                        CountriesStateHolder.UiState(
+                            sourceList =
+                                listOf(
+                                    LocalCountry(id = "1", name = "Name"),
+                                ),
+                        ),
+                ),
+            onCountriesItemClick = {},
+        )
     }
 }

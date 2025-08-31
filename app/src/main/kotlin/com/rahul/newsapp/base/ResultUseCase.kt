@@ -18,9 +18,10 @@ abstract class ResultUseCase<P, R> {
      * @param params A class that holds the necessary data to execute the use case
      * @return A result that emits type of [R]
      */
-    operator fun invoke(params: P): Flow<R> = flow {
-        emit(doWork(params))
-    }
+    operator fun invoke(params: P): Flow<R> =
+        flow {
+            emit(doWork(params))
+        }
 
     /**
      * UseCase specific work should be implemented here

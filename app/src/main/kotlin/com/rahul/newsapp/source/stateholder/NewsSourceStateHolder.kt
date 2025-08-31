@@ -15,50 +15,54 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 @ViewModelScoped
-class NewsSourceStateHolder @Inject constructor(
-    private val newsSourceUseCase: NewsSourceUseCase
-) : StateHolder<Unit, NewsSourceStateHolder.UiState>() {
+class NewsSourceStateHolder
+    @Inject
+    constructor(
+        private val newsSourceUseCase: NewsSourceUseCase,
+    ) : StateHolder<Unit, NewsSourceStateHolder.UiState>() {
+        override val params: Unit = Unit
 
-    override val params: Unit = Unit
+        override val initialState: UiState =
+            UiState(
+                isLoading = true,
+                sourceList = emptyList(),
+                placeholderList =
+                    listOf(
+                        Source.placeholder,
+                        Source.placeholder,
+                        Source.placeholder,
+                    ),
+            )
 
-    override val initialState: UiState = UiState(
-        isLoading = true,
-        sourceList = emptyList(),
-        placeholderList = listOf(
-            Source.placeholder,
-            Source.placeholder,
-            Source.placeholder
-        )
-    )
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> =
+            _state.onStart {
+                fetchNewsSource()
+            }
 
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = _state.onStart {
-        fetchNewsSource()
-    }
-
-    private suspend fun fetchNewsSource() {
-        try {
-            newsSourceUseCase(Unit).first().let { list ->
+        private suspend fun fetchNewsSource() {
+            try {
+                newsSourceUseCase(Unit).first().let { list ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            sourceList = list,
+                        )
+                    }
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        sourceList = list
                     )
                 }
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            _state.update {
-                it.copy(
-                    isLoading = false
-                )
-            }
         }
-    }
 
-    data class UiState(
-        val isLoading: Boolean,
-        val sourceList: List<Source>,
-        val placeholderList: List<Source>
-    )
-}
+        data class UiState(
+            val isLoading: Boolean,
+            val sourceList: List<Source>,
+            val placeholderList: List<Source>,
+        )
+    }

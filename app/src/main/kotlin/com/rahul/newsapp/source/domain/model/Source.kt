@@ -5,15 +5,16 @@ package com.rahul.newsapp.source.domain.model
  */
 data class Source(
     val id: String? = null,
-    val name: String = ""
+    val name: String = "",
 ) {
     companion object {
         /**
          * Placeholder, used for Shimmer UI effect
          */
-        val placeholder = Source(
-            id = "",
-            name = "This is a test name"
-        )
+        val placeholder =
+            Source(
+                id = "",
+                name = "This is a test name",
+            )
     }
 }

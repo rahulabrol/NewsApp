@@ -15,7 +15,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class NewsSourceModule {
-
     /**
      * @param impl The News Source data source implementation
      * @return A concrete impl of the News Source data source

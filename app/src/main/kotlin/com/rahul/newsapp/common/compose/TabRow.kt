@@ -24,10 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.rahul.newsapp.common.compose.internal.AppTabDefaults
 
 /**
- * Created by abrol at 06/09/24.
- */
-
-/**
  * The content of an [AppTab].
  *
  * @param modifier An optional [Modifier] for this tab
@@ -35,36 +31,39 @@ import com.rahul.newsapp.common.compose.internal.AppTabDefaults
  * @param text The text label for this tab
  * @param iconResId The icon resource id for this tab
  */
+@Suppress("FunctionName")
 @Composable
 fun AppTabLargeItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
-    @DrawableRes iconResId: Int
+    @DrawableRes iconResId: Int,
 ) {
     Column(
-        modifier = modifier
-            .padding(
-                top = 8.dp,
-                bottom = 8.dp
-            ),
+        modifier =
+            modifier
+                .padding(
+                    top = 8.dp,
+                    bottom = 8.dp,
+                ),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AppTabLargeItemIcon(
             selected = selected,
-            iconResId = iconResId
+            iconResId = iconResId,
         )
         Spacer(
-            modifier = Modifier.height(
-                height = 4.dp
-            )
+            modifier =
+                Modifier.height(
+                    height = 4.dp,
+                ),
         )
         AppTabText(
             text = text,
             selected = selected,
             color = AppTabDefaults.LargeItemTextColor,
-            style = AppTabDefaults.LargeItemTextStyle
+            style = AppTabDefaults.LargeItemTextStyle,
         )
     }
 }
@@ -80,6 +79,7 @@ fun AppTabLargeItem(
  * @param largeIconBackgroundSize The size of the Image Icon within the tab
  * @param iconResId The Image Icon resource id.
  */
+@Suppress("FunctionName")
 @Composable
 fun AppTabLargeItemIcon(
     modifier: Modifier = Modifier,
@@ -89,22 +89,24 @@ fun AppTabLargeItemIcon(
     largeIconBackgroundSize: Dp = AppTabDefaults.LargeIconBackgroundSize,
     largeIconSize: Dp = AppTabDefaults.LargeIconSize,
     shape: Shape = AppTabDefaults.IconBackgroundShape,
-    iconResId: Int
+    iconResId: Int,
 ) {
     Box(
-        modifier = modifier
-            .size(size = largeIconBackgroundSize)
-            .background(
-                color = if (selected) colorSelected else colorNormal,
-                shape = shape
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(size = largeIconBackgroundSize)
+                .background(
+                    color = if (selected) colorSelected else colorNormal,
+                    shape = shape,
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         Image(
-            modifier = Modifier
-                .size(size = largeIconSize),
+            modifier =
+                Modifier
+                    .size(size = largeIconSize),
             painter = painterResource(id = iconResId),
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -118,19 +120,20 @@ fun AppTabLargeItemIcon(
  * @param color [Color] to apply to the text.
  * @param style Style configuration for the text such as color, font, line height etc.
  */
+@Suppress("FunctionName")
 @Composable
 private fun AppTabText(
     modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
     color: Color,
-    style: TextStyle
+    style: TextStyle,
 ) {
     Text(
         modifier = modifier,
         text = text,
         color = color,
         style = style,
-        fontWeight = if (selected) FontWeight.Bold else null
+        fontWeight = if (selected) FontWeight.Bold else null,
     )
 }

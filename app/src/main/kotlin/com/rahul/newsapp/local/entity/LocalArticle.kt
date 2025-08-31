@@ -21,26 +21,26 @@ data class LocalArticle(
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "url") val url: String = "",
     @ColumnInfo(name = "urlToImage") val imageUrl: String = "",
-    /* @ColumnInfo(name = "published_date")*/
+    // @ColumnInfo(name = "published_date")
     @Embedded
     val publishedDate: OffsetDateTime?,
-    @Embedded var localSource: LocalSource
+    @Embedded var localSource: LocalSource,
 ) {
     companion object {
         /**
          * Placeholder, used for Shimmer UI effect
          */
         @SuppressLint("NewApi")
-        val placeholder = LocalArticle(
-            articleId = Math.random().toInt(),
-            imageUrl = "",
-            title = "This is a test title for placeholder",
-            description = "This is a test description used for the placeholder.",
-            url = "",
-            publishedDate = OffsetDateTime.now(),
-            localSource = LocalSource(sourceId = "", name = "This is a Test Source.")
-
-        )
+        val placeholder =
+            LocalArticle(
+                articleId = Math.random().toInt(),
+                imageUrl = "",
+                title = "This is a test title for placeholder",
+                description = "This is a test description used for the placeholder.",
+                url = "",
+                publishedDate = OffsetDateTime.now(),
+                localSource = LocalSource(sourceId = "", name = "This is a Test Source."),
+            )
     }
 }
 
@@ -51,9 +51,7 @@ internal fun ArticlesNetworkEntity.toLocalArticleEntity(publishedDate: OffsetDat
         url = this.url,
         imageUrl = this.imageUrl.orEmpty(),
         publishedDate = publishedDate,
-        localSource = this.source.toLocalSource()
+        localSource = this.source.toLocalSource(),
     )
 
-private fun SourceNetworkEntity.toLocalSource(): LocalSource {
-    return LocalSource(name = this.name, sourceId = this.id.orEmpty())
-}
+private fun SourceNetworkEntity.toLocalSource(): LocalSource = LocalSource(name = this.name, sourceId = this.id.orEmpty())

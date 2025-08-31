@@ -17,36 +17,38 @@ import androidx.constraintlayout.compose.ConstraintLayout
 /**
  * Created by abrol at 06/09/24.
  */
-
+@Suppress("FunctionName")
 @Composable
 internal fun NewsItem(
     id: () -> String,
     name: () -> String,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 8.dp)
-            .background(color = Color.White, shape = RoundedCornerShape(12.dp))
-            .clickable { onNewsSourceItemClick(id()) }
-            .padding(all = 12.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(all = 8.dp)
+                .background(color = Color.White, shape = RoundedCornerShape(12.dp))
+                .clickable { onNewsSourceItemClick(id()) }
+                .padding(all = 12.dp),
     ) {
         val (titleText) = createRefs()
 
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp)
-                .constrainAs(titleText) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp)
+                    .constrainAs(titleText) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    },
             text = name(),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

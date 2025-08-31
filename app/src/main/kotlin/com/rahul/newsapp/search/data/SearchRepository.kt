@@ -8,10 +8,11 @@ import javax.inject.Inject
 /**
  * Created by abrol at 06/09/24.
  */
-class SearchRepository @Inject constructor(
-    private val searchDataSource: SearchDataSource
-) {
-    suspend fun search(query: String): Result<List<LocalArticle>> {
-        return searchDataSource.search(query = query).map { it.articles.toArticleList() }
+class SearchRepository
+    @Inject
+    constructor(
+        private val searchDataSource: SearchDataSource,
+    ) {
+        suspend fun search(query: String): Result<List<LocalArticle>> =
+            searchDataSource.search(query = query).map { it.articles.toArticleList() }
     }
-}

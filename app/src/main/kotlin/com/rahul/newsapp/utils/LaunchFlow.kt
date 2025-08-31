@@ -15,7 +15,10 @@ import kotlin.experimental.ExperimentalTypeInference
  * @return flow to run operation
  */
 @OptIn(ExperimentalTypeInference::class)
-fun launchFlow(@BuilderInference block: suspend FlowCollector<Unit>.() -> Unit): Flow<Unit> = flow {
-    emit(Unit)
-    block()
-}
+fun launchFlow(
+    @BuilderInference block: suspend FlowCollector<Unit>.() -> Unit,
+): Flow<Unit> =
+    flow {
+        emit(Unit)
+        block()
+    }

@@ -8,23 +8,28 @@ import javax.inject.Singleton
 
 @Singleton
 interface NetworkService {
-
     @GET("top-headlines")
     suspend fun getTopHeadlines(
         @Query("country") country: String,
-        @Query("page") page: Int = 1,
-        @Query("pageSize") pageSize: Int = 20
+        @Query("page") page: Int = 0,
+        @Query("pageSize") pageSize: Int = 10,
     ): TopHeadlinesNetworkEntity
 
     @GET("top-headlines/sources")
     suspend fun getNewsSources(): NewsSourceEntity
 
     @GET("top-headlines")
-    suspend fun getNewsBySources(@Query("sources") sources: String): TopHeadlinesNetworkEntity
+    suspend fun getNewsBySources(
+        @Query("sources") sources: String,
+    ): TopHeadlinesNetworkEntity
 
     @GET("top-headlines")
-    suspend fun getNewsByLanguage(@Query("language") languageCode: String): TopHeadlinesNetworkEntity
+    suspend fun getNewsByLanguage(
+        @Query("language") languageCode: String,
+    ): TopHeadlinesNetworkEntity
 
     @GET("everything")
-    suspend fun getNewsByQueries(@Query("q") queries: String): TopHeadlinesNetworkEntity
+    suspend fun getNewsByQueries(
+        @Query("q") queries: String,
+    ): TopHeadlinesNetworkEntity
 }

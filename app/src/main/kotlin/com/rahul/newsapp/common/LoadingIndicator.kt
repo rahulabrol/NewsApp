@@ -14,17 +14,18 @@ import androidx.compose.ui.unit.dp
 /**
  * Created by abrol at 07/09/24.
  */
+@Suppress("FunctionName")
 @Composable
 fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         CircularProgressIndicator(
             modifier = Modifier.width(64.dp),
             color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
         )
     }
 }

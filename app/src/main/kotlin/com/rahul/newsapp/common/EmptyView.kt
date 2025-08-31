@@ -21,6 +21,7 @@ import com.rahul.newsapp.theme.NewsAppTheme
 /**
  * Created by abrol at 07/09/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun EmptyView() {
 //    val composition by rememberLottieComposition(
@@ -32,12 +33,12 @@ internal fun EmptyView() {
 //    )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Image(
             modifier = Modifier.size(size = 200.dp),
             painter = painterResource(id = R.drawable.ic_no_data),
-            contentDescription = stringResource(id = R.string.search_title)
+            contentDescription = stringResource(id = R.string.search_title),
         )
 //        LottieAnimation(
 //            modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
@@ -49,11 +50,12 @@ internal fun EmptyView() {
             text = stringResource(id = R.string.no_data_found),
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Normal
+            fontStyle = FontStyle.Normal,
         )
     }
 }
 
+@Suppress("FunctionName")
 @Preview
 @Composable
 private fun EmptyViewPreview() {

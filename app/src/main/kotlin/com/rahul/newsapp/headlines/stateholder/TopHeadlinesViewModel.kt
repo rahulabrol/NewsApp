@@ -20,49 +20,52 @@ import javax.inject.Inject
  * Created by abrol at 25/08/24.
  */
 @HiltViewModel
-class TopHeadlinesViewModel @Inject constructor(
-    private val topHeadlinesState: TopHeadlinesStateHolder,
-    private val networkConnectivityStateHolder: NetworkConnectivityStateHolder
-) : ViewModel() {
+internal class TopHeadlinesViewModel
+    @Inject
+    constructor(
+        private val topHeadlinesState: TopHeadlinesStateHolder,
+        private val networkConnectivityStateHolder: NetworkConnectivityStateHolder,
+    ) : ViewModel() {
+        /**
+         * A state flow representing the screen ui state.
+         */
+        internal val state: StateFlow<UiState> =
+            combine(
+                topHeadlinesState.state,
+                networkConnectivityStateHolder.state,
+            ) { headlineState, networkState ->
+                UiState(topHeadlinesState = headlineState, networkState = networkState)
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(),
+                initialValue =
+                    UiState(
+                        topHeadlinesState = topHeadlinesState.initialState,
+                        networkState = networkConnectivityStateHolder.initialState,
+                    ),
+            )
 
-    /**
-     * A state flow representing the screen ui state.
-     */
-    internal val state: StateFlow<UiState> = combine(
-        topHeadlinesState.state,
-        networkConnectivityStateHolder.state
-    ) { headlineState, networkState ->
-        UiState(topHeadlinesState = headlineState, networkState = networkState)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(
-            topHeadlinesState = topHeadlinesState.initialState,
-            networkState = networkConnectivityStateHolder.initialState
-        )
-    )
-
-    /**
-     * This function while click handle 2 things fetch the listings and check the
-     * current network state
-     *
-     */
-    internal suspend fun onRetryClick() {
-        viewModelScope.launch {
-            topHeadlinesState.fetchTopHeadlinesOnRetry()
+        /**
+         * This function while click handle 2 things fetch the listings and check the
+         * current network state
+         *
+         */
+        internal suspend fun onRetryClick() {
+            viewModelScope.launch {
+                topHeadlinesState.fetchTopHeadlinesOnRetry()
+            }
+            networkConnectivityStateHolder.onRetryClick()
         }
-        networkConnectivityStateHolder.onRetryClick()
-    }
 
-    /**
-     * A class the models the Top Headlines screen UI data
-     *
-     * @property topHeadlinesState The top headline state value
-     * @property networkState Network state value
-     */
-    @Immutable
-    internal data class UiState(
-        val topHeadlinesState: TopHeadlinesStateHolder.UiState,
-        val networkState: NetworkConnectivityStateHolder.UiState
-    )
-}
+        /**
+         * A class the models the Top Headlines screen UI data
+         *
+         * @property topHeadlinesState The top headline state value
+         * @property networkState Network state value
+         */
+        @Immutable
+        internal data class UiState(
+            val topHeadlinesState: TopHeadlinesStateHolder.UiState,
+            val networkState: NetworkConnectivityStateHolder.UiState,
+        )
+    }

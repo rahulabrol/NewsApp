@@ -6,7 +6,6 @@ package com.rahul.newsapp.utils.connectivity
  * Created by abrol at 29/09/24.
  */
 sealed interface Network {
-
     /**
      * Network state class
      */

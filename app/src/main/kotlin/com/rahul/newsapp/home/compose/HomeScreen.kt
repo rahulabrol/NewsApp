@@ -40,12 +40,13 @@ import kotlinx.coroutines.launch
  *
  * Created by abrol at 25/08/24.
  */
+@Suppress("FunctionName")
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
@@ -53,28 +54,31 @@ internal fun HomeScreen(
         uiState = state,
         onTabSelected = { viewModel.tabSelectedEvent(it) },
         onArticleItemClick = onArticleItemClick,
-        onNewsSourceItemClick = onNewsSourceItemClick
+        onNewsSourceItemClick = onNewsSourceItemClick,
     )
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     uiState: HomeViewModel.UiState,
     onTabSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
-    val pagerState: PagerState = rememberPagerState(
-        pageCount = { uiState.tabs.tabs.size },
-        initialPage = uiState.tabs.selectedTab.ordinal
-    )
+    val pagerState: PagerState =
+        rememberPagerState(
+            pageCount = { uiState.tabs.tabs.size },
+            initialPage = uiState.tabs.selectedTab.ordinal,
+        )
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 38.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(vertical = 38.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeTabs(pagerState = pagerState, uiState = { uiState.tabs })
         HomePager(
@@ -82,27 +86,30 @@ private fun HomeScreenContent(
             tabs = { uiState.tabs.tabs },
             onPageSelected = { page -> onTabSelected(page) },
             onArticleItemClick = onArticleItemClick,
-            onNewsSourceItemClick = onNewsSourceItemClick
+            onNewsSourceItemClick = onNewsSourceItemClick,
         )
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 private fun HomeTabs(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    uiState: () -> HomeStateHolder.UiState
+    uiState: () -> HomeStateHolder.UiState,
 ) {
     TabRow(
-        modifier = modifier
-            .testTag(tag = HomeTestTags.TAB_ROW),
-        selectedTabIndex = pagerState.currentPage
+        modifier =
+            modifier
+                .testTag(tag = HomeTestTags.TAB_ROW),
+        selectedTabIndex = pagerState.currentPage,
     ) {
         val coroutineScope = rememberCoroutineScope()
         uiState().tabs.forEach { item ->
             Tab(
-                modifier = Modifier
-                    .testTag(tag = item.testTag),
+                modifier =
+                    Modifier
+                        .testTag(tag = item.testTag),
                 selected = item.type == uiState().selectedTab,
                 onClick = {
                     coroutineScope.launch {
@@ -113,9 +120,9 @@ private fun HomeTabs(
                     AppTabLargeItem(
                         selected = item.type == uiState().selectedTab,
                         text = stringResource(id = item.labelResId),
-                        iconResId = item.iconResId
+                        iconResId = item.iconResId,
                     )
-                }
+                },
             )
         }
     }
@@ -132,6 +139,7 @@ private fun HomeTabs(
  * @param tabs The list of [TabRow] items displayed in the screen
  * @param onPageSelected A lambda that is invoked when the pager was swiped and the current pages changes
  */
+@Suppress("FunctionName")
 @Composable
 private fun HomePager(
     modifier: Modifier = Modifier,
@@ -139,7 +147,7 @@ private fun HomePager(
     tabs: () -> List<HomeTab>,
     onPageSelected: (Type) -> Unit,
     onArticleItemClick: (Uri) -> Unit,
-    onNewsSourceItemClick: (String) -> Unit
+    onNewsSourceItemClick: (String) -> Unit,
 ) {
     LaunchedEffect(pagerState) {
         // Collect from the a snapshotFlow reading the currentPage
@@ -150,10 +158,11 @@ private fun HomePager(
     }
 
     HorizontalPager(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
-        state = pagerState
+        modifier =
+            modifier
+                .fillMaxSize()
+                .testTag(tag = HomeTestTags.NAVIGATION_PAGER),
+        state = pagerState,
     ) {
         when (it) {
             Type.TOP_HEADLINES.ordinal -> PaginationTopHeadlinesScreen(onArticleItemClick = onArticleItemClick)

@@ -8,11 +8,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 
 /**
- * Created by abrol at 24/08/24.
- */
-
-/**
  * @return the default enter animation transition
+ *
+ * Created by abrol at 24/08/24.
  */
 @ExperimentalAnimationApi
 internal fun AnimatedContentTransitionScope<*>.defaultEnterTransition() =
@@ -40,12 +38,13 @@ internal fun AnimatedContentTransitionScope<*>.defaultPopExitTransition() =
     slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End)
 
 @OptIn(ExperimentalAnimationApi::class)
+@Suppress("FunctionName")
 @Composable
 internal fun AppNavigationHost(
     modifier: Modifier = Modifier,
     navController: AppNavigationController,
     startDestination: Any,
-    builder: NavGraphBuilder.() -> Unit
+    builder: NavGraphBuilder.() -> Unit,
 ) {
     NavHost(
         navController = navController.asNavHostController(),
@@ -55,6 +54,6 @@ internal fun AppNavigationHost(
         popEnterTransition = { defaultPopEnterTransition() },
         popExitTransition = { defaultPopExitTransition() },
         modifier = modifier,
-        builder = builder
+        builder = builder,
     )
 }

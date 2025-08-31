@@ -10,8 +10,10 @@ import com.rahul.newsapp.MainActivity
  */
 interface CustomTabLauncher : LifecycleOwner {
     fun launchTab(uri: Uri) {
-        val builder = CustomTabsIntent.Builder()
-            .setShowTitle(true)
+        val builder =
+            CustomTabsIntent
+                .Builder()
+                .setShowTitle(true)
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(this as MainActivity, uri)
     }

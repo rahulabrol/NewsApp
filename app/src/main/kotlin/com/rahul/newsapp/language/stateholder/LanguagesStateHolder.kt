@@ -12,19 +12,20 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 @ViewModelScoped
-class LanguagesStateHolder @Inject constructor() :
-    StateHolder<Unit, LanguagesStateHolder.UiState>() {
+class LanguagesStateHolder
+    @Inject
+    constructor() : StateHolder<Unit, LanguagesStateHolder.UiState>() {
+        override val params: Unit = Unit
 
-    override val params: Unit = Unit
+        override val initialState: UiState =
+            UiState(
+                sourceList = Constants.LocalLANGUAGES,
+            )
 
-    override val initialState: UiState = UiState(
-        sourceList = Constants.LocalLANGUAGES
-    )
+        private val _state = MutableStateFlow(initialState)
+        override val state: Flow<UiState> = _state
 
-    private val _state = MutableStateFlow(initialState)
-    override val state: Flow<UiState> = _state
-
-    data class UiState(
-        val sourceList: List<LocalLanguage>
-    )
-}
+        data class UiState(
+            val sourceList: List<LocalLanguage>,
+        )
+    }

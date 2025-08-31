@@ -14,24 +14,28 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 @HiltViewModel
-class LanguagesViewModel @Inject constructor(
-    languagesStateHolder: LanguagesStateHolder
-) : ViewModel() {
-    internal val state: StateFlow<UiState> = languagesStateHolder.state.map { state ->
-        UiState(uiState = state)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = languagesStateHolder.initialState)
-    )
+class LanguagesViewModel
+    @Inject
+    constructor(
+        languagesStateHolder: LanguagesStateHolder,
+    ) : ViewModel() {
+        internal val state: StateFlow<UiState> =
+            languagesStateHolder.state
+                .map { state ->
+                    UiState(uiState = state)
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(),
+                    initialValue = UiState(uiState = languagesStateHolder.initialState),
+                )
 
-    /**
-     * A class the models the News Source screen UI data
-     *
-     * @property uiState The News Source state value
-     */
-    @Immutable
-    internal data class UiState(
-        val uiState: LanguagesStateHolder.UiState
-    )
-}
+        /**
+         * A class the models the News Source screen UI data
+         *
+         * @property uiState The News Source state value
+         */
+        @Immutable
+        internal data class UiState(
+            val uiState: LanguagesStateHolder.UiState,
+        )
+    }

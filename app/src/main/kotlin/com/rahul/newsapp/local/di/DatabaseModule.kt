@@ -17,16 +17,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DatabaseModule {
-
     @Provides
     @Singleton
     fun provideNewsAppDatabase(
-        @ApplicationContext context: Context
-    ): NewsAppDatabase = Room.databaseBuilder(
-        context,
-        NewsAppDatabase::class.java,
-        "news-app-database"
-    ).build()
+        @ApplicationContext context: Context,
+    ): NewsAppDatabase =
+        Room
+            .databaseBuilder(
+                context,
+                NewsAppDatabase::class.java,
+                "news-app-database",
+            ).build()
 
     @Provides
     @Singleton

@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface TopHeadlinesDao {
-
     /**
      * Inserts a list of cached articles into the database.
      * If an article with the same ID already exists, it will be replaced.

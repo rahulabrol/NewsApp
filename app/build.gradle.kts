@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-parcelize")
 }
 apply(from = "$rootDir/githooks.gradle")
 
@@ -14,12 +17,12 @@ hilt {
 
 android {
     namespace = "com.rahul.newsapp"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rahul.newsapp"
         minSdk = 25
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -63,7 +66,10 @@ android {
 }
 
 composeCompiler {
-    enableStrongSkippingMode = true
+    featureFlags.addAll(
+        ComposeFeatureFlag.StrongSkipping,
+        ComposeFeatureFlag.OptimizeNonSkippingGroups
+    )
 }
 
 dependencies {
@@ -103,11 +109,10 @@ dependencies {
     implementation(libs.room.ktx)
     //Custom Tabs
     implementation(libs.browser)
-
     //Lottie
     implementation(libs.lottie.compose)
-
-
+    // Paging 3
+    implementation(libs.paging)
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

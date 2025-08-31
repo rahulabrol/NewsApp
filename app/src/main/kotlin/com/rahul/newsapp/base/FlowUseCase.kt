@@ -26,15 +26,17 @@ abstract class FlowUseCase<P : Any, T> {
     // suspending. This means that we can't suspend while flatMapLatest cancels any
     // existing flows. The buffer of 1 means that we can use tryEmit() and buffer the value
     // instead, resulting in mostly the same result.
-    private val paramState: MutableSharedFlow<P> = MutableSharedFlow(
-        replay = 1,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    private val flow: Flow<T> = paramState
-        .distinctUntilChanged()
-        .flatMapLatest { createObservable(it) }
-        .distinctUntilChanged()
+    private val paramState: MutableSharedFlow<P> =
+        MutableSharedFlow(
+            replay = 1,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        )
+    private val flow: Flow<T> =
+        paramState
+            .distinctUntilChanged()
+            .flatMapLatest { createObservable(it) }
+            .distinctUntilChanged()
 
     /**
      * Primary entry point into the Use Case, invoke it with expected parameters, and receive a flow

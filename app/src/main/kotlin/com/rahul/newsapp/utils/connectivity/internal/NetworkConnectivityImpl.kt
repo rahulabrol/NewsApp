@@ -16,32 +16,36 @@ import kotlinx.coroutines.flow.callbackFlow
  * @param context
  * Created by abrol at 29/09/24.
  */
-internal class NetworkConnectivityImpl(@ApplicationContext context: Context) : NetworkConnectivity {
+internal class NetworkConnectivityImpl(
+    @ApplicationContext context: Context,
+) : NetworkConnectivity {
+    override val state: Flow<Network.State> =
+        callbackFlow {
 
-    override val state: Flow<Network.State> = callbackFlow {
+            val connectivityManager =
+                ContextCompat.getSystemService(
+                    context,
+                    ConnectivityManager::class.java,
+                ) as ConnectivityManager
 
-        val connectivityManager = ContextCompat.getSystemService(
-            context,
-            ConnectivityManager::class.java
-        ) as ConnectivityManager
+            val networkCallback =
+                object : ConnectivityManager.NetworkCallback() {
+                    override fun onAvailable(network: android.net.Network) {
+                        trySend(Network.State.Connected)
+                    }
 
-        val networkCallback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: android.net.Network) {
-                trySend(Network.State.Connected)
-            }
+                    override fun onLost(network: android.net.Network) {
+                        trySend(Network.State.Disconnected)
+                    }
 
-            override fun onLost(network: android.net.Network) {
-                trySend(Network.State.Disconnected)
-            }
-
-            override fun onUnavailable() {
-                trySend(Network.State.Disconnected)
+                    override fun onUnavailable() {
+                        trySend(Network.State.Disconnected)
+                    }
+                }
+            trySend(Network.State.Disconnected)
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+            awaitClose {
+                connectivityManager.unregisterNetworkCallback(networkCallback)
             }
         }
-        trySend(Network.State.Disconnected)
-        connectivityManager.registerDefaultNetworkCallback(networkCallback)
-        awaitClose {
-            connectivityManager.unregisterNetworkCallback(networkCallback)
-        }
-    }
 }

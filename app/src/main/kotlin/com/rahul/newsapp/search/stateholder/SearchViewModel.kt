@@ -15,31 +15,34 @@ import javax.inject.Inject
  * Created by abrol at 06/09/24.
  */
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    private val searchStateHolder: SearchStateHolder
-) : ViewModel() {
+class SearchViewModel
+    @Inject
+    constructor(
+        private val searchStateHolder: SearchStateHolder,
+    ) : ViewModel() {
+        internal val state: StateFlow<UiState> =
+            searchStateHolder.state
+                .map { state ->
+                    UiState(uiState = state)
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(),
+                    initialValue = UiState(uiState = searchStateHolder.initialState),
+                )
 
-    internal val state: StateFlow<UiState> = searchStateHolder.state.map { state ->
-        UiState(uiState = state)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = UiState(uiState = searchStateHolder.initialState)
-    )
-
-    internal fun onTextChangeEvent(query: String) {
-        viewModelScope.launch {
-            searchStateHolder.onTextChange(query)
+        internal fun onTextChangeEvent(query: String) {
+            viewModelScope.launch {
+                searchStateHolder.onTextChange(query)
+            }
         }
-    }
 
-    /**
-     * A class the models the News Source screen UI data
-     *
-     * @property uiState The News Source state value
-     */
-    @Immutable
-    internal data class UiState(
-        val uiState: SearchStateHolder.UiState
-    )
-}
+        /**
+         * A class the models the News Source screen UI data
+         *
+         * @property uiState The News Source state value
+         */
+        @Immutable
+        internal data class UiState(
+            val uiState: SearchStateHolder.UiState,
+        )
+    }
