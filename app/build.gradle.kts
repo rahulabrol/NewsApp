@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     alias(libs.plugins.android.application)
@@ -8,11 +11,31 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     id("kotlin-parcelize")
+    alias(libs.plugins.kover)
 }
 apply(from = "$rootDir/githooks.gradle")
 
 hilt {
     enableAggregatingTask = true
+}
+
+kover {
+    reports {
+        filters{
+            excludes {
+                androidGeneratedClasses()
+            }
+        }
+        verify {
+            rule {
+                bound {
+                    minValue.set(80)
+                    coverageUnits.set(CoverageUnit.INSTRUCTION)
+                    aggregationForGroup.set(AggregationType.COVERED_PERCENTAGE)
+                }
+            }
+        }
+    }
 }
 
 android {
@@ -51,9 +74,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -64,10 +84,13 @@ android {
         }
     }
 }
-
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
 composeCompiler {
     featureFlags.addAll(
-        ComposeFeatureFlag.StrongSkipping,
         ComposeFeatureFlag.OptimizeNonSkippingGroups
     )
 }
